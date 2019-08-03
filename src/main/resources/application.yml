@@ -10,5 +10,4 @@ spring:
     password: root
     driver-class-name: com.mysql.jdbc.Driver
 logging:
-  level:
-    root: info   # 日志级别
+  config: classpath:log4j2.yml
