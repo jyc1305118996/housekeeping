@@ -1,5 +1,5 @@
 mybatis:
-  type-aliases-package: com.yaqi.entity   # 起别名
+  type-aliases-package: com.haige.entity   # 起别名
   mapper-locations: /com/haige/repository/*.xml  # mapper映射文件的位置
 server:
   port: 8080
