@@ -12,7 +12,11 @@ import org.springframework.context.annotation.Configuration;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ * @author : Aaron
+ * create at:  2019-08-06  17:43
+ * @description: DruidConfig
+ */
 @Configuration
 public class DruidConfig {
 

@@ -2,6 +2,8 @@ package com.haige;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.context.request.RequestContextListener;
 
 /**
  * @author 王亚奇
@@ -12,5 +14,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class HaigeApplication {
     public static void main(String[] args) {
         SpringApplication.run(HaigeApplication.class, args);
+    }
+
+
+    @Bean
+    public RequestContextListener requestContextListener(){
+        return new RequestContextListener();
     }
 }

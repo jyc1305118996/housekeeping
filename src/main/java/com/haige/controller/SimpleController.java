@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/simple")
 @Slf4j
 public class SimpleController {
-    public SimpleController(){
 
-        System.out.println("wojia");
-    }
 
     @Autowired
     private TestDao testDao;

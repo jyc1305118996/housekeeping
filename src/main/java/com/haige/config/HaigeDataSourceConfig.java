@@ -15,6 +15,11 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.sql.DataSource;
 
+/**
+ * @author : Aaron
+ * create at:  2019-08-06  17:43
+ * @description: gaige datasource
+ */
 @Configuration
 @MapperScan(basePackages = {"com.haige.db.*"}, sqlSessionFactoryRef = "haigeSqlSessionFactory")
 public class HaigeDataSourceConfig {
