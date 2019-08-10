@@ -1,23 +1,24 @@
 package com.haige.aop;
 
+import com.haige.filter.ReactiveRequestContextHolder;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.reactive.function.server.ServerRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 
 @Aspect
 @Component
+@Slf4j
 public class WebLogAspect {
 
-    private Logger logger = LoggerFactory.getLogger(WebLogAspect.class);
 
     /**
      * 1）execution(public * *(..))——表示匹配所有public方法
@@ -33,23 +34,24 @@ public class WebLogAspect {
 
     @Before("webLog()")
     public void doBefore(JoinPoint joinPoint) {
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = attributes.getRequest();
-        // 记录下请求内容
-        logger.info("URL : " + request.getRequestURL().toString());
-        logger.info("HTTP_METHOD : " + request.getMethod());
-        logger.info("IP : " + request.getRemoteAddr());
-        Enumeration<String> enu = request.getParameterNames();
-        while (enu.hasMoreElements()) {
-            String name = enu.nextElement();
-            logger.info("name:{},value:{}", name, request.getParameterValues(name));
-        }
+        ReactiveRequestContextHolder
+                .getRequest()
+                .subscribe(request -> {
+                    // 记录下请求内容
+                    log.info("URL : " + request.getURI());
+                    log.info("HTTP_METHOD : " + request.getMethod());
+                    log.info("IP : " + request.getRemoteAddress());
+                    MultiValueMap<String, String> queryParams = request.getQueryParams();
+                    queryParams.forEach((name, value) -> {
+                        log.info("name:{},value:{}", name, value);
+                    });
+                });
     }
 
     @AfterReturning(returning = "ret", pointcut = "webLog()")
     public void doAfterReturning(Object ret) throws Throwable {
         // 处理完请求，返回内容
-        logger.info("RESPONSE : " + ret);
+        log.info("RESPONSE : " + ret);
     }
 
 
