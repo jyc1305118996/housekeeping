@@ -10,6 +10,6 @@ import java.util.Map;
  */
 public interface TestDao {
 
-    List<Map<String,String>> test();
+    List<Map<String,String>> test1();
 }
 
