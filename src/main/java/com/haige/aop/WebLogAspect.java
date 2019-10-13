@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import reactor.core.publisher.Mono;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 
 @Aspect
@@ -27,7 +27,7 @@ public class WebLogAspect {
      * 4）execution(* com.xyz.service.*.*(..))——表示匹配service包下所有的方法
      * 5）execution(* com.xyz.service..*.*(..))——表示匹配service包和它的子包下的方法
      */
-    @Pointcut("execution(public * com.haige.controller..*.*(..))")
+    @Pointcut("execution(public * com.haige.web.controller..*.*(..))")
     public void webLog() {
 
     }
@@ -51,7 +51,7 @@ public class WebLogAspect {
     @AfterReturning(returning = "ret", pointcut = "webLog()")
     public void doAfterReturning(Object ret) throws Throwable {
         // 处理完请求，返回内容
-        log.info("RESPONSE : " + ret);
+        log.info("RESPONSE : {}", ret);
     }
 
 
