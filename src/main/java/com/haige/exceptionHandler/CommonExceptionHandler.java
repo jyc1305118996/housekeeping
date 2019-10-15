@@ -19,12 +19,17 @@ import java.util.ArrayList;
 @Slf4j
 @Component
 public class CommonExceptionHandler {
+    /**
+     * 处理参数绑定失败异常
+     * @param ex
+     * @return
+     */
     @ExceptionHandler(WebExchangeBindException.class)
     public ResultInfo<String> paramError(WebExchangeBindException ex){
         boolean isHas = ex.hasErrors();
         ResultInfo<String> errorResultInfo = new ResultInfo<>();
         if (isHas){
-            ArrayList<String> errors = new ArrayList<>();
+            ArrayList<String> errors = new ArrayList<>(0);
             ex.getFieldErrors()
                     .forEach(fieldError -> {
                         String field = fieldError.getField();
@@ -32,7 +37,7 @@ public class CommonExceptionHandler {
                         errors.add(field + defaultMessage);
                     });
             errorResultInfo.setCode(400);
-            log.info("异常信息是:{}", errors.toString());
+            log.error("异常信息是:{}", errors.toString());
             errorResultInfo.setMessage( errors.toString());
         }
         return errorResultInfo;
