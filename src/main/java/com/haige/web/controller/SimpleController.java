@@ -26,7 +26,7 @@ public class SimpleController {
     @GetMapping("/test")
     public String test() {
         //System.out.println("simple");
-        return testDao.test().toString();
+        return testDao.test1().toString();
     }
 
     @GetMapping("/log")
