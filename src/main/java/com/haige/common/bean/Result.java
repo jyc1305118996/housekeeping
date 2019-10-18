@@ -133,7 +133,7 @@ public class Result {
         private String value = null;
 
 
-        private StateType(int code, String value) {
+        StateType(int code, String value) {
 
             this.code = code;
 
