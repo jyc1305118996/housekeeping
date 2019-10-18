@@ -1,9 +1,8 @@
 package com.haige.service;
 
-import com.haige.db.entity.AuthCodeDO;
+import com.haige.db.entity.ShortMsgDO;
+import com.haige.service.dto.SendSmsDTO;
 import reactor.core.publisher.Flux;
-
-import java.util.List;
 
 /**
  * @author Archie
@@ -16,7 +15,7 @@ public interface SmsService {
      * @param date
      * @return
      */
-    Flux<AuthCodeDO> findByIphone(String iphone, String date);
+    Flux<ShortMsgDO> findByIphone(String iphone, String date);
 
     /**
      * 根据id查询当前ip当天的发送量
@@ -24,5 +23,11 @@ public interface SmsService {
      * @param date
      * @return
      */
-    Flux<AuthCodeDO> findByIp(String ip, String date);
+    Flux<ShortMsgDO> findByIp(String ip, String date);
+
+    /**
+     * 发送消息实体类
+     * @param sendSmsDTO
+     */
+    void sendSms(SendSmsDTO sendSmsDTO);
 }

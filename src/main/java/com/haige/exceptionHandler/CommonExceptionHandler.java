@@ -1,6 +1,7 @@
 package com.haige.exceptionHandler;
 
-import com.haige.web.vo.ResultInfo;
+import com.haige.common.enums.StatusCode;
+import com.haige.common.bean.ResultInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -27,7 +28,7 @@ public class CommonExceptionHandler {
     @ExceptionHandler(WebExchangeBindException.class)
     public ResultInfo<String> paramError(WebExchangeBindException ex){
         boolean isHas = ex.hasErrors();
-        ResultInfo<String> errorResultInfo = new ResultInfo<>();
+        ResultInfo<String> errorResultInfo = new ResultInfo<String>();
         if (isHas){
             ArrayList<String> errors = new ArrayList<>(0);
             ex.getFieldErrors()
@@ -36,7 +37,8 @@ public class CommonExceptionHandler {
                         String defaultMessage = fieldError.getDefaultMessage();
                         errors.add(field + defaultMessage);
                     });
-            errorResultInfo.setCode(400);
+            errorResultInfo.setCode(StatusCode.BAD_REQUEST.getCode());
+            errorResultInfo.setMessage(StatusCode.BAD_REQUEST.getValue());
             log.error("异常信息是:{}", errors.toString());
             errorResultInfo.setMessage( errors.toString());
         }

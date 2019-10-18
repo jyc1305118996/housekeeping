@@ -2,7 +2,10 @@ package com.haige.filter.sms;
 
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.haige.service.SmsService;
+import com.haige.util.DateUtils;
+import com.haige.web.vo.SendSmsRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
@@ -32,33 +35,75 @@ import java.nio.charset.StandardCharsets;
 @Order(1)
 public class SMSFilter implements WebFilter {
 
+    /**
+     * 一个手机号当日最大10条
+     */
+    private final int IPHONE_MAX = 10;
+    /**
+     * 一个ip当日最大100条
+     */
+    private final int IP_MAX = 100;
+
     @Autowired
     private SmsService smsService;
+
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
-        request.getBody()
-                .map(dataBuffer -> {
-                    InputStream inputStream = dataBuffer.asInputStream();
-                    try {
-                        return IOUtils.inputStreamAsString(inputStream, "UTF-8");
-                    } catch (IOException e) {
-                        log.info("流解析失败{}", e.getCause(), e);
-                        throw new RuntimeException("手机号解析失败", e);
-                    }
-                })
-                .map(JSON::parse);
-
-
-        // 查询短信次数
-        // 查询ip次数
-        // 存入session
-        if (false) {
-            log.info("短信可发送");
-        } else {
-
-            return response.writeWith(Mono.just(response.bufferFactory().wrap("Exceed the maximum number of days".getBytes(StandardCharsets.UTF_8))));
+        response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
+        if (request.getPath().value().contains("/sms/send")) {
+            request.getBody()
+                    .map(dataBuffer -> {
+                        InputStream inputStream = dataBuffer.asInputStream();
+                        try {
+                            return IOUtils.inputStreamAsString(inputStream, "UTF-8");
+                        } catch (IOException e) {
+                            log.info("流解析失败{}", e.getCause(), e);
+                            throw new RuntimeException("手机号解析失败", e);
+                        }
+                    })
+                    .subscribe(
+                            data -> {
+                                Object json = JSON.parse(data);
+                                JSONObject jsonObject = (JSONObject) json;
+                                SendSmsRequest smsRequest = new SendSmsRequest();
+                                smsRequest.setIphone(jsonObject.get("iphone").toString());
+                                smsRequest.setType(jsonObject.get("type").toString());
+                                smsRequest.setIp(request.getRemoteAddress().getAddress().toString());
+                                smsService.findByIp(request.getRemoteAddress().getAddress().toString(), DateUtils.nowOfDate())
+                                        .count()
+                                        .subscribe(count -> {
+                                            if (count > IP_MAX) {
+                                                log.info("ip:{}超出最大限制", request.getRemoteAddress().getAddress().toString());
+                                                exchange.getAttributes().put("isError", true);
+                                                throw new RuntimeException("超出ip最大限制");
+                                            }
+                                        });
+                                smsService.findByIphone(smsRequest.getIphone(), DateUtils.nowOfDate())
+                                        .count()
+                                        .subscribe(count -> {
+                                            if (count > IPHONE_MAX) {
+                                                log.info("iphone:{}超出最大限制", smsRequest.getIphone());
+                                                exchange.getAttributes().put("isError", true);
+                                                throw new RuntimeException("超出iphone最大限制");
+                                            }
+                                        });
+                                log.info("正常可发送");
+                                exchange.getAttributes().put("isError", false);
+                                exchange.getAttributes().put("sendSmsRequest", smsRequest);
+                            },
+                            ex -> {
+                                log.info("异常信息:{}", ex.getMessage(), ex);
+                                exchange.getAttributes().put("isError", true);
+                                exchange.getAttributes().put("message", ex.getMessage());
+                            });
+            if ((boolean)exchange.getAttributes().get("isError")) {
+                return response.writeWith(Mono.just(response.bufferFactory().wrap(("{\"code\":\"400\", \"message\":\" " + exchange.getAttributes().get("message") + " \", \"data\":\"\", \"count\":\"\"}").getBytes())));
+            } else {
+                log.info("短信可发送");
+                return chain.filter(exchange);
+            }
         }
         return chain.filter(exchange);
     }

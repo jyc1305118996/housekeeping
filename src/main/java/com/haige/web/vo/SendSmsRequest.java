@@ -5,17 +5,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 统一结果返回
  * @author Archie
- * @date 2019/10/13 22:35
+ * @date 2019/10/19 0:29
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResultInfo<T> {
-    private Integer code;
-
-    private String message;
-
-    private T data;
+public class SendSmsRequest {
+    private String iphone;
+    private String type;
+    private String ip;
 }

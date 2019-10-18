@@ -5,12 +5,12 @@ package com.haige.common.bean;
  * create at:  2019-10-17  10:58
  * @description: 通用返回类
  */
-public class Result {
+public class Result<T> {
     private int code;
 
     private String msg;
 
-    private Object data;
+    private T data;
 
     public int getCode() {
         return code;
@@ -20,7 +20,7 @@ public class Result {
         return msg;
     }
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 
@@ -32,7 +32,7 @@ public class Result {
         this.msg = msg;
     }
 
-    public void setData(Object data) {
+    public void setData(T data) {
         this.data = data;
     }
 
@@ -167,7 +167,7 @@ public class Result {
     public Result(){
 
     }
-    public Result(int code, String msg, Object data) {
+    public Result(int code, String msg, T data) {
         this.code = code;
         this.msg = msg;
         this.data = data;
@@ -182,13 +182,13 @@ public class Result {
                 '}';
     }
 
-    public Result success(Object data){
+    public Result success(T data){
 
         return success(StateType.OK.value,data);
 
     }
 
-    public Result success(String msg,Object data){
+    public Result success(String msg,T data){
 
         return new Result(StateType.OK.code,msg,data);
     }
