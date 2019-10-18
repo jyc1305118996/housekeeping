@@ -1,5 +1,7 @@
 package com.haige.web.controller;
 
+import com.haige.annotation.Permission;
+import com.haige.annotation.PermissionType;
 import com.haige.db.test.TestDao;
 import com.haige.web.request.SavePersonRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -26,13 +28,15 @@ public class SimpleController {
     @GetMapping("/test")
     public String test() {
         //System.out.println("simple");
-        return testDao.test().toString();
+        return testDao.test1().toString();
     }
 
     @GetMapping("/log")
+    @Permission(PermissionType.ALL)
     public String log() {
         log.info("--------------log-info");
         log.error("-------------log-error");
+
         return "log success";
     }
 

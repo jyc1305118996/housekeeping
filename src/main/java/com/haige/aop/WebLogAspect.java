@@ -1,18 +1,13 @@
 package com.haige.aop;
 
+import com.haige.annotation.PermissionType;
+
 import com.haige.filter.ReactiveRequestContextHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import reactor.core.publisher.Mono;
-
-import java.util.Enumeration;
 
 @Aspect
 @Component
@@ -34,6 +29,7 @@ public class WebLogAspect {
 
     @Before("webLog()")
     public void doBefore(JoinPoint joinPoint) {
+
         ReactiveRequestContextHolder
                 .getRequest()
                 .subscribe(request -> {
@@ -46,6 +42,21 @@ public class WebLogAspect {
                         log.info("name:{},value:{}", name, value);
                     });
                 });
+
+        //无需任何判断
+
+//        if(PermissionEnum.ALL.equals(pms.value())){
+//
+//        }
+//        //需要判断登陆的
+//        if (PermissionEnum.LOGIN.equals(pms.value())){
+//
+//        }
+//        //需要判断是不是管理员的
+//        if(PermissionEnum.ADMIN.equals(pms.value())){
+//
+//        }
+
     }
 
     @AfterReturning(returning = "ret", pointcut = "webLog()")
@@ -86,4 +97,7 @@ public class WebLogAspect {
         }
     }
     */
+public static void main(String[] args) {
+    System.out.println(PermissionType.ALL);
+}
 }
