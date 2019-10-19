@@ -3,6 +3,7 @@ package com.haige.filter.sms;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.base.Preconditions;
 import com.haige.service.SmsService;
 import com.haige.util.DateUtils;
 import com.haige.web.vo.SendSmsRequest;
@@ -12,6 +13,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
@@ -20,8 +22,8 @@ import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 /**
  * 短信发送过滤器
@@ -63,45 +65,78 @@ public class SMSFilter implements WebFilter {
                             throw new RuntimeException("手机号解析失败", e);
                         }
                     })
+                    .map(data -> {
+                        Object json = JSON.parse(data);
+                        JSONObject jsonObject = (JSONObject) json;
+                        SendSmsRequest smsRequest = new SendSmsRequest();
+                        String iphone = jsonObject.get("iphone").toString();
+                        String type = jsonObject.get("type").toString();
+                        Preconditions.checkArgument(!StringUtils.isEmpty(iphone), "手机号不能为空");
+                        Preconditions.checkArgument(!StringUtils.isEmpty(type), "业务类型不能为空");
+                        smsRequest.setIphone(iphone);
+                        smsRequest.setType(type);
+                        smsRequest.setIp(request.getRemoteAddress().getAddress().toString());
+                        exchange.getAttributes().put("isError", false);
+                        exchange.getAttributes().put("sendSmsRequest", smsRequest);
+                        smsService.findList(null, smsRequest.getIphone())
+                                .subscribe(shortMsgDO -> {
+                                    // 上次发送短信时间加上60秒是否在当前时间之前
+                                    boolean isAfter = DateUtils.convertToDateTime(shortMsgDO.getSmiSenderTime()).plus(60, ChronoUnit.SECONDS).isAfter(LocalDateTime.now());
+                                    if (isAfter){
+                                        exchange.getAttributes().put("isError", true);
+                                        exchange.getAttributes().put("message", "当前手机号超频请求短信");
+                                    }
+                                });
+                        if ((boolean) exchange.getAttributes().get("isError")) {
+                            return smsRequest;
+                        }
+                        smsService.findList(smsRequest.getIp(), null)
+                                .subscribe(shortMsgDO -> {
+                                    // 上次发送短信时间加上60秒是否在当前时间之前
+                                    boolean isAfter = DateUtils.convertToDateTime(shortMsgDO.getSmiSenderTime()).plus(60, ChronoUnit.SECONDS).isAfter(LocalDateTime.now());
+                                    if (isAfter){
+                                        exchange.getAttributes().put("isError", true);
+                                        exchange.getAttributes().put("message", "当前ip超频请求短信");
+                                    }
+                                });
+                        if ((boolean) exchange.getAttributes().get("isError")) {
+                            return smsRequest;
+                        }
+                        smsService.findByIp(request.getRemoteAddress().getAddress().toString(), DateUtils.nowOfDate())
+                                .count()
+                                .subscribe(count -> {
+                                    if (count > IP_MAX) {
+                                        log.info("ip:{}超出最大限制", request.getRemoteAddress().getAddress().toString());
+                                        exchange.getAttributes().put("isError", true);
+                                        exchange.getAttributes().put("message", "超出当日ip最大限制");
+                                    }
+                                });
+                        if ((boolean) exchange.getAttributes().get("isError")) {
+                            return smsRequest;
+                        }
+                        smsService.findByIphone(smsRequest.getIphone(), DateUtils.nowOfDate())
+                                .count()
+                                .subscribe(count -> {
+                                    if (count > IPHONE_MAX) {
+                                        log.info("iphone:{}超出最大限制", smsRequest.getIphone());
+                                        exchange.getAttributes().put("isError", true);
+                                        exchange.getAttributes().put("message", "超出当日手机号最大限制");
+                                    }
+                                });
+                        return smsRequest;
+                    })
                     .subscribe(
-                            data -> {
-                                Object json = JSON.parse(data);
-                                JSONObject jsonObject = (JSONObject) json;
-                                SendSmsRequest smsRequest = new SendSmsRequest();
-                                smsRequest.setIphone(jsonObject.get("iphone").toString());
-                                smsRequest.setType(jsonObject.get("type").toString());
-                                smsRequest.setIp(request.getRemoteAddress().getAddress().toString());
-                                smsService.findByIp(request.getRemoteAddress().getAddress().toString(), DateUtils.nowOfDate())
-                                        .count()
-                                        .subscribe(count -> {
-                                            if (count > IP_MAX) {
-                                                log.info("ip:{}超出最大限制", request.getRemoteAddress().getAddress().toString());
-                                                exchange.getAttributes().put("isError", true);
-                                                throw new RuntimeException("超出ip最大限制");
-                                            }
-                                        });
-                                smsService.findByIphone(smsRequest.getIphone(), DateUtils.nowOfDate())
-                                        .count()
-                                        .subscribe(count -> {
-                                            if (count > IPHONE_MAX) {
-                                                log.info("iphone:{}超出最大限制", smsRequest.getIphone());
-                                                exchange.getAttributes().put("isError", true);
-                                                throw new RuntimeException("超出iphone最大限制");
-                                            }
-                                        });
-                                log.info("正常可发送");
-                                exchange.getAttributes().put("isError", false);
-                                exchange.getAttributes().put("sendSmsRequest", smsRequest);
+                            smsRequest -> {
+                                log.info("手机号:{}, ip:{}", smsRequest.getIphone(), smsRequest.getIp());
                             },
                             ex -> {
                                 log.info("异常信息:{}", ex.getMessage(), ex);
                                 exchange.getAttributes().put("isError", true);
                                 exchange.getAttributes().put("message", ex.getMessage());
                             });
-            if ((boolean)exchange.getAttributes().get("isError")) {
+            if ((boolean) exchange.getAttributes().get("isError")) {
                 return response.writeWith(Mono.just(response.bufferFactory().wrap(("{\"code\":\"400\", \"message\":\" " + exchange.getAttributes().get("message") + " \", \"data\":\"\", \"count\":\"\"}").getBytes())));
             } else {
-                log.info("短信可发送");
                 return chain.filter(exchange);
             }
         }

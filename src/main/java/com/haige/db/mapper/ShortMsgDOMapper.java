@@ -25,4 +25,6 @@ public interface ShortMsgDOMapper {
     List<ShortMsgDO> findByIphone(@Param("iphone") String iphone, @Param("date")String date);
 
     List<ShortMsgDO> findByIp(@Param("ip")String ip, @Param("date")String date);
+
+    ShortMsgDO findList(@Param("ip")String ip, @Param("iphone")String iphone);
 }

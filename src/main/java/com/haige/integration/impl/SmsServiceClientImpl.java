@@ -2,6 +2,7 @@ package com.haige.integration.impl;
 
 import com.haige.integration.SmsServiceClient;
 import com.haige.integration.dto.SendMessageDto;
+import com.haige.integration.dto.SendMessageResponse;
 import org.springframework.stereotype.Service;
 
 /**
@@ -11,7 +12,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class SmsServiceClientImpl implements SmsServiceClient {
     @Override
-    public void sendMessage(SendMessageDto sendMessageDto) {
+    public SendMessageResponse sendMessage(SendMessageDto sendMessageDto) {
         // todo
+        SendMessageResponse sendMessageResponse = new SendMessageResponse();
+        sendMessageResponse.setMessage(sendMessageDto.getMessage());
+        sendMessageResponse.setSmsStatus("success");
+        return sendMessageResponse;
     }
 }

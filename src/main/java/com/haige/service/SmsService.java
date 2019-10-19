@@ -1,8 +1,11 @@
 package com.haige.service;
 
+import com.haige.common.bean.ResultInfo;
 import com.haige.db.entity.ShortMsgDO;
 import com.haige.service.dto.SendSmsDTO;
+import org.springframework.web.server.WebSession;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 /**
  * @author Archie
@@ -29,5 +32,13 @@ public interface SmsService {
      * 发送消息实体类
      * @param sendSmsDTO
      */
-    void sendSms(SendSmsDTO sendSmsDTO);
+    Mono<ResultInfo<String>> sendSms(SendSmsDTO sendSmsDTO, Mono<WebSession> webSessionMono);
+
+    /**
+     * 根据手机号或者ip，选出最近的发送短信记录
+     * @param ip
+     * @param iphone
+     * @return
+     */
+    Mono<ShortMsgDO> findList(String ip, String iphone);
 }

@@ -27,4 +27,11 @@ public class DateUtils {
     public static String nowOfDate(){
         return LocalDate.now().format(dateFormatter);
     }
+
+    public static LocalDateTime convertToDateTime(String localDateTime){
+        return LocalDateTime.parse(localDateTime, dateTimeFormatter);
+    }
+    public static LocalDate convertToDate(String localDate){
+        return LocalDate.parse(localDate, dateFormatter);
+    }
 }

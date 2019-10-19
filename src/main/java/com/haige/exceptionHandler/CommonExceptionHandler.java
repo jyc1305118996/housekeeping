@@ -44,4 +44,13 @@ public class CommonExceptionHandler {
         }
         return errorResultInfo;
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResultInfo<String> exception(Exception ex){
+        log.error("异常信息:{}", ex.getMessage(), ex);
+        ResultInfo<String> errorResultInfo = new ResultInfo<String>();
+        errorResultInfo.setCode(StatusCode.BAD_REQUEST.getCode());
+        errorResultInfo.setMessage("请求出错啦");
+        return errorResultInfo;
+    }
 }
