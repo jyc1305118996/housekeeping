@@ -25,7 +25,7 @@ public class SmsController {
     private SmsService smsService;
 
     @PostMapping("/send")
-    public Mono<ResultInfo<String>> sendSms(ServerWebExchange exchange, @RequestAttribute("sendSmsRequest") SendSmsRequest sendSmsRequest) {
-        return smsService.sendSms(SmsConvertUtils.toDto(sendSmsRequest), exchange.getSession());
+    public Mono<ResultInfo<String>> sendSms(ServerWebExchange exchange, @RequestAttribute("sendSmsRequest") Mono<SendSmsRequest> sendSmsRequest) {
+        return smsService.sendSms(sendSmsRequest.map(SmsConvertUtils::toDto), exchange.getSession());
     }
 }

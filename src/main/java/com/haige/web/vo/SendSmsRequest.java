@@ -15,8 +15,6 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@NotNull
-@NotEmpty
 public class SendSmsRequest {
     private String iphone;
     private String type;

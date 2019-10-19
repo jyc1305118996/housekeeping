@@ -32,7 +32,7 @@ public interface SmsService {
      * 发送消息实体类
      * @param sendSmsDTO
      */
-    Mono<ResultInfo<String>> sendSms(SendSmsDTO sendSmsDTO, Mono<WebSession> webSessionMono);
+    Mono<ResultInfo<String>> sendSms(Mono<SendSmsDTO> sendSmsDTO, Mono<WebSession> webSessionMono);
 
     /**
      * 根据手机号或者ip，选出最近的发送短信记录

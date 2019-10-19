@@ -50,15 +50,16 @@ public class SmsServiceImpl implements SmsService {
     }
 
     @Override
-    public Mono<ResultInfo<String>> sendSms(SendSmsDTO sendSmsDTO, Mono<WebSession> webSessionMono) {
-        return Mono.just(new SendMessageDto())
-                .map(sendMessageDto -> {
-                    sendMessageDto.setIphone(sendSmsDTO.getIphone());
+    public Mono<ResultInfo<String>> sendSms(Mono<SendSmsDTO> sendSmsDTO, Mono<WebSession> webSessionMono) {
+        return sendSmsDTO
+                .map(smsDTO -> {
+                    SendMessageDto sendMessageDto = new SendMessageDto();
+                    sendMessageDto.setIphone(smsDTO.getIphone());
                     // todo 验证码
                     sendMessageDto.setMessage("23454");
                     SendMessageResponse sendMessageResponse = smsServiceClient.sendMessage(sendMessageDto);
                     if ("success".equals(sendMessageResponse.getSmsStatus())) {
-                        log.info("验证码发送成功:iphone:{},message:{}", sendSmsDTO.getIphone(), sendMessageResponse.getMessage());
+                        log.info("验证码发送成功:iphone:{},message:{}", smsDTO.getIphone(), sendMessageResponse.getMessage());
                         webSessionMono.subscribe(webSession -> {
                             webSession.getAttributes().put("checkCode", sendMessageResponse.getMessage());
                             TimerUtils.schedule(
@@ -67,19 +68,19 @@ public class SmsServiceImpl implements SmsService {
                                         public void run() {
                                             Object code = webSession.getAttributes().get("checkCode");
                                             webSession.getAttributes().remove("checkCode");
-                                            log.info("手机号:{},验证码:{};移除成功", sendSmsDTO.getIphone(), code);
+                                            log.info("手机号:{},验证码:{};移除成功", smsDTO.getIphone(), code);
                                         }
                                     }
                             );
                         });
                     }
-                    ShortMsgDO shortMsgDO = ShortMsgConvertUtils.toDo(sendSmsDTO);
+                    ShortMsgDO shortMsgDO = ShortMsgConvertUtils.toDo(smsDTO);
                     shortMsgDO.setSmiBadReason(sendMessageResponse.getBadReason());
                     shortMsgDO.setSmiState(sendMessageResponse.getSmsStatus());
                     shortMsgDO.setSmiContent(sendMessageResponse.getMessage());
-                    shortMsgDO.setSmiIp(sendSmsDTO.getIp());
-                    shortMsgDO.setSmiReceiverPhone(sendSmsDTO.getIphone());
-                    shortMsgDO.setSmiType(sendSmsDTO.getType());
+                    shortMsgDO.setSmiIp(smsDTO.getIp());
+                    shortMsgDO.setSmiReceiverPhone(smsDTO.getIphone());
+                    shortMsgDO.setSmiType(smsDTO.getType());
                     return shortMsgDO;
                 })
                 .map(shortMsgDO -> {

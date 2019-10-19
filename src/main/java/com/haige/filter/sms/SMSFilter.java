@@ -77,7 +77,7 @@ public class SMSFilter implements WebFilter {
                         smsRequest.setType(type);
                         smsRequest.setIp(request.getRemoteAddress().getAddress().toString());
                         exchange.getAttributes().put("isError", false);
-                        exchange.getAttributes().put("sendSmsRequest", smsRequest);
+                        exchange.getAttributes().put("sendSmsRequest", Mono.just(smsRequest));
                         smsService.findList(null, smsRequest.getIphone())
                                 .subscribe(shortMsgDO -> {
                                     // 上次发送短信时间加上60秒是否在当前时间之前
@@ -127,7 +127,7 @@ public class SMSFilter implements WebFilter {
                     })
                     .subscribe(
                             smsRequest -> {
-                                log.info("手机号:{}, ip:{}", smsRequest.getIphone(), smsRequest.getIp());
+                                log.info("手机号:{}, ip:{}, message:{}", smsRequest.getIphone(), smsRequest.getIp(), exchange.getAttributes().get("message"));
                             },
                             ex -> {
                                 log.info("异常信息:{}", ex.getMessage(), ex);
