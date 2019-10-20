@@ -61,13 +61,13 @@ public class SmsServiceImpl implements SmsService {
                     if ("success".equals(sendMessageResponse.getSmsStatus())) {
                         log.info("验证码发送成功:iphone:{},message:{}", smsDTO.getIphone(), sendMessageResponse.getMessage());
                         webSessionMono.subscribe(webSession -> {
-                            webSession.getAttributes().put("checkCode", sendMessageResponse.getMessage());
+                            webSession.getAttributes().put(smsDTO.getIphone(), sendMessageResponse.getMessage());
                             TimerUtils.schedule(
                                     new TimerTask() {
                                         @Override
                                         public void run() {
-                                            Object code = webSession.getAttributes().get("checkCode");
-                                            webSession.getAttributes().remove("checkCode");
+                                            Object code = webSession.getAttributes().get(smsDTO.getIphone());
+                                            webSession.getAttributes().remove(smsDTO.getIphone());
                                             log.info("手机号:{},验证码:{};移除成功", smsDTO.getIphone(), code);
                                         }
                                     }
@@ -92,6 +92,8 @@ public class SmsServiceImpl implements SmsService {
 
     @Override
     public Mono<ShortMsgDO> findList(String ip, String iphone) {
-        return Mono.justOrEmpty(shortMsgDOMapper.findList(ip, iphone));
+        ShortMsgDO shortMsgDO = shortMsgDOMapper.findList(ip, iphone);
+        log.info("当前ip：{},当前手机号:{},最近的一次短信时间:{}", ip, iphone, shortMsgDO != null ? shortMsgDO.getSmiSenderTime() : "");
+        return Mono.justOrEmpty(shortMsgDO);
     }
 }
