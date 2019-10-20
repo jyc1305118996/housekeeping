@@ -1,4 +1,6 @@
-package com.haige.annotation;
+package com.haige.auth.annotation;
+
+import com.haige.auth.enums.PermissionType;
 
 import java.lang.annotation.*;
 

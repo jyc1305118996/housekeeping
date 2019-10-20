@@ -16,9 +16,4 @@ public class HaigeApplication {
         SpringApplication.run(HaigeApplication.class, args);
     }
 
-
-    @Bean
-    public RequestContextListener requestContextListener(){
-        return new RequestContextListener();
-    }
 }

@@ -1,6 +1,6 @@
 package com.haige.aop;
 
-import com.haige.annotation.PermissionType;
+import com.haige.auth.enums.PermissionType;
 
 import com.haige.filter.ReactiveRequestContextHolder;
 import lombok.extern.slf4j.Slf4j;

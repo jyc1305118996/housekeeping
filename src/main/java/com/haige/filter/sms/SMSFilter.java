@@ -34,7 +34,7 @@ import java.time.temporal.ChronoUnit;
 
 @Component
 @Slf4j
-@Order(1)
+@Order(11)
 public class SMSFilter implements WebFilter {
 
     /**

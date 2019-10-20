@@ -1,4 +1,4 @@
-package com.haige.annotation;
+package com.haige.auth.enums;
 
 /**
  * @author : Aaron

@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haige.db.mapper.ComboDOMapper">
+  <resultMap id="BaseResultMap" type="com.haige.db.entity.ComboDO">
+    <id column="combo_id" jdbcType="BIGINT" property="comboId" />
+    <result column="combo_name" jdbcType="VARCHAR" property="comboName" />
+    <result column="combo_desc" jdbcType="VARCHAR" property="comboDesc" />
+    <result column="combo_pict" jdbcType="VARCHAR" property="comboPict" />
+    <result column="combo_price" jdbcType="DECIMAL" property="comboPrice" />
+    <result column="combo_num" jdbcType="VARCHAR" property="comboNum" />
+    <result column="combo_type" jdbcType="VARCHAR" property="comboType" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="modifier" jdbcType="VARCHAR" property="modifier" />
+    <result column="combo_info" jdbcType="VARCHAR" property="comboInfo" />
+    <result column="is_del" jdbcType="VARCHAR" property="isDel" />
+    <result column="modify_date" jdbcType="VARCHAR" property="modifyDate" />
+    <result column="create_date" jdbcType="VARCHAR" property="createDate" />
+    <result column="expiration_date" jdbcType="VARCHAR" property="expirationDate" />
+    <result column="applause_rate" jdbcType="VARCHAR" property="applauseRate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    combo_id, combo_name, combo_desc, combo_pict, combo_price, combo_num, combo_type, 
+    creator, modifier, combo_info, is_del, modify_date, create_date, expiration_date, 
+    applause_rate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from haige_combo
+    where combo_id = #{comboId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from haige_combo
+    where combo_id = #{comboId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.haige.db.entity.ComboDO">
+    insert into haige_combo (combo_id, combo_name, combo_desc, 
+      combo_pict, combo_price, combo_num, 
+      combo_type, creator, modifier, 
+      combo_info, is_del, modify_date, 
+      create_date, expiration_date, applause_rate
+      )
+    values (#{comboId,jdbcType=BIGINT}, #{comboName,jdbcType=VARCHAR}, #{comboDesc,jdbcType=VARCHAR}, 
+      #{comboPict,jdbcType=VARCHAR}, #{comboPrice,jdbcType=DECIMAL}, #{comboNum,jdbcType=VARCHAR}, 
+      #{comboType,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{modifier,jdbcType=VARCHAR}, 
+      #{comboInfo,jdbcType=VARCHAR}, #{isDel,jdbcType=VARCHAR}, #{modifyDate,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=VARCHAR}, #{expirationDate,jdbcType=VARCHAR}, #{applauseRate,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.haige.db.entity.ComboDO">
+    insert into haige_combo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="comboId != null">
+        combo_id,
+      </if>
+      <if test="comboName != null">
+        combo_name,
+      </if>
+      <if test="comboDesc != null">
+        combo_desc,
+      </if>
+      <if test="comboPict != null">
+        combo_pict,
+      </if>
+      <if test="comboPrice != null">
+        combo_price,
+      </if>
+      <if test="comboNum != null">
+        combo_num,
+      </if>
+      <if test="comboType != null">
+        combo_type,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="modifier != null">
+        modifier,
+      </if>
+      <if test="comboInfo != null">
+        combo_info,
+      </if>
+      <if test="isDel != null">
+        is_del,
+      </if>
+      <if test="modifyDate != null">
+        modify_date,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="expirationDate != null">
+        expiration_date,
+      </if>
+      <if test="applauseRate != null">
+        applause_rate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="comboId != null">
+        #{comboId,jdbcType=BIGINT},
+      </if>
+      <if test="comboName != null">
+        #{comboName,jdbcType=VARCHAR},
+      </if>
+      <if test="comboDesc != null">
+        #{comboDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="comboPict != null">
+        #{comboPict,jdbcType=VARCHAR},
+      </if>
+      <if test="comboPrice != null">
+        #{comboPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="comboNum != null">
+        #{comboNum,jdbcType=VARCHAR},
+      </if>
+      <if test="comboType != null">
+        #{comboType,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="modifier != null">
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="comboInfo != null">
+        #{comboInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null">
+        #{isDel,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyDate != null">
+        #{modifyDate,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="expirationDate != null">
+        #{expirationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="applauseRate != null">
+        #{applauseRate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.haige.db.entity.ComboDO">
+    update haige_combo
+    <set>
+      <if test="comboName != null">
+        combo_name = #{comboName,jdbcType=VARCHAR},
+      </if>
+      <if test="comboDesc != null">
+        combo_desc = #{comboDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="comboPict != null">
+        combo_pict = #{comboPict,jdbcType=VARCHAR},
+      </if>
+      <if test="comboPrice != null">
+        combo_price = #{comboPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="comboNum != null">
+        combo_num = #{comboNum,jdbcType=VARCHAR},
+      </if>
+      <if test="comboType != null">
+        combo_type = #{comboType,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="modifier != null">
+        modifier = #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="comboInfo != null">
+        combo_info = #{comboInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null">
+        is_del = #{isDel,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyDate != null">
+        modify_date = #{modifyDate,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="expirationDate != null">
+        expiration_date = #{expirationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="applauseRate != null">
+        applause_rate = #{applauseRate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where combo_id = #{comboId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.haige.db.entity.ComboDO">
+    update haige_combo
+    set combo_name = #{comboName,jdbcType=VARCHAR},
+      combo_desc = #{comboDesc,jdbcType=VARCHAR},
+      combo_pict = #{comboPict,jdbcType=VARCHAR},
+      combo_price = #{comboPrice,jdbcType=DECIMAL},
+      combo_num = #{comboNum,jdbcType=VARCHAR},
+      combo_type = #{comboType,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      modifier = #{modifier,jdbcType=VARCHAR},
+      combo_info = #{comboInfo,jdbcType=VARCHAR},
+      is_del = #{isDel,jdbcType=VARCHAR},
+      modify_date = #{modifyDate,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=VARCHAR},
+      expiration_date = #{expirationDate,jdbcType=VARCHAR},
+      applause_rate = #{applauseRate,jdbcType=VARCHAR}
+    where combo_id = #{comboId,jdbcType=BIGINT}
+  </update>
+</mapper>
