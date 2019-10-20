@@ -69,12 +69,12 @@ public class SMSFilter implements WebFilter {
                         Object json = JSON.parse(data);
                         JSONObject jsonObject = (JSONObject) json;
                         SendSmsRequest smsRequest = new SendSmsRequest();
-                        String iphone = jsonObject.get("iphone").toString();
-                        String type = jsonObject.get("type").toString();
+                        Object iphone= jsonObject.get("iphone");
+                        Object type = jsonObject.get("type");
                         Preconditions.checkArgument(!StringUtils.isEmpty(iphone), "手机号不能为空");
                         Preconditions.checkArgument(!StringUtils.isEmpty(type), "业务类型不能为空");
-                        smsRequest.setIphone(iphone);
-                        smsRequest.setType(type);
+                        smsRequest.setIphone(iphone.toString());
+                        smsRequest.setType(type.toString());
                         smsRequest.setIp(request.getRemoteAddress().getAddress().toString());
                         exchange.getAttributes().put("isError", false);
                         exchange.getAttributes().put("sendSmsRequest", Mono.just(smsRequest));

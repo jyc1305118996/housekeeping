@@ -20,15 +20,15 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from haige_short_msg_info
+    from haige_sys_short_msg_info
     where smi_mesagge_id = #{smiMesaggeId,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from haige_short_msg_info
+    delete from haige_sys_short_msg_info
     where smi_mesagge_id = #{smiMesaggeId,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.haige.db.entity.ShortMsgDO">
-    insert into haige_short_msg_info (smi_mesagge_id, smi_sender, smi_receiver, 
+    insert into haige_sys_short_msg_info (smi_mesagge_id, smi_sender, smi_receiver, 
       smi_content, smi_sender_time, smi_receiver_phone, 
       smi_ip, smi_type, smi_state, 
       smi_bad_reason)
@@ -38,7 +38,7 @@
       #{smiBadReason,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.haige.db.entity.ShortMsgDO">
-    insert into haige_short_msg_info
+    insert into haige_sys_short_msg_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="smiMesaggeId != null">
         smi_mesagge_id,
@@ -105,7 +105,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.haige.db.entity.ShortMsgDO">
-    update haige_short_msg_info
+    update haige_sys_short_msg_info
     <set>
       <if test="smiSender != null">
         smi_sender = #{smiSender,jdbcType=VARCHAR},
@@ -138,7 +138,7 @@
     where smi_mesagge_id = #{smiMesaggeId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.haige.db.entity.ShortMsgDO">
-    update haige_short_msg_info
+    update haige_sys_short_msg_info
     set smi_sender = #{smiSender,jdbcType=VARCHAR},
       smi_receiver = #{smiReceiver,jdbcType=VARCHAR},
       smi_content = #{smiContent,jdbcType=VARCHAR},
@@ -154,14 +154,14 @@
   <select id="findByIphone"  resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from haige_short_msg_info
+    from haige_sys_short_msg_info
     where smi_receiver_phone = #{iphone}
     and SUBSTR(smi_sender_time , 1 , 10) = #{date}
   </select>
   <select id="findByIp" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from haige_short_msg_info
+    from haige_sys_short_msg_info
     where smi_ip = #{ip}
     and SUBSTR(smi_sender_time , 1 , 10) = #{date}
   </select>
@@ -169,7 +169,7 @@
   <select id="findList" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from haige_short_msg_info
+    from haige_sys_short_msg_info
     <where>
       <if test="ip != null">
         smi_ip = #{ip,jdbcType=VARCHAR}

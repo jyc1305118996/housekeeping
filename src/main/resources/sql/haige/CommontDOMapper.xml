@@ -16,15 +16,15 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from haige_commont
+    from haige_sys_commont
     where commont_id = #{commontId,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from haige_commont
+    delete from haige_sys_commont
     where commont_id = #{commontId,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.haige.db.entity.CommontDO">
-    insert into haige_commont (commont_id, goods_id, commont_date, 
+    insert into haige_sys_commont (commont_id, goods_id, commont_date, 
       commentator_id, commont_desc, is_del, 
       modify_date)
     values (#{commontId,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT}, #{commontDate,jdbcType=VARCHAR}, 
@@ -32,7 +32,7 @@
       #{modifyDate,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.haige.db.entity.CommontDO">
-    insert into haige_commont
+    insert into haige_sys_commont
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="commontId != null">
         commont_id,
@@ -81,7 +81,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.haige.db.entity.CommontDO">
-    update haige_commont
+    update haige_sys_commont
     <set>
       <if test="goodsId != null">
         goods_id = #{goodsId,jdbcType=BIGINT},
@@ -105,7 +105,7 @@
     where commont_id = #{commontId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.haige.db.entity.CommontDO">
-    update haige_commont
+    update haige_sys_commont
     set goods_id = #{goodsId,jdbcType=BIGINT},
       commont_date = #{commontDate,jdbcType=VARCHAR},
       commentator_id = #{commentatorId,jdbcType=VARCHAR},

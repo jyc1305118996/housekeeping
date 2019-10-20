@@ -26,15 +26,15 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from haige_combo
+    from haige_sys_combo
     where combo_id = #{comboId,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from haige_combo
+    delete from haige_sys_combo
     where combo_id = #{comboId,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.haige.db.entity.ComboDO">
-    insert into haige_combo (combo_id, combo_name, combo_desc, 
+    insert into haige_sys_combo (combo_id, combo_name, combo_desc, 
       combo_pict, combo_price, combo_num, 
       combo_type, creator, modifier, 
       combo_info, is_del, modify_date, 
@@ -48,7 +48,7 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.haige.db.entity.ComboDO">
-    insert into haige_combo
+    insert into haige_sys_combo
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="comboId != null">
         combo_id,
@@ -145,7 +145,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.haige.db.entity.ComboDO">
-    update haige_combo
+    update haige_sys_combo
     <set>
       <if test="comboName != null">
         combo_name = #{comboName,jdbcType=VARCHAR},
@@ -193,7 +193,7 @@
     where combo_id = #{comboId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.haige.db.entity.ComboDO">
-    update haige_combo
+    update haige_sys_combo
     set combo_name = #{comboName,jdbcType=VARCHAR},
       combo_desc = #{comboDesc,jdbcType=VARCHAR},
       combo_pict = #{comboPict,jdbcType=VARCHAR},
