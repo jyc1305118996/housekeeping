@@ -17,31 +17,4 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ComboVO {
-    @NotEmpty
-    @NotNull
-    private String comboName;
-    @NotEmpty
-    @NotNull
-    private String comboDesc;
-    @NotEmpty
-    @NotNull
-    private String comboPrice;
-    @NotEmpty
-    @NotNull
-    private String comboNum;
-    @NotEmpty
-    @NotNull
-    private String comboType;
-    @NotEmpty
-    @NotNull
-    private String comboInfo;
-    @NotEmpty
-    @NotNull
-    private String isDel;
-    @NotEmpty
-    @NotNull
-    private String expirationDate;
-    @NotEmpty
-    @NotNull
-    private String comboPict;
 }
