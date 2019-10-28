@@ -56,7 +56,7 @@ public class SmsServiceImpl implements SmsService {
                     SendMessageDto sendMessageDto = new SendMessageDto();
                     sendMessageDto.setIphone(smsDTO.getIphone());
                     // todo 验证码
-                    sendMessageDto.setMessage("23454");
+                    sendMessageDto.setMessage("123456");
                     SendMessageResponse sendMessageResponse = smsServiceClient.sendMessage(sendMessageDto);
                     if ("success".equals(sendMessageResponse.getSmsStatus())) {
                         log.info("验证码发送成功:iphone:{},message:{}", smsDTO.getIphone(), sendMessageResponse.getMessage());

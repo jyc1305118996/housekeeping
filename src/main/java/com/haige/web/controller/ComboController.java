@@ -38,7 +38,7 @@ public class ComboController {
     public Mono<ResultInfo<String>> saveCombo(@RequestBody @Valid Mono<ComboVO> comboVO) {
         return comboVO.map(comboVO1 -> {
             log.info("接受到前端的信息是: {}", comboVO1);
-            return new ResultInfo(StatusCode.OK);
+            return new ResultInfo<>(StatusCode.OK);
         });
     }
 }
