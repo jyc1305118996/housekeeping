@@ -36,3 +36,9 @@ pagehelper:
   params: "count=countSql"
 logging:
   config: classpath:log4j2.yml
+aliyun:
+  sms:
+    accessKeyId: "LTAISHt4fXUXPZ3K"
+    accessSecret: "ihYQ0RIqOxuwEkFBArs8gfmnqS4jUD"
+    templateCode: "SMS_140735304"
+    signName: "王亚奇"
