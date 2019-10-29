@@ -123,6 +123,7 @@
 
 
     <build>
+        <finalName>haige</finalName>
         <!--编译时将map.xml与.class一起带走-->
         <resources>
             <resource>
@@ -146,6 +147,11 @@
         </resources>
         <plugins>
             <!--spring boot打包插件-->
+            <plugin>
+                <!--用于自动构建jar清单，并且会寻找主类-->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
