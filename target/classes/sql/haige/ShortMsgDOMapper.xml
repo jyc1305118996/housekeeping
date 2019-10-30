@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haige.db.mapper.ShortMsgDOMapper">
+  <resultMap id="BaseResultMap" type="com.haige.db.entity.ShortMsgDO">
+    <id column="smi_mesagge_id" jdbcType="BIGINT" property="smiMesaggeId" />
+    <result column="smi_sender" jdbcType="VARCHAR" property="smiSender" />
+    <result column="smi_receiver" jdbcType="VARCHAR" property="smiReceiver" />
+    <result column="smi_content" jdbcType="VARCHAR" property="smiContent" />
+    <result column="smi_sender_time" jdbcType="VARCHAR" property="smiSenderTime" />
+    <result column="smi_receiver_phone" jdbcType="VARCHAR" property="smiReceiverPhone" />
+    <result column="smi_ip" jdbcType="VARCHAR" property="smiIp" />
+    <result column="smi_type" jdbcType="VARCHAR" property="smiType" />
+    <result column="smi_state" jdbcType="VARCHAR" property="smiState" />
+    <result column="smi_bad_reason" jdbcType="VARCHAR" property="smiBadReason" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    smi_mesagge_id, smi_sender, smi_receiver, smi_content, smi_sender_time, smi_receiver_phone,
+    smi_ip, smi_type, smi_state, smi_bad_reason
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from haige_sys_short_msg_info
+    where smi_mesagge_id = #{smiMesaggeId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from haige_sys_short_msg_info
+    where smi_mesagge_id = #{smiMesaggeId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.haige.db.entity.ShortMsgDO">
+    insert into haige_sys_short_msg_info (smi_mesagge_id, smi_sender, smi_receiver,
+      smi_content, smi_sender_time, smi_receiver_phone,
+      smi_ip, smi_type, smi_state,
+      smi_bad_reason)
+    values (#{smiMesaggeId,jdbcType=BIGINT}, #{smiSender,jdbcType=VARCHAR}, #{smiReceiver,jdbcType=VARCHAR},
+      #{smiContent,jdbcType=VARCHAR}, #{smiSenderTime,jdbcType=VARCHAR}, #{smiReceiverPhone,jdbcType=VARCHAR},
+      #{smiIp,jdbcType=VARCHAR}, #{smiType,jdbcType=VARCHAR}, #{smiState,jdbcType=VARCHAR},
+      #{smiBadReason,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.haige.db.entity.ShortMsgDO">
+    insert into haige_sys_short_msg_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="smiMesaggeId != null">
+        smi_mesagge_id,
+      </if>
+      <if test="smiSender != null">
+        smi_sender,
+      </if>
+      <if test="smiReceiver != null">
+        smi_receiver,
+      </if>
+      <if test="smiContent != null">
+        smi_content,
+      </if>
+      <if test="smiSenderTime != null">
+        smi_sender_time,
+      </if>
+      <if test="smiReceiverPhone != null">
+        smi_receiver_phone,
+      </if>
+      <if test="smiIp != null">
+        smi_ip,
+      </if>
+      <if test="smiType != null">
+        smi_type,
+      </if>
+      <if test="smiState != null">
+        smi_state,
+      </if>
+      <if test="smiBadReason != null">
+        smi_bad_reason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="smiMesaggeId != null">
+        #{smiMesaggeId,jdbcType=BIGINT},
+      </if>
+      <if test="smiSender != null">
+        #{smiSender,jdbcType=VARCHAR},
+      </if>
+      <if test="smiReceiver != null">
+        #{smiReceiver,jdbcType=VARCHAR},
+      </if>
+      <if test="smiContent != null">
+        #{smiContent,jdbcType=VARCHAR},
+      </if>
+      <if test="smiSenderTime != null">
+        #{smiSenderTime,jdbcType=VARCHAR},
+      </if>
+      <if test="smiReceiverPhone != null">
+        #{smiReceiverPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="smiIp != null">
+        #{smiIp,jdbcType=VARCHAR},
+      </if>
+      <if test="smiType != null">
+        #{smiType,jdbcType=VARCHAR},
+      </if>
+      <if test="smiState != null">
+        #{smiState,jdbcType=VARCHAR},
+      </if>
+      <if test="smiBadReason != null">
+        #{smiBadReason,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.haige.db.entity.ShortMsgDO">
+    update haige_sys_short_msg_info
+    <set>
+      <if test="smiSender != null">
+        smi_sender = #{smiSender,jdbcType=VARCHAR},
+      </if>
+      <if test="smiReceiver != null">
+        smi_receiver = #{smiReceiver,jdbcType=VARCHAR},
+      </if>
+      <if test="smiContent != null">
+        smi_content = #{smiContent,jdbcType=VARCHAR},
+      </if>
+      <if test="smiSenderTime != null">
+        smi_sender_time = #{smiSenderTime,jdbcType=VARCHAR},
+      </if>
+      <if test="smiReceiverPhone != null">
+        smi_receiver_phone = #{smiReceiverPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="smiIp != null">
+        smi_ip = #{smiIp,jdbcType=VARCHAR},
+      </if>
+      <if test="smiType != null">
+        smi_type = #{smiType,jdbcType=VARCHAR},
+      </if>
+      <if test="smiState != null">
+        smi_state = #{smiState,jdbcType=VARCHAR},
+      </if>
+      <if test="smiBadReason != null">
+        smi_bad_reason = #{smiBadReason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where smi_mesagge_id = #{smiMesaggeId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.haige.db.entity.ShortMsgDO">
+    update haige_sys_short_msg_info
+    set smi_sender = #{smiSender,jdbcType=VARCHAR},
+      smi_receiver = #{smiReceiver,jdbcType=VARCHAR},
+      smi_content = #{smiContent,jdbcType=VARCHAR},
+      smi_sender_time = #{smiSenderTime,jdbcType=VARCHAR},
+      smi_receiver_phone = #{smiReceiverPhone,jdbcType=VARCHAR},
+      smi_ip = #{smiIp,jdbcType=VARCHAR},
+      smi_type = #{smiType,jdbcType=VARCHAR},
+      smi_state = #{smiState,jdbcType=VARCHAR},
+      smi_bad_reason = #{smiBadReason,jdbcType=VARCHAR}
+    where smi_mesagge_id = #{smiMesaggeId,jdbcType=BIGINT}
+  </update>
+
+  <select id="findByIphone"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from haige_sys_short_msg_info
+    where smi_receiver_phone = #{iphone}
+    and SUBSTR(smi_sender_time , 1 , 10) = #{date}
+  </select>
+  <select id="findByIp" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from haige_sys_short_msg_info
+    where smi_ip = #{ip}
+    and SUBSTR(smi_sender_time , 1 , 10) = #{date}
+  </select>
+
+  <select id="findList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from haige_sys_short_msg_info
+    <where>
+      <if test="ip != null">
+        smi_ip = #{ip,jdbcType=VARCHAR}
+      </if>
+      <if test="iphone != null">
+        AND smi_receiver_phone = #{iphone,jdbcType=VARCHAR}
+      </if>
+    </where>
+    order by smi_sender_time desc
+    limit 0, 1
+  </select>
+</mapper>
