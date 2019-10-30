@@ -38,7 +38,7 @@ logging:
   config: classpath:log4j2.yml
 aliyun:
   sms:
-    accessKeyId: "LTAISHt4fXUXPZ3K"
-    accessSecret: "ihYQ0RIqOxuwEkFBArs8gfmnqS4jUD"
-    templateCode: "SMS_140735304"
-    signName: "王亚奇"
+    accessKeyId: "LTAI4Fhz9C1SMqgUTgJYPA2x"
+    accessSecret: "cLh4tNX44oH3XQUHa6G2lnhPOhjPyc"
+    templateCode: "SMS_176523402"
+    signName: "安居在家"

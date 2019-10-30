@@ -34,11 +34,7 @@ public class SystemUserServiceImpl implements SystemUserService {
                     //验证码正确
                     String ip = SystemUtils.getIp(exchange);
 
-                    HashMap<String,String> param = new HashMap<String, String>();
-                    param.put("ip",ip);
-                    param.put("user",phone);
-                    param.put("user","2");
-                    systemUserMapper.saveLoginLog(param);
+
                     //return new ResultInfo<String>(StatusCode.OK);
 
                     //参数唯为空
@@ -60,6 +56,12 @@ public class SystemUserServiceImpl implements SystemUserService {
 //                        param.put("ip",ip);
 //                        param.put("user",phone);
 //                        param.put("user","2");
+
+                        HashMap<String, String> param = new HashMap<String, String>();
+                        param.put("ip", ip);
+                        param.put("user", phone);
+                        param.put("type", "2");
+                        systemUserMapper.saveLoginLog(param);
 
                         return new ResultInfo<String>(StatusCode.OK);
 
