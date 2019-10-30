@@ -1,5 +1,7 @@
 package com.haige.integration.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.aliyuncs.CommonRequest;
 import com.aliyuncs.CommonResponse;
 import com.aliyuncs.DefaultAcsClient;
@@ -13,6 +15,8 @@ import com.haige.integration.dto.SendMessageResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 /**
  * @author Archie
@@ -37,9 +41,13 @@ public class SmsServiceClientImpl implements SmsServiceClient {
 
     @Override
     public SendMessageResponse sendMessage(SendMessageDto sendMessageDto) {
+        SendMessageResponse sendMessageResponse = new SendMessageResponse();
+        sendMessageResponse.setMessage(sendMessageDto.getMessage());
+        sendMessageResponse.setSmsStatus("success");
+
+
         DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", accessKeyId, accessSecret);
         IAcsClient client = new DefaultAcsClient(profile);
-
         CommonRequest request = new CommonRequest();
         request.setMethod(MethodType.POST);
         request.setDomain("dysmsapi.aliyuncs.com");
@@ -52,13 +60,17 @@ public class SmsServiceClientImpl implements SmsServiceClient {
         request.putQueryParameter("TemplateParam", "{\"code\":\"" + sendMessageDto.getMessage()+ "\"}");
         try {
             CommonResponse response = client.getCommonResponse(request);
-            System.out.println(response.getData());
+            if (response.getHttpStatus() == 200){
+                JSONObject json = (JSONObject)JSON.parse(response.getData());
+                if (!"OK".equals(json.get("Message"))){
+                    sendMessageResponse.setSmsStatus("faild");
+                    log.error("短信发送失败：{}",json.get("Message") );
+                    sendMessageResponse.setBadReason(json.get("Message").toString());
+                }
+            }
         } catch (ClientException e) {
             throw new RuntimeException("短信发送失败", e);
         }
-        SendMessageResponse sendMessageResponse = new SendMessageResponse();
-        sendMessageResponse.setMessage(sendMessageDto.getMessage());
-        sendMessageResponse.setSmsStatus("success");
         return sendMessageResponse;
     }
 }
