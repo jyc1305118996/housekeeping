@@ -30,7 +30,7 @@ public class SimpleController {
     @Autowired
     private SystemUserService systemUserService;
 
-    @GetMapping("/log")
+    @RequestMapping("/log")
     @Permission(PermissionType.ALL)
     public String log() {
         log.info("--------------log-info");
@@ -52,7 +52,7 @@ public class SimpleController {
                 .map(savePersonRequest -> "success!!!");
     }
 
-    @GetMapping("testcode/{phone}/{code}")
+    @RequestMapping("testcode/{phone}/{code}")
     public Mono<ResultInfo<String>> testcode(ServerWebExchange exchange, @PathVariable String phone ,@PathVariable String code) {
         log.info(phone);
 

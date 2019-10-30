@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
@@ -35,7 +36,7 @@ public class ComboController {
     @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @Permission()
-    public Mono<ResultInfo<String>> saveCombo(@RequestBody @Valid Mono<ComboVO> comboVO) {
+    public Mono<ResultInfo<String>> saveCombo(@RequestBody @Valid Mono<ComboVO> comboVO, ServerWebExchange serverWebExchange) {
         return comboVO.map(comboVO1 -> {
             log.info("接受到前端的信息是: {}", comboVO1);
             return new ResultInfo<>(StatusCode.OK);

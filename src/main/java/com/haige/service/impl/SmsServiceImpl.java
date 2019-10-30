@@ -12,8 +12,10 @@ import com.haige.service.convert.ShortMsgConvertUtils;
 import com.haige.service.dto.SendSmsDTO;
 import com.haige.util.TimerUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.server.WebSession;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -56,7 +58,7 @@ public class SmsServiceImpl implements SmsService {
                     SendMessageDto sendMessageDto = new SendMessageDto();
                     sendMessageDto.setIphone(smsDTO.getIphone());
                     // todo 验证码
-                    sendMessageDto.setMessage("123456");
+                    sendMessageDto.setMessage(RandomStringUtils.random(6, false, true));
                     SendMessageResponse sendMessageResponse = smsServiceClient.sendMessage(sendMessageDto);
                     if ("success".equals(sendMessageResponse.getSmsStatus())) {
                         log.info("验证码发送成功:iphone:{},message:{}", smsDTO.getIphone(), sendMessageResponse.getMessage());

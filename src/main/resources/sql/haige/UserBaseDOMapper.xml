@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haige.db.mapper.UserBaseDOMapper">
+  <resultMap id="BaseResultMap" type="com.haige.db.entity.UserBaseDO">
+    <id column="UBD_ID" jdbcType="DECIMAL" property="ubdId" />
+    <result column="UBD_NAME" jdbcType="VARCHAR" property="ubdName" />
+    <result column="UBD_PASS" jdbcType="VARCHAR" property="ubdPass" />
+    <result column="UBD_EXPRE_DATE" jdbcType="TIMESTAMP" property="ubdExpreDate" />
+    <result column="UBD_DEPT_ID" jdbcType="DECIMAL" property="ubdDeptId" />
+    <result column="UBD_LAST_TIME" jdbcType="TIMESTAMP" property="ubdLastTime" />
+    <result column="UBD_LAST_IP" jdbcType="VARCHAR" property="ubdLastIp" />
+    <result column="UBD_USE" jdbcType="DECIMAL" property="ubdUse" />
+    <result column="UBD_ADMIN" jdbcType="DECIMAL" property="ubdAdmin" />
+    <result column="UBD_POLICE_NAME" jdbcType="VARCHAR" property="ubdPoliceName" />
+    <result column="UBD_FIXED_PHONE" jdbcType="VARCHAR" property="ubdFixedPhone" />
+    <result column="UBD_SEQ" jdbcType="DECIMAL" property="ubdSeq" />
+    <result column="UBD_CRTE_USER_ID" jdbcType="DECIMAL" property="ubdCrteUserId" />
+    <result column="UBD_CRTE_TIME" jdbcType="TIMESTAMP" property="ubdCrteTime" />
+    <result column="UBD_UPDT_USER_ID" jdbcType="DECIMAL" property="ubdUpdtUserId" />
+    <result column="UBD_UPDT_TIME" jdbcType="TIMESTAMP" property="ubdUpdtTime" />
+    <result column="UBD_WECHAT_ID" jdbcType="VARCHAR" property="ubdWechatId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    UBD_ID, UBD_NAME, UBD_PASS, UBD_EXPRE_DATE, UBD_DEPT_ID, UBD_LAST_TIME, UBD_LAST_IP, 
+    UBD_USE, UBD_ADMIN, UBD_POLICE_NAME, UBD_FIXED_PHONE, UBD_SEQ, UBD_CRTE_USER_ID, 
+    UBD_CRTE_TIME, UBD_UPDT_USER_ID, UBD_UPDT_TIME, UBD_WECHAT_ID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from haige_sys_user_base_dtls
+    where UBD_ID = #{ubdId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from haige_sys_user_base_dtls
+    where UBD_ID = #{ubdId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.haige.db.entity.UserBaseDO">
+    insert into haige_sys_user_base_dtls (UBD_ID, UBD_NAME, UBD_PASS, 
+      UBD_EXPRE_DATE, UBD_DEPT_ID, UBD_LAST_TIME, 
+      UBD_LAST_IP, UBD_USE, UBD_ADMIN, 
+      UBD_POLICE_NAME, UBD_FIXED_PHONE, UBD_SEQ, 
+      UBD_CRTE_USER_ID, UBD_CRTE_TIME, UBD_UPDT_USER_ID, 
+      UBD_UPDT_TIME, UBD_WECHAT_ID)
+    values (#{ubdId,jdbcType=DECIMAL}, #{ubdName,jdbcType=VARCHAR}, #{ubdPass,jdbcType=VARCHAR}, 
+      #{ubdExpreDate,jdbcType=TIMESTAMP}, #{ubdDeptId,jdbcType=DECIMAL}, #{ubdLastTime,jdbcType=TIMESTAMP}, 
+      #{ubdLastIp,jdbcType=VARCHAR}, #{ubdUse,jdbcType=DECIMAL}, #{ubdAdmin,jdbcType=DECIMAL}, 
+      #{ubdPoliceName,jdbcType=VARCHAR}, #{ubdFixedPhone,jdbcType=VARCHAR}, #{ubdSeq,jdbcType=DECIMAL}, 
+      #{ubdCrteUserId,jdbcType=DECIMAL}, #{ubdCrteTime,jdbcType=TIMESTAMP}, #{ubdUpdtUserId,jdbcType=DECIMAL}, 
+      #{ubdUpdtTime,jdbcType=TIMESTAMP}, #{ubdWechatId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.haige.db.entity.UserBaseDO">
+    insert into haige_sys_user_base_dtls
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="ubdId != null">
+        UBD_ID,
+      </if>
+      <if test="ubdName != null">
+        UBD_NAME,
+      </if>
+      <if test="ubdPass != null">
+        UBD_PASS,
+      </if>
+      <if test="ubdExpreDate != null">
+        UBD_EXPRE_DATE,
+      </if>
+      <if test="ubdDeptId != null">
+        UBD_DEPT_ID,
+      </if>
+      <if test="ubdLastTime != null">
+        UBD_LAST_TIME,
+      </if>
+      <if test="ubdLastIp != null">
+        UBD_LAST_IP,
+      </if>
+      <if test="ubdUse != null">
+        UBD_USE,
+      </if>
+      <if test="ubdAdmin != null">
+        UBD_ADMIN,
+      </if>
+      <if test="ubdPoliceName != null">
+        UBD_POLICE_NAME,
+      </if>
+      <if test="ubdFixedPhone != null">
+        UBD_FIXED_PHONE,
+      </if>
+      <if test="ubdSeq != null">
+        UBD_SEQ,
+      </if>
+      <if test="ubdCrteUserId != null">
+        UBD_CRTE_USER_ID,
+      </if>
+      <if test="ubdCrteTime != null">
+        UBD_CRTE_TIME,
+      </if>
+      <if test="ubdUpdtUserId != null">
+        UBD_UPDT_USER_ID,
+      </if>
+      <if test="ubdUpdtTime != null">
+        UBD_UPDT_TIME,
+      </if>
+      <if test="ubdWechatId != null">
+        UBD_WECHAT_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="ubdId != null">
+        #{ubdId,jdbcType=DECIMAL},
+      </if>
+      <if test="ubdName != null">
+        #{ubdName,jdbcType=VARCHAR},
+      </if>
+      <if test="ubdPass != null">
+        #{ubdPass,jdbcType=VARCHAR},
+      </if>
+      <if test="ubdExpreDate != null">
+        #{ubdExpreDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ubdDeptId != null">
+        #{ubdDeptId,jdbcType=DECIMAL},
+      </if>
+      <if test="ubdLastTime != null">
+        #{ubdLastTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ubdLastIp != null">
+        #{ubdLastIp,jdbcType=VARCHAR},
+      </if>
+      <if test="ubdUse != null">
+        #{ubdUse,jdbcType=DECIMAL},
+      </if>
+      <if test="ubdAdmin != null">
+        #{ubdAdmin,jdbcType=DECIMAL},
+      </if>
+      <if test="ubdPoliceName != null">
+        #{ubdPoliceName,jdbcType=VARCHAR},
+      </if>
+      <if test="ubdFixedPhone != null">
+        #{ubdFixedPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="ubdSeq != null">
+        #{ubdSeq,jdbcType=DECIMAL},
+      </if>
+      <if test="ubdCrteUserId != null">
+        #{ubdCrteUserId,jdbcType=DECIMAL},
+      </if>
+      <if test="ubdCrteTime != null">
+        #{ubdCrteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ubdUpdtUserId != null">
+        #{ubdUpdtUserId,jdbcType=DECIMAL},
+      </if>
+      <if test="ubdUpdtTime != null">
+        #{ubdUpdtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ubdWechatId != null">
+        #{ubdWechatId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.haige.db.entity.UserBaseDO">
+    update haige_sys_user_base_dtls
+    <set>
+      <if test="ubdName != null">
+        UBD_NAME = #{ubdName,jdbcType=VARCHAR},
+      </if>
+      <if test="ubdPass != null">
+        UBD_PASS = #{ubdPass,jdbcType=VARCHAR},
+      </if>
+      <if test="ubdExpreDate != null">
+        UBD_EXPRE_DATE = #{ubdExpreDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ubdDeptId != null">
+        UBD_DEPT_ID = #{ubdDeptId,jdbcType=DECIMAL},
+      </if>
+      <if test="ubdLastTime != null">
+        UBD_LAST_TIME = #{ubdLastTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ubdLastIp != null">
+        UBD_LAST_IP = #{ubdLastIp,jdbcType=VARCHAR},
+      </if>
+      <if test="ubdUse != null">
+        UBD_USE = #{ubdUse,jdbcType=DECIMAL},
+      </if>
+      <if test="ubdAdmin != null">
+        UBD_ADMIN = #{ubdAdmin,jdbcType=DECIMAL},
+      </if>
+      <if test="ubdPoliceName != null">
+        UBD_POLICE_NAME = #{ubdPoliceName,jdbcType=VARCHAR},
+      </if>
+      <if test="ubdFixedPhone != null">
+        UBD_FIXED_PHONE = #{ubdFixedPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="ubdSeq != null">
+        UBD_SEQ = #{ubdSeq,jdbcType=DECIMAL},
+      </if>
+      <if test="ubdCrteUserId != null">
+        UBD_CRTE_USER_ID = #{ubdCrteUserId,jdbcType=DECIMAL},
+      </if>
+      <if test="ubdCrteTime != null">
+        UBD_CRTE_TIME = #{ubdCrteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ubdUpdtUserId != null">
+        UBD_UPDT_USER_ID = #{ubdUpdtUserId,jdbcType=DECIMAL},
+      </if>
+      <if test="ubdUpdtTime != null">
+        UBD_UPDT_TIME = #{ubdUpdtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ubdWechatId != null">
+        UBD_WECHAT_ID = #{ubdWechatId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where UBD_ID = #{ubdId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.haige.db.entity.UserBaseDO">
+    update haige_sys_user_base_dtls
+    set UBD_NAME = #{ubdName,jdbcType=VARCHAR},
+      UBD_PASS = #{ubdPass,jdbcType=VARCHAR},
+      UBD_EXPRE_DATE = #{ubdExpreDate,jdbcType=TIMESTAMP},
+      UBD_DEPT_ID = #{ubdDeptId,jdbcType=DECIMAL},
+      UBD_LAST_TIME = #{ubdLastTime,jdbcType=TIMESTAMP},
+      UBD_LAST_IP = #{ubdLastIp,jdbcType=VARCHAR},
+      UBD_USE = #{ubdUse,jdbcType=DECIMAL},
+      UBD_ADMIN = #{ubdAdmin,jdbcType=DECIMAL},
+      UBD_POLICE_NAME = #{ubdPoliceName,jdbcType=VARCHAR},
+      UBD_FIXED_PHONE = #{ubdFixedPhone,jdbcType=VARCHAR},
+      UBD_SEQ = #{ubdSeq,jdbcType=DECIMAL},
+      UBD_CRTE_USER_ID = #{ubdCrteUserId,jdbcType=DECIMAL},
+      UBD_CRTE_TIME = #{ubdCrteTime,jdbcType=TIMESTAMP},
+      UBD_UPDT_USER_ID = #{ubdUpdtUserId,jdbcType=DECIMAL},
+      UBD_UPDT_TIME = #{ubdUpdtTime,jdbcType=TIMESTAMP},
+      UBD_WECHAT_ID = #{ubdWechatId,jdbcType=VARCHAR}
+    where UBD_ID = #{ubdId,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -10,9 +10,9 @@ spring:
     haige:
       type: com.alibaba.druid.pool.DruidDataSource
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/haige?useSSL=false&characterEncoding=utf8
+      url: jdbc:mysql://cdb-gbfpnwve.bj.tencentcdb.com:10226/haige?useSSL=false&characterEncoding=utf8
       username: root
-      password: root
+      password: haige123
       initialSize: 5
       minIdle: 5
       maxActive: 20
@@ -36,3 +36,9 @@ pagehelper:
   params: "count=countSql"
 logging:
   config: classpath:log4j2.yml
+aliyun:
+  sms:
+    accessKeyId: "LTAI4Fhz9C1SMqgUTgJYPA2x"
+    accessSecret: "cLh4tNX44oH3XQUHa6G2lnhPOhjPyc"
+    templateCode: "SMS_176523402"
+    signName: "安居在家"
