@@ -1,7 +1,0 @@
-spring:
-  profiles:
-    active: dev
-jwt:
-  config:
-      key: haige
-      ttl: 5000
