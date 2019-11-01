@@ -3,6 +3,7 @@ package com.haige;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.RequestContextListener;
 
 /**
@@ -16,4 +17,8 @@ public class HaigeApplication {
         SpringApplication.run(HaigeApplication.class, args);
     }
 
+    @Bean
+    public RestTemplate getRestTemplate(){
+        return new RestTemplate();
+    }
 }

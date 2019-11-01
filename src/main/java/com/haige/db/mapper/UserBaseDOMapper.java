@@ -21,4 +21,6 @@ public interface UserBaseDOMapper {
     int updateByPrimaryKey(UserBaseDO record);
 
     UserBaseDO findByToken(@Param("token") String token);
+
+    UserBaseDO findByUnionid(@Param("unionid")String unionid);
 }

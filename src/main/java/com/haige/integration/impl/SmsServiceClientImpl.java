@@ -10,13 +10,11 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.haige.integration.SmsServiceClient;
-import com.haige.integration.dto.SendMessageDto;
-import com.haige.integration.dto.SendMessageResponse;
+import com.haige.integration.param.SendMessageParam;
+import com.haige.integration.model.SendMessageResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.util.Map;
 
 /**
  * @author Archie
@@ -40,10 +38,10 @@ public class SmsServiceClientImpl implements SmsServiceClient {
 
 
     @Override
-    public SendMessageResponse sendMessage(SendMessageDto sendMessageDto) {
-        SendMessageResponse sendMessageResponse = new SendMessageResponse();
-        sendMessageResponse.setMessage(sendMessageDto.getMessage());
-        sendMessageResponse.setSmsStatus("success");
+    public SendMessageResult sendMessage(SendMessageParam sendMessageParam) {
+        SendMessageResult sendMessageResult = new SendMessageResult();
+        sendMessageResult.setMessage(sendMessageParam.getMessage());
+        sendMessageResult.setSmsStatus("success");
 
 
         DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", accessKeyId, accessSecret);
@@ -54,23 +52,23 @@ public class SmsServiceClientImpl implements SmsServiceClient {
         request.setVersion("2017-05-25");
         request.setAction("SendSms");
         request.putQueryParameter("RegionId", "cn-hangzhou");
-        request.putQueryParameter("PhoneNumbers", sendMessageDto.getIphone());
+        request.putQueryParameter("PhoneNumbers", sendMessageParam.getIphone());
         request.putQueryParameter("SignName", signName);
         request.putQueryParameter("TemplateCode", templateCode);
-        request.putQueryParameter("TemplateParam", "{\"code\":\"" + sendMessageDto.getMessage()+ "\"}");
+        request.putQueryParameter("TemplateParam", "{\"code\":\"" + sendMessageParam.getMessage()+ "\"}");
         try {
             CommonResponse response = client.getCommonResponse(request);
             if (response.getHttpStatus() == 200){
                 JSONObject json = (JSONObject)JSON.parse(response.getData());
                 if (!"OK".equals(json.get("Message"))){
-                    sendMessageResponse.setSmsStatus("faild");
+                    sendMessageResult.setSmsStatus("faild");
                     log.error("短信发送失败：{}",json.get("Message") );
-                    sendMessageResponse.setBadReason(json.get("Message").toString());
+                    sendMessageResult.setBadReason(json.get("Message").toString());
                 }
             }
         } catch (ClientException e) {
             throw new RuntimeException("短信发送失败", e);
         }
-        return sendMessageResponse;
+        return sendMessageResult;
     }
 }

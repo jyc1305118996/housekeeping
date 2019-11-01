@@ -53,6 +53,9 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.haige.db.entity.UserBaseDO">
+    <selectKey resultType="int" keyProperty="ubdId" order="AFTER">
+      select @@identity
+    </selectKey>
     insert into haige_sys_user_base_dtls
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="ubdId != null">
@@ -250,5 +253,11 @@
     <include refid="Base_Column_List" />
     from haige_sys_user_base_dtls
     where UBD_TOKEN = #{token,jdbcType=INTEGER}
+  </select>
+  <select id="findByUnionid" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from haige_sys_user_base_dtls
+    where UBD_WECHAT_ID = #{unionid,jdbcType=INTEGER}
   </select>
 </mapper>

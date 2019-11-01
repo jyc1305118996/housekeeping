@@ -1,4 +1,4 @@
-package com.haige.integration.dto;
+package com.haige.integration.param;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,12 +6,12 @@ import lombok.NoArgsConstructor;
 
 /**
  * @author Archie
- * @date 2019/10/18 1:04
+ * @date 2019/11/1 23:55
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SendMessageDto {
-    private String iphone;
-    private String message;
+public class AccessTokenParam {
+    private String appid;
+    private String code;
 }

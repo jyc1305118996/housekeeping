@@ -1,7 +1,7 @@
 package com.haige.integration;
 
-import com.haige.integration.dto.SendMessageDto;
-import com.haige.integration.dto.SendMessageResponse;
+import com.haige.integration.param.SendMessageParam;
+import com.haige.integration.model.SendMessageResult;
 
 /**
  * @author Archie
@@ -11,7 +11,7 @@ public interface SmsServiceClient {
 
     /**
      * 短信发送
-     * @param sendMessageDto
+     * @param sendMessageParam
      */
-    SendMessageResponse sendMessage(SendMessageDto sendMessageDto);
+    SendMessageResult sendMessage(SendMessageParam sendMessageParam);
 }
