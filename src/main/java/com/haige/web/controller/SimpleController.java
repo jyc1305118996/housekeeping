@@ -5,9 +5,12 @@ import com.haige.auth.enums.PermissionType;
 import com.haige.common.bean.ResultInfo;
 import com.haige.service.SmsService;
 import com.haige.service.SystemUserService;
+import com.haige.service.UserBaseService;
 import com.haige.web.convert.SmsConvertUtils;
+import com.haige.web.convert.WXLoginConvertUtils;
 import com.haige.web.request.SavePersonRequest;
 import com.haige.web.vo.SendSmsRequest;
+import com.haige.web.vo.WXLoginVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -25,10 +28,6 @@ import javax.validation.Valid;
 @RequestMapping("/simple")
 @Slf4j
 public class SimpleController {
-
-
-    @Autowired
-    private SystemUserService systemUserService;
 
     @RequestMapping("/log")
     @Permission(PermissionType.ALL)
@@ -52,10 +51,5 @@ public class SimpleController {
                 .map(savePersonRequest -> "success!!!");
     }
 
-    @RequestMapping("testcode/{phone}/{code}")
-    public Mono<ResultInfo<String>> testcode(ServerWebExchange exchange, @PathVariable String phone ,@PathVariable String code) {
-        log.info(phone);
 
-        return systemUserService.loginByPhoneAndCode(phone, code, exchange);
-    }
 }
