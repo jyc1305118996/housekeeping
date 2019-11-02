@@ -45,6 +45,6 @@ aliyun:
     signName: "安居在家"
 # 微信相关
 wx:
-  secret: "anjuzaijia"
+  secret: "20a05924593018a0071d0817bb7193d2"
   accessTokenUrl: "https://api.weixin.qq.com/sns/oauth2/access_token"
   userInfoUrl: "https://api.weixin.qq.com/sns/userinfo"

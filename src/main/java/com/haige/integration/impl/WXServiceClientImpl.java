@@ -1,5 +1,7 @@
 package com.haige.integration.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.haige.integration.WXServiceClient;
 import com.haige.integration.model.UserinfoResult;
 import com.haige.integration.model.WXAccessTokenResult;
@@ -50,13 +52,14 @@ public class WXServiceClientImpl implements WXServiceClient {
         param.put("secret", secret);
         param.put("code", accessTokenParam.getCode());
         param.put("grant_type", grantType);
-        ResponseEntity<HashMap> responseEntity = restTemplate.getForEntity(accessTokenUrl, HashMap.class, param);
-        HashMap<String, String> body = responseEntity.getBody();
-        if (body.get("errcode") == null){
-            wxAccessTokenResult.setAccessToken(body.get("access_token"));
-            wxAccessTokenResult.setOpenid(body.get("openid"));
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(accessTokenUrl+"?appid={appid}&secret={secret}&code={code}&grant_type={grant_type}", String.class, param);
+        String body= responseEntity.getBody();
+        JSONObject parse = (JSONObject) JSON.parse(body);
+        if (parse.get("errcode") == null){
+            wxAccessTokenResult.setAccessToken(parse.get("access_token").toString());
+            wxAccessTokenResult.setOpenid(parse.get("openid").toString());
         }else {
-            throw new RuntimeException("调用微信授权接口出错："+ body.get("errmsg"));
+            throw new RuntimeException("调用微信授权接口出错："+ parse.get("errmsg"));
         }
         return wxAccessTokenResult;
     }
@@ -67,22 +70,23 @@ public class WXServiceClientImpl implements WXServiceClient {
         param.put("access_token", userinfoParam.getAccessToken());
         param.put("openid", userinfoParam.getOpenid());
         param.put("lang", "zh_CN");
-        ResponseEntity<HashMap> responseEntity = restTemplate.getForEntity(userInfoUrl, HashMap.class, param);
-        HashMap body = responseEntity.getBody();
-        if (body.get("errcode") == null){
-            userinfo.setOpenid(body.get("openid").toString());
-            userinfo.setNickname(body.get("nickname").toString());
-            userinfo.setSex(body.get("sex").toString());
-            userinfo.setProvince(body.get("province").toString());
-            userinfo.setCity(body.get("city").toString());
-            userinfo.setCountry(body.get("country").toString());
-            userinfo.setHeadimgurl(body.get("headimgurl").toString());
-            Object privilege = body.get("privilege");
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(userInfoUrl+"?access_token={access_token}&openid={openid}&lang={lang}", String.class, param);
+        String body= responseEntity.getBody();
+        JSONObject parse = (JSONObject) JSON.parse(body);
+        if (parse.get("errcode") == null){
+            userinfo.setOpenid(parse.get("openid").toString());
+            userinfo.setNickname(parse.get("nickname").toString());
+            userinfo.setSex(parse.get("sex").toString());
+            userinfo.setProvince(parse.get("province").toString());
+            userinfo.setCity(parse.get("city").toString());
+            userinfo.setCountry(parse.get("country").toString());
+            userinfo.setHeadimgurl(parse.get("headimgurl").toString());
+            Object privilege = parse.get("privilege");
             // todo 后期处理
             userinfo.setPrivilege(null);
-            userinfo.setUnionid(body.get("unionid").toString());
+            userinfo.setUnionid(parse.get("unionid").toString());
         }else {
-            throw new RuntimeException("获取微信用户信息失败:" + body.get("errmsg"));
+            throw new RuntimeException("获取微信用户信息失败:" + parse.get("errmsg"));
         }
         return userinfo;
     }

@@ -45,4 +45,6 @@ public class UserBaseDO {
     private String ubdToken;
 
     private String ubdTokenExpreDate;
+
+    private String ubdIsNew;
 }
