@@ -110,6 +110,7 @@ public class SystemUserServiceImpl implements SystemUserService {
                     // 微信用户识别码
                     userBaseDO.setUbdWechatId(result.getOpenid());
                     userBaseDO.setUbdUpdtTime(new Date());
+                    userBaseDO.setUbdFixedPhone(phone.get());
                     String token = UUID.randomUUID().toString();
                     userBaseDO.setUbdToken(token);
                     LocalDateTime expreDate = LocalDateTime.now().plus(30L, ChronoUnit.DAYS);
