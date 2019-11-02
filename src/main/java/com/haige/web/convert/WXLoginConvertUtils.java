@@ -1,6 +1,8 @@
 package com.haige.web.convert;
 
+import com.haige.service.dto.PhoneLoginDTO;
 import com.haige.service.dto.WXLoginDTO;
+import com.haige.web.vo.PhoneLoginVO;
 import com.haige.web.vo.WXLoginVO;
 import org.springframework.beans.BeanUtils;
 
@@ -13,6 +15,12 @@ public class WXLoginConvertUtils {
         WXLoginDTO wxLoginDTO = new WXLoginDTO();
         BeanUtils.copyProperties(wxLoginVO, wxLoginDTO);
         return wxLoginDTO;
+    }
+
+    public static PhoneLoginDTO toDTO(PhoneLoginVO phoneLoginVO){
+        PhoneLoginDTO phoneLoginDTO = new PhoneLoginDTO();
+        BeanUtils.copyProperties(phoneLoginVO, phoneLoginDTO);
+        return phoneLoginDTO;
     }
 }
 

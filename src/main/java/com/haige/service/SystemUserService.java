@@ -3,7 +3,7 @@ package com.haige.service;
 
 
 import com.haige.common.bean.ResultInfo;
-import com.haige.web.vo.PhoneLoginVO;
+import com.haige.service.dto.PhoneLoginDTO;
 import com.haige.web.vo.UserBaseVO;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ServerWebExchange;
@@ -25,5 +25,5 @@ public interface SystemUserService {
    * @author: huxianming
    * @date: 2019-10-20
    */
-   Mono<ResultInfo<UserBaseVO>> loginByPhoneAndCode(ServerWebExchange exchange, Mono<PhoneLoginVO> phone);
+   Mono<ResultInfo<UserBaseVO>> loginByPhoneAndCode(ServerWebExchange exchange, Mono<PhoneLoginDTO> phone);
 }

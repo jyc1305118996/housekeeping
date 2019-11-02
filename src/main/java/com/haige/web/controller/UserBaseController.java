@@ -34,7 +34,7 @@ public class UserBaseController {
     @PostMapping(value = "/login/phone", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Mono<ResultInfo<UserBaseVO>> testcode(ServerWebExchange exchange, @RequestBody @Valid Mono<PhoneLoginVO> phone) {
-        return systemUserService.loginByPhoneAndCode(exchange, phone);
+        return systemUserService.loginByPhoneAndCode(exchange, phone.map(WXLoginConvertUtils::toDTO));
     }
 
     /**

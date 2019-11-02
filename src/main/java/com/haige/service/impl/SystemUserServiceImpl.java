@@ -9,9 +9,9 @@ import com.haige.integration.WXServiceClient;
 import com.haige.integration.param.AccessTokenParam;
 import com.haige.service.SystemUserService;
 import com.haige.service.convert.UserBaseConvertUtils;
+import com.haige.service.dto.PhoneLoginDTO;
 import com.haige.util.DateUtils;
 import com.haige.util.SystemUtils;
-import com.haige.web.vo.PhoneLoginVO;
 import com.haige.web.vo.UserBaseVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,15 +52,15 @@ public class SystemUserServiceImpl implements SystemUserService {
      * @return
      */
     @Override
-    public Mono<ResultInfo<UserBaseVO>> loginByPhoneAndCode(ServerWebExchange exchange, Mono<PhoneLoginVO> loginVOMono) {
-
+    public Mono<ResultInfo<UserBaseVO>> loginByPhoneAndCode(ServerWebExchange exchange, Mono<PhoneLoginDTO> loginVOMono) {
         // 验证session
-        Mono<PhoneLoginVO> phoneLoginVOMono = loginVOMono
+        Mono<PhoneLoginDTO> phoneLoginVOMono = loginVOMono
                 .zipWith(exchange.getSession(), (loginVO, session) -> {
                     String ip = SystemUtils.getIp(exchange);
                     String phone = loginVO.getPhone();
                     String checkCode = loginVO.getCheckCode();
                     String sysCode = session.getAttributes().get(phone) == null ? "" : session.getAttributes().get(phone).toString();
+                    log.info("获取到的验证码是,sysCode：{}, checkCode:{}", sysCode, checkCode);
                     //验证码不对
                     if (!checkCode.equals(sysCode)) {
                         throw new RuntimeException("验证码不正确");
