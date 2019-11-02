@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import reactor.core.publisher.Mono;
 
 /**
  * @author Archie
@@ -25,7 +26,7 @@ public class WXServiceClientTest {
         AccessTokenParam accessTokenParam = new AccessTokenParam();
         accessTokenParam.setCode("021q1wOu0FNsbi1gSxPu0Wk6Ou0q1wOO");
         accessTokenParam.setAppid("wxfa36502f2a933ddf");
-        WXAccessTokenResult accessToken = wxServiceClient.getAccessToken(accessTokenParam);
+        Mono<WXAccessTokenResult> accessToken = wxServiceClient.getAccessToken(Mono.just(accessTokenParam));
         Assert.assertNotNull(accessToken);
 
     }

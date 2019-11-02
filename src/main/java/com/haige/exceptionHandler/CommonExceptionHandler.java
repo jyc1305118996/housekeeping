@@ -53,4 +53,12 @@ public class CommonExceptionHandler {
         errorResultInfo.setMessage("请求出错啦");
         return errorResultInfo;
     }
+    @ExceptionHandler(RuntimeException.class)
+    public ResultInfo<String> exception(RuntimeException ex){
+        log.error("异常信息:{}", ex.getMessage(), ex);
+        ResultInfo<String> errorResultInfo = new ResultInfo<String>();
+        errorResultInfo.setCode(StatusCode.BAD_REQUEST.getCode());
+        errorResultInfo.setMessage(ex.getMessage());
+        return errorResultInfo;
+    }
 }

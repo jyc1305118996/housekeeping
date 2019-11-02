@@ -2,6 +2,7 @@ package com.haige.service.convert;
 
 import com.haige.db.entity.UserBaseDO;
 import com.haige.service.dto.UserBaseDTO;
+import com.haige.web.vo.UserBaseVO;
 import org.springframework.beans.BeanUtils;
 
 /**
@@ -18,5 +19,10 @@ public class UserBaseConvertUtils {
         UserBaseDO userBaseDO = new UserBaseDO();
         BeanUtils.copyProperties(userBaseDTO, userBaseDO);
         return userBaseDO;
+    }
+    public static UserBaseVO toVO(UserBaseDO userBaseDO){
+        UserBaseVO userBaseVO = new UserBaseVO();
+        BeanUtils.copyProperties(userBaseDO, userBaseVO);
+        return userBaseVO;
     }
 }

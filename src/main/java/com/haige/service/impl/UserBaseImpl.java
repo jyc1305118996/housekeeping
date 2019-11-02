@@ -14,8 +14,10 @@ import com.haige.service.convert.UserBaseConvertUtils;
 import com.haige.service.dto.UserBaseDTO;
 import com.haige.service.dto.WXLoginDTO;
 import com.haige.util.DateUtils;
+import com.haige.web.vo.UserBaseVO;
 import com.haige.web.vo.WXLoginVO;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -24,6 +26,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @author Archie
@@ -52,41 +55,54 @@ public class UserBaseImpl implements UserBaseService {
     }
 
     @Override
-    public Mono<ResultInfo<String>> wxLogin(Mono<WXLoginDTO> wxLoginDTO) {
-        return wxLoginDTO
-                .map(wxLoginDTO1 -> {
-                    AccessTokenParam accessTokenParam = new AccessTokenParam();
-                    accessTokenParam.setAppid(wxLoginDTO1.getAppid());
-                    accessTokenParam.setCode(wxLoginDTO1.getCode());
-                    // 获取接口权限
-                    WXAccessTokenResult result = wxServiceClient.getAccessToken(accessTokenParam);
-                    UserinfoParam userinfoParam = new UserinfoParam();
-                    userinfoParam.setOpenid(result.getOpenid());
-                    userinfoParam.setAccessToken(result.getAccessToken());
-                    // 获取用户信息
-                    UserinfoResult userinfo = wxServiceClient.getUserinfo(userinfoParam);
-                    return userinfo;
-                })
-                .map(userinfo -> {
-                    UserBaseDO userBaseDO = userBaseDOMapper.findByUnionid(userinfo.getUnionid());
+    public Mono<ResultInfo<UserBaseVO>> wxLogin(Mono<WXLoginDTO> wxLoginDTO) {
+        AtomicReference<String> nickName = new AtomicReference<>();
+        AtomicReference<String> avatarUrl = new AtomicReference<>();
+        AtomicReference<String> gender = new AtomicReference<>();
+        return wxServiceClient
+                .getAccessToken(
+                        // 参数转换
+                        wxLoginDTO
+                                .doOnNext(wxLoginDTO1 -> {
+                                    nickName.set(wxLoginDTO1.getNickName());
+                                    avatarUrl.set(wxLoginDTO1.getAvatarUrl());
+                                    gender.set(wxLoginDTO1.getGender());
+                                })
+                                .map(wxLoginDTO1 -> {
+                                    AccessTokenParam accessTokenParam = new AccessTokenParam();
+                                    accessTokenParam.setAppid(wxLoginDTO1.getAppid());
+                                    accessTokenParam.setCode(wxLoginDTO1.getCode());
+                                    return accessTokenParam;
+                                })
+                )
+                .map(result -> {
+                    // 结果处理
+                    UserBaseDO userBaseDO = userBaseDOMapper.findByUnionid(result.getOpenid());
                     if (userBaseDO == null) {
                         // 新用户
                         userBaseDO = new UserBaseDO();
-                        // 用户昵称
-                        userBaseDO.setUbdPoliceName(userinfo.getNickname());
-                        // 微信用户识别码
-                        userBaseDO.setUbdWechatId(userinfo.getUnionid());
+                        userBaseDO.setUbdCrteTime(new Date());
+                        // 头像
+                        userBaseDO.setUbdHeadPortrait(avatarUrl.get());
+                        userBaseDO.setUbdIsNew("1");
                         userBaseDOMapper.insertSelective(userBaseDO);
                     }
+                    // 每次登陆都刷新昵称和头像
+                    // 用户昵称
+                    userBaseDO.setUbdPoliceName(nickName.get());
+                    // 微信用户识别码
+                    userBaseDO.setUbdWechatId(result.getOpenid());
                     String token = UUID.randomUUID().toString();
                     userBaseDO.setUbdToken(token);
+                    userBaseDO.setUbdUpdtTime(new Date());
                     LocalDateTime expreDate = LocalDateTime.now().plus(30L, ChronoUnit.DAYS);
                     userBaseDO.setUbdTokenExpreDate(DateUtils.convertToString(expreDate));
                     userBaseDOMapper.updateByPrimaryKey(userBaseDO);
-                    return token;
-                }).map(token -> {
-                    ResultInfo<String> resultInfo = new ResultInfo<>(StatusCode.OK);
-                    resultInfo.setData(token);
+                    return userBaseDO;
+                }).map(userBaseDO -> {
+                    UserBaseVO userBaseVO = UserBaseConvertUtils.toVO(userBaseDO);
+                    ResultInfo<UserBaseVO> resultInfo = new ResultInfo<>(StatusCode.OK);
+                    resultInfo.setData(userBaseVO);
                     return resultInfo;
                 });
     }

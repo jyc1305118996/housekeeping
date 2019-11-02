@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class WXAccessTokenResult {
-    private String accessToken;
+    private String sessionKey;
     private String openid;
 }

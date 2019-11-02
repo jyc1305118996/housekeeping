@@ -3,6 +3,7 @@ package com.haige.service;
 import com.haige.common.bean.ResultInfo;
 import com.haige.service.dto.UserBaseDTO;
 import com.haige.service.dto.WXLoginDTO;
+import com.haige.web.vo.UserBaseVO;
 import reactor.core.publisher.Mono;
 
 /**
@@ -14,5 +15,5 @@ public interface UserBaseService {
 
     UserBaseDTO findByToken(String token);
 
-    Mono<ResultInfo<String>> wxLogin(Mono<WXLoginDTO> wxLoginDTO);
+    Mono<ResultInfo<UserBaseVO>> wxLogin(Mono<WXLoginDTO> wxLoginDTO);
 }

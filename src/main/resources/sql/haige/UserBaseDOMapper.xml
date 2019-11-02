@@ -21,11 +21,12 @@
     <result column="UBD_TOKEN" jdbcType="VARCHAR" property="ubdToken" />
     <result column="UBD_TOKEN_EXPRE_DATE" jdbcType="VARCHAR" property="ubdTokenExpreDate" />
     <result column="UBD_IS_NEW" jdbcType="VARCHAR" property="ubdIsNew" />
+    <result column="UBD_HEAD_PORTRAIT" jdbcType="VARCHAR" property="ubdHeadPortrait" />
   </resultMap>
   <sql id="Base_Column_List">
     UBD_ID, UBD_NAME, UBD_PASS, UBD_EXPRE_DATE, UBD_LAST_TIME, UBD_LAST_IP, UBD_USE, 
     UBD_ADMIN, UBD_POLICE_NAME, UBD_FIXED_PHONE, UBD_SEQ, UBD_CRTE_USER_ID, UBD_CRTE_TIME, 
-    UBD_UPDT_USER_ID, UBD_UPDT_TIME, UBD_WECHAT_ID, UBD_TOKEN, UBD_TOKEN_EXPRE_DATE,UBD_IS_NEW
+    UBD_UPDT_USER_ID, UBD_UPDT_TIME, UBD_WECHAT_ID, UBD_TOKEN, UBD_TOKEN_EXPRE_DATE,UBD_IS_NEW,UBD_HEAD_PORTRAIT
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -43,14 +44,15 @@
       UBD_USE, UBD_ADMIN, UBD_POLICE_NAME, 
       UBD_FIXED_PHONE, UBD_SEQ, UBD_CRTE_USER_ID, 
       UBD_CRTE_TIME, UBD_UPDT_USER_ID, UBD_UPDT_TIME, 
-      UBD_WECHAT_ID, UBD_TOKEN, UBD_TOKEN_EXPRE_DATE, UBD_IS_NEW
+      UBD_WECHAT_ID, UBD_TOKEN, UBD_TOKEN_EXPRE_DATE, UBD_IS_NEW,UBD_HEAD_PORTRAIT
       )
     values (#{ubdId,jdbcType=INTEGER}, #{ubdName,jdbcType=VARCHAR}, #{ubdPass,jdbcType=VARCHAR}, 
       #{ubdExpreDate,jdbcType=TIMESTAMP}, #{ubdLastTime,jdbcType=TIMESTAMP}, #{ubdLastIp,jdbcType=VARCHAR}, 
       #{ubdUse,jdbcType=DECIMAL}, #{ubdAdmin,jdbcType=DECIMAL}, #{ubdPoliceName,jdbcType=VARCHAR}, 
       #{ubdFixedPhone,jdbcType=VARCHAR}, #{ubdSeq,jdbcType=DECIMAL}, #{ubdCrteUserId,jdbcType=DECIMAL}, 
       #{ubdCrteTime,jdbcType=TIMESTAMP}, #{ubdUpdtUserId,jdbcType=DECIMAL}, #{ubdUpdtTime,jdbcType=TIMESTAMP}, 
-      #{ubdWechatId,jdbcType=VARCHAR}, #{ubdToken,jdbcType=VARCHAR}, #{ubdTokenExpreDate,jdbcType=VARCHAR},#{ubdIsNew,jdbcType=VARCHAR}
+      #{ubdWechatId,jdbcType=VARCHAR}, #{ubdToken,jdbcType=VARCHAR}, #{ubdTokenExpreDate,jdbcType=VARCHAR},#{ubdIsNew,jdbcType=VARCHAR},
+      #{ubdHeadPortrait,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.haige.db.entity.UserBaseDO">
@@ -116,6 +118,9 @@
       <if test="ubdIsNew != null">
         UBD_IS_NEW,
       </if>
+      <if test="ubdHeadPortrait != null">
+        UBD_HEAD_PORTRAIT,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="ubdId != null">
@@ -174,6 +179,9 @@
       </if>
       <if test="ubdIsNew != null">
         #{ubdIsNew,jdbcType=VARCHAR},
+      </if>
+      <if test="ubdHeadPortrait != null">
+        #{ubdHeadPortrait,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -234,6 +242,9 @@
       <if test="ubdIsNew != null">
         UBD_IS_NEW = #{ubdTokenExpreDate,jdbcType=VARCHAR},
       </if>
+      <if test="ubdHeadPortrait != null">
+        UBD_HEAD_PORTRAIT = #{ubdHeadPortrait,jdbcType=VARCHAR},
+      </if>
     </set>
     where UBD_ID = #{ubdId,jdbcType=INTEGER}
   </update>
@@ -256,7 +267,8 @@
       UBD_WECHAT_ID = #{ubdWechatId,jdbcType=VARCHAR},
       UBD_TOKEN = #{ubdToken,jdbcType=VARCHAR},
       UBD_TOKEN_EXPRE_DATE = #{ubdTokenExpreDate,jdbcType=VARCHAR},
-      UBD_IS_NEW = #{ubdIsNew,jdbcType=VARCHAR}
+      UBD_IS_NEW = #{ubdIsNew,jdbcType=VARCHAR},
+      UBD_HEAD_PORTRAIT = #{ubdHeadPortrait,jdbcType=VARCHAR}
     where UBD_ID = #{ubdId,jdbcType=INTEGER}
   </update>
   <select id="findByToken" resultMap="BaseResultMap">

@@ -47,4 +47,6 @@ public class UserBaseDO {
     private String ubdTokenExpreDate;
 
     private String ubdIsNew;
+
+    private String ubdHeadPortrait;
 }

@@ -16,7 +16,13 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class WXLoginVO {
+public class PhoneLoginVO {
+    @NotNull
+    @Length(min = 1)
+    private String phone;
+    @NotNull
+    @Length(min = 1)
+    private String checkCode;
     @NotNull
     @Length(min = 1)
     private String code;
