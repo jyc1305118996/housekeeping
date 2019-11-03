@@ -18,6 +18,7 @@ import javax.validation.constraints.NotNull;
 public class WXLoginDTO {
     private String code;
     private String appid ;
+    private String secret;
     private String nickName ;
     private String avatarUrl ;
     private String gender ;

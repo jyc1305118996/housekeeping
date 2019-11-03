@@ -21,6 +21,7 @@ public class PhoneLoginDTO {
     private String checkCode;
     private String code;
     private String appid;
+    private String secret;
     private String nickName;
     private String avatarUrl;
 

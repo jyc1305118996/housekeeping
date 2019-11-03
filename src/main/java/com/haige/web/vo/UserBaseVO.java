@@ -11,13 +11,11 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserBaseVO {
-    private String ubdName;
-
     private String ubdPoliceName;
-
-    private String ubdFixedPhone;
 
     private String ubdToken;
 
     private String ubdIsNew;
+
+    private String ubdHeadPortrait;
 }

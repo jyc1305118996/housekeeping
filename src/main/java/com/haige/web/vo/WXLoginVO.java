@@ -23,6 +23,10 @@ public class WXLoginVO {
     @NotNull
     @Length(min = 1)
     private String appid;
+
+    @NotNull
+    @Length(min = 1)
+    private String secret;
     @NotNull
     @Length(min = 1)
     private String nickName;

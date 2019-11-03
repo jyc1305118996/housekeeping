@@ -14,4 +14,5 @@ import lombok.NoArgsConstructor;
 public class AccessTokenParam {
     private String appid;
     private String code;
+    private String secret;
 }

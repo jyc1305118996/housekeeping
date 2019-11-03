@@ -31,6 +31,9 @@ public class PhoneLoginVO {
     private String appid;
     @NotNull
     @Length(min = 1)
+    private String secret;
+    @NotNull
+    @Length(min = 1)
     private String nickName;
     @NotNull
     @Length(min = 1)

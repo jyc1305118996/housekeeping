@@ -72,6 +72,7 @@ public class UserBaseImpl implements UserBaseService {
                                     AccessTokenParam accessTokenParam = new AccessTokenParam();
                                     accessTokenParam.setAppid(wxLoginDTO1.getAppid());
                                     accessTokenParam.setCode(wxLoginDTO1.getCode());
+                                    accessTokenParam.setSecret(wxLoginDTO1.getSecret());
                                     return accessTokenParam;
                                 })
                 )

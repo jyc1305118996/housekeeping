@@ -27,9 +27,6 @@ import java.util.HashMap;
 @Slf4j
 public class WXServiceClientImpl implements WXServiceClient {
 
-    @Value("${wx.secret}")
-    public String secret;
-
     /**
      * 获取接口权限
      */
@@ -51,7 +48,7 @@ public class WXServiceClientImpl implements WXServiceClient {
                 .map(accessTokenParam1 -> {
                     HashMap<String, String> param = new HashMap<>();
                     param.put("appid", accessTokenParam1.getAppid());
-                    param.put("secret", secret);
+                    param.put("secret", accessTokenParam1.getSecret());
                     param.put("js_code", accessTokenParam1.getCode());
                     param.put("grant_type", grantType);
                     return restTemplate.getForEntity(accessTokenUrl + "?appid={appid}&secret={secret}&js_code={js_code}&grant_type={grant_type}", String.class, param);
