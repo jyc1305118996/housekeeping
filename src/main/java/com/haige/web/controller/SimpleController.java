@@ -37,7 +37,7 @@ import javax.validation.Valid;
 @Slf4j
 public class SimpleController {
 
-<<<<<<< HEAD
+
 
     @Autowired
     private SystemUserService systemUserService;
@@ -45,8 +45,7 @@ public class SimpleController {
     @Autowired
     private FileUtils fileUtils;
 
-=======
->>>>>>> 7ad2b7103cefaa8b27277202d6790cb2065f44d0
+
     @RequestMapping("/log")
     @Permission(PermissionType.ALL)
     public String log() {
