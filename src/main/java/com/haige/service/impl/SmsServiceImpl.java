@@ -5,8 +5,8 @@ import com.haige.common.enums.StatusCode;
 import com.haige.db.entity.ShortMsgDO;
 import com.haige.db.mapper.ShortMsgDOMapper;
 import com.haige.integration.SmsServiceClient;
-import com.haige.integration.dto.SendMessageDto;
-import com.haige.integration.dto.SendMessageResponse;
+import com.haige.integration.param.SendMessageParam;
+import com.haige.integration.model.SendMessageResult;
 import com.haige.service.SmsService;
 import com.haige.service.convert.ShortMsgConvertUtils;
 import com.haige.service.dto.SendSmsDTO;
@@ -15,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.server.WebSession;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -55,15 +54,15 @@ public class SmsServiceImpl implements SmsService {
     public Mono<ResultInfo<String>> sendSms(Mono<SendSmsDTO> sendSmsDTO, Mono<WebSession> webSessionMono) {
         return sendSmsDTO
                 .map(smsDTO -> {
-                    SendMessageDto sendMessageDto = new SendMessageDto();
-                    sendMessageDto.setIphone(smsDTO.getIphone());
+                    SendMessageParam sendMessageParam = new SendMessageParam();
+                    sendMessageParam.setIphone(smsDTO.getIphone());
                     // todo 验证码
-                    sendMessageDto.setMessage(RandomStringUtils.random(6, false, true));
-                    SendMessageResponse sendMessageResponse = smsServiceClient.sendMessage(sendMessageDto);
-                    if ("success".equals(sendMessageResponse.getSmsStatus())) {
-                        log.info("验证码发送成功:iphone:{},message:{}", smsDTO.getIphone(), sendMessageResponse.getMessage());
+                    sendMessageParam.setMessage(RandomStringUtils.random(6, false, true));
+                    SendMessageResult sendMessageResult = smsServiceClient.sendMessage(sendMessageParam);
+                    if ("success".equals(sendMessageResult.getSmsStatus())) {
+                        log.info("验证码发送成功:iphone:{},message:{}", smsDTO.getIphone(), sendMessageResult.getMessage());
                         webSessionMono.subscribe(webSession -> {
-                            webSession.getAttributes().put(smsDTO.getIphone(), sendMessageResponse.getMessage());
+                            webSession.getAttributes().put(smsDTO.getIphone(), sendMessageResult.getMessage());
                             TimerUtils.schedule(
                                     new TimerTask() {
                                         @Override
@@ -77,9 +76,9 @@ public class SmsServiceImpl implements SmsService {
                         });
                     }
                     ShortMsgDO shortMsgDO = ShortMsgConvertUtils.toDo(smsDTO);
-                    shortMsgDO.setSmiBadReason(sendMessageResponse.getBadReason());
-                    shortMsgDO.setSmiState(sendMessageResponse.getSmsStatus());
-                    shortMsgDO.setSmiContent(sendMessageResponse.getMessage());
+                    shortMsgDO.setSmiBadReason(sendMessageResult.getBadReason());
+                    shortMsgDO.setSmiState(sendMessageResult.getSmsStatus());
+                    shortMsgDO.setSmiContent(sendMessageResult.getMessage());
                     shortMsgDO.setSmiIp(smsDTO.getIp());
                     shortMsgDO.setSmiReceiverPhone(smsDTO.getIphone());
                     shortMsgDO.setSmiType(smsDTO.getType());

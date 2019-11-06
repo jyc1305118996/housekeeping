@@ -1,4 +1,4 @@
-package com.haige.db.entity;
+package com.haige.service.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,10 +6,11 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserBaseDO {
+public class UserBaseDTO {
     private Integer ubdId;
 
     private String ubdName;
@@ -45,8 +46,4 @@ public class UserBaseDO {
     private String ubdToken;
 
     private String ubdTokenExpreDate;
-
-    private String ubdIsNew;
-
-    private String ubdHeadPortrait;
 }

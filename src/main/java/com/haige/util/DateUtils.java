@@ -34,4 +34,8 @@ public class DateUtils {
     public static LocalDate convertToDate(String localDate){
         return LocalDate.parse(localDate, dateFormatter);
     }
+
+    public static String convertToString(LocalDateTime localDateTime){
+        return localDateTime.format(dateTimeFormatter);
+    }
 }

@@ -7,10 +7,16 @@ import com.haige.common.bean.ResultInfo;
 import com.haige.common.enums.StatusCode;
 import com.haige.service.SmsService;
 import com.haige.service.SystemUserService;
+<<<<<<< HEAD
 import com.haige.util.FileUtils;
+=======
+import com.haige.service.UserBaseService;
+>>>>>>> 7ad2b7103cefaa8b27277202d6790cb2065f44d0
 import com.haige.web.convert.SmsConvertUtils;
+import com.haige.web.convert.WXLoginConvertUtils;
 import com.haige.web.request.SavePersonRequest;
 import com.haige.web.vo.SendSmsRequest;
+import com.haige.web.vo.WXLoginVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -31,6 +37,7 @@ import javax.validation.Valid;
 @Slf4j
 public class SimpleController {
 
+<<<<<<< HEAD
 
     @Autowired
     private SystemUserService systemUserService;
@@ -38,6 +45,8 @@ public class SimpleController {
     @Autowired
     private FileUtils fileUtils;
 
+=======
+>>>>>>> 7ad2b7103cefaa8b27277202d6790cb2065f44d0
     @RequestMapping("/log")
     @Permission(PermissionType.ALL)
     public String log() {
@@ -60,7 +69,7 @@ public class SimpleController {
                 .map(savePersonRequest -> "success!!!");
     }
 
-    @RequestMapping("testcode/{phone}/{code}")
+     @RequestMapping("testcode/{phone}/{code}")
     public Mono<ResultInfo<String>> testcode(ServerWebExchange exchange, @PathVariable String phone, @PathVariable String code) {
         log.info(phone);
 
@@ -94,4 +103,5 @@ public class SimpleController {
 
         return systemUserService.loginByPhoneAndCode("1",  "1", exchange);
     }
+
 }

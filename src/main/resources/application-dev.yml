@@ -36,10 +36,18 @@ pagehelper:
   params: "count=countSql"
 logging:
   config: classpath:log4j2.yml
+# 阿里云短信相关
 aliyun:
   sms:
     accessKeyId: "LTAI4Fhz9C1SMqgUTgJYPA2x"
     accessSecret: "cLh4tNX44oH3XQUHa6G2lnhPOhjPyc"
     templateCode: "SMS_176523402"
     signName: "安居在家"
+<<<<<<< HEAD
 
+=======
+# 微信相关
+wx:
+  accessTokenUrl: "https://api.weixin.qq.com/sns/jscode2session"
+  userInfoUrl: "https://api.weixin.qq.com/sns/userinfo"
+>>>>>>> 7ad2b7103cefaa8b27277202d6790cb2065f44d0

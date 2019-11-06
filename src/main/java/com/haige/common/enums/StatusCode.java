@@ -61,14 +61,14 @@ public enum StatusCode {
      * 登录过期
      */
 
-    BEOVERDUE(408, "Be overdue"),
+    BEOVERDUE(408, "登陆过期"),
 
 
     /**
      * 用户未登录
      */
 
-    NOT_LOGIN(409, "Not logged in"),
+    NOT_LOGIN(409, "未登录"),
 
 
     /**
