@@ -92,6 +92,6 @@ public class SimpleController {
     public Mono<ResultInfo<String>> testcode1(ServerWebExchange exchange, @PathVariable String phone, @PathVariable String code) {
         log.info("1x");
 
-        return systemUserService.loginByPhoneAndCode("1", "1", exchange);
+        return systemUserService.loginByPhoneAndCode("1",  "1", exchange);
     }
 }
