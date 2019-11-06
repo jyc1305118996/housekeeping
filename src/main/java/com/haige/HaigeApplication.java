@@ -3,24 +3,9 @@ package com.haige;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-<<<<<<< HEAD
-import org.springframework.core.io.FileUrlResource;
-import org.springframework.util.ResourceUtils;
-import org.springframework.web.context.request.RequestContextListener;
-import org.springframework.web.reactive.function.server.RouterFunction;
-import org.springframework.web.reactive.function.server.RouterFunctions;
-import org.springframework.web.reactive.function.server.ServerResponse;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.net.MalformedURLException;
-=======
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.filter.reactive.HiddenHttpMethodFilter;
-import org.springframework.web.server.ServerWebExchange;
-import org.springframework.web.server.WebFilterChain;
-import reactor.core.publisher.Mono;
->>>>>>> 7ad2b7103cefaa8b27277202d6790cb2065f44d0
+
 
 /**
  * @author Archie
