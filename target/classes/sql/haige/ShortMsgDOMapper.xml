@@ -14,11 +14,11 @@
     <result column="smi_bad_reason" jdbcType="VARCHAR" property="smiBadReason" />
   </resultMap>
   <sql id="Base_Column_List">
-    smi_mesagge_id, smi_sender, smi_receiver, smi_content, smi_sender_time, smi_receiver_phone,
+    smi_mesagge_id, smi_sender, smi_receiver, smi_content, smi_sender_time, smi_receiver_phone, 
     smi_ip, smi_type, smi_state, smi_bad_reason
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select
+    select 
     <include refid="Base_Column_List" />
     from haige_sys_short_msg_info
     where smi_mesagge_id = #{smiMesaggeId,jdbcType=BIGINT}
@@ -28,13 +28,13 @@
     where smi_mesagge_id = #{smiMesaggeId,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.haige.db.entity.ShortMsgDO">
-    insert into haige_sys_short_msg_info (smi_mesagge_id, smi_sender, smi_receiver,
-      smi_content, smi_sender_time, smi_receiver_phone,
-      smi_ip, smi_type, smi_state,
+    insert into haige_sys_short_msg_info (smi_mesagge_id, smi_sender, smi_receiver, 
+      smi_content, smi_sender_time, smi_receiver_phone, 
+      smi_ip, smi_type, smi_state, 
       smi_bad_reason)
-    values (#{smiMesaggeId,jdbcType=BIGINT}, #{smiSender,jdbcType=VARCHAR}, #{smiReceiver,jdbcType=VARCHAR},
-      #{smiContent,jdbcType=VARCHAR}, #{smiSenderTime,jdbcType=VARCHAR}, #{smiReceiverPhone,jdbcType=VARCHAR},
-      #{smiIp,jdbcType=VARCHAR}, #{smiType,jdbcType=VARCHAR}, #{smiState,jdbcType=VARCHAR},
+    values (#{smiMesaggeId,jdbcType=BIGINT}, #{smiSender,jdbcType=VARCHAR}, #{smiReceiver,jdbcType=VARCHAR}, 
+      #{smiContent,jdbcType=VARCHAR}, #{smiSenderTime,jdbcType=VARCHAR}, #{smiReceiverPhone,jdbcType=VARCHAR}, 
+      #{smiIp,jdbcType=VARCHAR}, #{smiType,jdbcType=VARCHAR}, #{smiState,jdbcType=VARCHAR}, 
       #{smiBadReason,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.haige.db.entity.ShortMsgDO">
