@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bf03c33e-ce3d-4cd3-b340-076a7258081d" name="Default Changelist" comment="文件工具类">
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/src/main/java/com/haige/HaigeApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/haige/HaigeApplication.java" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/haige/web/controller/SimpleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/haige/web/controller/SimpleController.java" afterDir="false" />
+>>>>>>> hxm
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -19,8 +23,13 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/haige/web/controller/SimpleController.java">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="-527">
               <caret line="39" selection-start-line="39" selection-end-line="39" />
+=======
+            <state relative-caret-position="219">
+              <caret line="17" selection-start-line="17" selection-end-line="17" />
+>>>>>>> hxm
               <folding>
                 <element signature="e#2741#2749#0" expanded="true" />
               </folding>
@@ -84,6 +93,12 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="75">
               <caret line="5" selection-start-line="5" selection-end-line="5" />
+<<<<<<< HEAD
+=======
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+>>>>>>> hxm
             </state>
           </provider>
         </entry>
@@ -396,7 +411,11 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="54004000" />
+=======
+    <option name="totallyTimeSpent" value="54018000" />
+>>>>>>> hxm
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -765,6 +784,19 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
+=======
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/haige/HaigeApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+>>>>>>> hxm
     <entry file="file://$PROJECT_DIR$/src/main/resources/application-dev.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
@@ -818,8 +850,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/haige/web/controller/SimpleController.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="-527">
           <caret line="39" selection-start-line="39" selection-end-line="39" />
+=======
+        <state relative-caret-position="219">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+>>>>>>> hxm
           <folding>
             <element signature="e#2741#2749#0" expanded="true" />
           </folding>
