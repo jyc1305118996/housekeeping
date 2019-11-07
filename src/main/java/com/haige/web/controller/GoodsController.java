@@ -42,14 +42,22 @@ public class GoodsController {
      *
      * @return
      */
-    @GetMapping(value = "/queryList",
+    @GetMapping(value = "/queryGoodsList",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @Permission(PermissionType.ALL)
-    public Mono<ResultInfo<List<GoodsInfoDO>>> testValid() {
+    public Mono<ResultInfo<List<GoodsInfoDO>>> queryGoodsList() {
         return goodsInfoService.goodsInfoList();
     }
 
 
+    @GetMapping(value = "/queryGoodsInfoByid/{goodid}",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @Permission(PermissionType.ALL)
+    public Mono<ResultInfo<GoodsInfoDO>> queryGoodsid(@PathVariable Integer goodid) {
+
+
+        return goodsInfoService.goodsInfoById(goodid);
+    }
 
 
 
