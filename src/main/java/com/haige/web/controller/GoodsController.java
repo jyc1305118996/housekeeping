@@ -42,10 +42,10 @@ public class GoodsController {
      *
      * @return
      */
-    @GetMapping(value = "/queryList",
+    @GetMapping(value = "/queryGoodsInfoList",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @Permission(PermissionType.ALL)
-    public Mono<ResultInfo<List<GoodsInfoDO>>> testValid() {
+    public Mono<ResultInfo<List<GoodsInfoDO>>> queryGoodsInfoList() {
         return goodsInfoService.goodsInfoList();
     }
 
