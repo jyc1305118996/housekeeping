@@ -19,4 +19,13 @@ public interface GoodsInfoService {
      */
 
     Mono<ResultInfo<List<GoodsInfoDO>>> goodsInfoList();
+
+
+    /**
+     * 根据id查询 具体套餐信息
+     * @param goodsid
+     * @return
+     */
+    Mono<ResultInfo<GoodsInfoDO>> goodsInfoById(Integer goodsid);
+
 }

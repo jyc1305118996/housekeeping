@@ -19,7 +19,7 @@ import java.util.List;
  */
 @Service
 @Slf4j
-
+@SuppressWarnings("all")
 public class GoodsInfoServiceImpl implements GoodsInfoService {
 
     @Autowired
@@ -31,6 +31,16 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
         ResultInfo<List<GoodsInfoDO>> result = new ResultInfo<List<GoodsInfoDO>>();
         result.setData(goodsInfoDoList);
         result.setCount(String.valueOf(goodsInfoDoList.size()));
+        result.setCode(StatusCode.OK.getCode());
+        result.setMessage(StatusCode.OK.getValue());
+        return Mono.justOrEmpty(result);
+    }
+
+    @Override
+    public Mono<ResultInfo<GoodsInfoDO>> goodsInfoById(Integer goodsid) {
+        GoodsInfoDO goodsInfoDo = goodsInfoDOMapper.selectByPrimaryKey(goodsid);
+        ResultInfo<GoodsInfoDO> result = new ResultInfo<GoodsInfoDO>();
+        result.setData(goodsInfoDo);
         result.setCode(StatusCode.OK.getCode());
         result.setMessage(StatusCode.OK.getValue());
         return Mono.justOrEmpty(result);
