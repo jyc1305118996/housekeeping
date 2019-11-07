@@ -221,4 +221,12 @@
       goods_update_user = #{goodsUpdateUser,jdbcType=TIMESTAMP}
     where goods_Id = #{goodsId,jdbcType=INTEGER}
   </update>
+
+  <select id="findGoodsInfoDoList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from haige_goods_info
+
+
+  </select>
 </mapper>
