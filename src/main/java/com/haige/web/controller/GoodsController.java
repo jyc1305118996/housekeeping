@@ -2,23 +2,15 @@ package com.haige.web.controller;
 
 import com.haige.auth.annotation.Permission;
 import com.haige.auth.enums.PermissionType;
-import com.haige.common.bean.Result;
 import com.haige.common.bean.ResultInfo;
-import com.haige.common.enums.StatusCode;
 import com.haige.db.entity.GoodsInfoDO;
 import com.haige.service.GoodsInfoService;
-import com.haige.service.SystemUserService;
-import com.haige.util.FileUtils;
-import com.haige.web.request.SavePersonRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**

@@ -41,7 +41,6 @@ aliyun:
   sms:
     accessKeyId: "LTAI4Fhz9C1SMqgUTgJYPA2x"
     accessSecret: "cLh4tNX44oH3XQUHa6G2lnhPOhjPyc"
-    templateCode: "SMS_176523402"
     signName: "安居在家"
 # 微信相关
 wx:
