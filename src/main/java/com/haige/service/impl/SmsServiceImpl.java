@@ -19,6 +19,7 @@ import org.springframework.web.server.WebSession;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.TimerTask;
 
@@ -56,13 +57,16 @@ public class SmsServiceImpl implements SmsService {
                 .map(smsDTO -> {
                     SendMessageParam sendMessageParam = new SendMessageParam();
                     sendMessageParam.setIphone(smsDTO.getIphone());
-                    // todo 验证码
-                    sendMessageParam.setMessage(RandomStringUtils.random(6, false, true));
+                    HashMap<String, String> param = new HashMap<>();
+                    String code = RandomStringUtils.random(6, false, true);
+                    param.put("code", code);
+                    SendMessageParam.SmsTemplate smsTemplate = ShortMsgConvertUtils.getSecurityCodeTemplate(param);
+                    sendMessageParam.setSmsTemplate(smsTemplate);
                     SendMessageResult sendMessageResult = smsServiceClient.sendMessage(sendMessageParam);
                     if ("success".equals(sendMessageResult.getSmsStatus())) {
-                        log.info("验证码发送成功:iphone:{},message:{}", smsDTO.getIphone(), sendMessageResult.getMessage());
+                        log.info("验证码发送成功:iphone:{},message:{}", smsDTO.getIphone(), code);
                         webSessionMono.subscribe(webSession -> {
-                            webSession.getAttributes().put(smsDTO.getIphone(), sendMessageResult.getMessage());
+                            webSession.getAttributes().put(smsDTO.getIphone(), code);
                             TimerUtils.schedule(
                                     new TimerTask() {
                                         @Override
@@ -78,7 +82,7 @@ public class SmsServiceImpl implements SmsService {
                     ShortMsgDO shortMsgDO = ShortMsgConvertUtils.toDo(smsDTO);
                     shortMsgDO.setSmiBadReason(sendMessageResult.getBadReason());
                     shortMsgDO.setSmiState(sendMessageResult.getSmsStatus());
-                    shortMsgDO.setSmiContent(sendMessageResult.getMessage());
+                    shortMsgDO.setSmiContent(code);
                     shortMsgDO.setSmiIp(smsDTO.getIp());
                     shortMsgDO.setSmiReceiverPhone(smsDTO.getIphone());
                     shortMsgDO.setSmiType(smsDTO.getType());

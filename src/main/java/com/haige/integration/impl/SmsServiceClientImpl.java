@@ -30,9 +30,6 @@ public class SmsServiceClientImpl implements SmsServiceClient {
     @Value("${aliyun.sms.accessSecret}")
     private String accessSecret;
 
-    @Value("${aliyun.sms.templateCode}")
-    private String templateCode;
-
     @Value("${aliyun.sms.signName}")
     private String signName;
 
@@ -40,9 +37,7 @@ public class SmsServiceClientImpl implements SmsServiceClient {
     @Override
     public SendMessageResult sendMessage(SendMessageParam sendMessageParam) {
         SendMessageResult sendMessageResult = new SendMessageResult();
-        sendMessageResult.setMessage(sendMessageParam.getMessage());
         sendMessageResult.setSmsStatus("success");
-
 
         DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", accessKeyId, accessSecret);
         IAcsClient client = new DefaultAcsClient(profile);
@@ -54,8 +49,9 @@ public class SmsServiceClientImpl implements SmsServiceClient {
         request.putQueryParameter("RegionId", "cn-hangzhou");
         request.putQueryParameter("PhoneNumbers", sendMessageParam.getIphone());
         request.putQueryParameter("SignName", signName);
-        request.putQueryParameter("TemplateCode", templateCode);
-        request.putQueryParameter("TemplateParam", "{\"code\":\"" + sendMessageParam.getMessage()+ "\"}");
+        request.putQueryParameter("TemplateCode", sendMessageParam.getSmsTemplate().getTemplateCode());
+        String paramJson = JSON.toJSONString(sendMessageParam.getSmsTemplate().getParam());
+        request.putQueryParameter("TemplateParam", paramJson);
         try {
             CommonResponse response = client.getCommonResponse(request);
             if (response.getHttpStatus() == 200){

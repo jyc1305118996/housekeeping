@@ -14,5 +14,4 @@ import lombok.NoArgsConstructor;
 public class SendMessageResult {
     private String smsStatus;
     private String badReason;
-    private String message;
 }
