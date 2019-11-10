@@ -38,7 +38,8 @@ public class AuthFilter implements WebFilter {
         // 非登陆和短信全过滤
         boolean isLogin = !request.getPath().value().contains("/login");
         boolean isSms = !request.getPath().value().contains("/sms/send");
-        if (isLogin && isSms){
+        boolean isGoods = !request.getPath().value().contains("/goods");
+        if (isLogin && isSms && isGoods){
             response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
             List<String> auth = request.getHeaders().get("Authorization");
             if (auth == null || auth.isEmpty()){

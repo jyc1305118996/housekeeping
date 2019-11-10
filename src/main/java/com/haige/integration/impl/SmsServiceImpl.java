@@ -9,7 +9,7 @@ import com.aliyuncs.IAcsClient;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
-import com.haige.integration.SmsServiceClient;
+import com.haige.integration.SmsService;
 import com.haige.integration.param.SendMessageParam;
 import com.haige.integration.model.SendMessageResult;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-public class SmsServiceClientImpl implements SmsServiceClient {
+public class SmsServiceImpl implements SmsService {
 
     @Value("${aliyun.sms.accessKeyId}")
     private String accessKeyId;

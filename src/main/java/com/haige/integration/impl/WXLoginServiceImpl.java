@@ -2,7 +2,7 @@ package com.haige.integration.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.haige.integration.WXServiceClient;
+import com.haige.integration.WXLoginService;
 import com.haige.integration.model.UserinfoResult;
 import com.haige.integration.model.WXAccessTokenResult;
 import com.haige.integration.param.AccessTokenParam;
@@ -10,7 +10,6 @@ import com.haige.integration.param.UserinfoParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import reactor.core.publisher.Mono;
@@ -25,7 +24,7 @@ import java.util.HashMap;
  */
 @Service
 @Slf4j
-public class WXServiceClientImpl implements WXServiceClient {
+public class WXLoginServiceImpl implements WXLoginService {
 
     /**
      * 获取接口权限

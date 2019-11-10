@@ -4,20 +4,15 @@ import com.haige.common.bean.ResultInfo;
 import com.haige.common.enums.StatusCode;
 import com.haige.db.entity.UserBaseDO;
 import com.haige.db.mapper.UserBaseDOMapper;
-import com.haige.integration.WXServiceClient;
-import com.haige.integration.model.UserinfoResult;
-import com.haige.integration.model.WXAccessTokenResult;
+import com.haige.integration.WXLoginService;
 import com.haige.integration.param.AccessTokenParam;
-import com.haige.integration.param.UserinfoParam;
 import com.haige.service.UserBaseService;
 import com.haige.service.convert.UserBaseConvertUtils;
 import com.haige.service.dto.UserBaseDTO;
 import com.haige.service.dto.WXLoginDTO;
 import com.haige.util.DateUtils;
 import com.haige.web.vo.UserBaseVO;
-import com.haige.web.vo.WXLoginVO;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -40,7 +35,7 @@ public class UserBaseImpl implements UserBaseService {
     private UserBaseDOMapper userBaseDOMapper;
 
     @Autowired
-    private WXServiceClient wxServiceClient;
+    private WXLoginService wxLoginService;
 
     public UserBaseDTO save(UserBaseDTO userBaseDTO) {
         UserBaseDO userBaseDO = UserBaseConvertUtils.toDO(userBaseDTO);
@@ -59,7 +54,7 @@ public class UserBaseImpl implements UserBaseService {
         AtomicReference<String> nickName = new AtomicReference<>();
         AtomicReference<String> avatarUrl = new AtomicReference<>();
         AtomicReference<String> gender = new AtomicReference<>();
-        return wxServiceClient
+        return wxLoginService
                 .getAccessToken(
                         // 参数转换
                         wxLoginDTO

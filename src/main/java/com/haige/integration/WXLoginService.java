@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono;
  * @author Archie
  * @date 2019/11/1 23:44
  */
-public interface WXServiceClient {
+public interface WXLoginService {
     Mono<WXAccessTokenResult> getAccessToken(Mono<AccessTokenParam> accessTokenParam);
     Mono<UserinfoResult> getUserinfo(Mono<UserinfoParam> userinfoParam);
 }

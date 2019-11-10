@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haige.db.mapper.ServeDetailDOMapper">
+  <resultMap id="BaseResultMap" type="com.haige.db.entity.ServeDetailDO">
+    <id column="serve_id" jdbcType="INTEGER" property="serveId" />
+    <result column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="serve_user_id" jdbcType="INTEGER" property="serveUserId" />
+    <result column="serve_create_user" jdbcType="INTEGER" property="serveCreateUser" />
+    <result column="serve_create_time" jdbcType="TIMESTAMP" property="serveCreateTime" />
+    <result column="serve_update_user" jdbcType="INTEGER" property="serveUpdateUser" />
+    <result column="serve_update_time" jdbcType="TIMESTAMP" property="serveUpdateTime" />
+    <result column="serve_status" jdbcType="VARCHAR" property="serveStatus" />
+    <result column="serve_start_time" jdbcType="TIMESTAMP" property="serveStartTime" />
+    <result column="serve_end_time" jdbcType="TIMESTAMP" property="serveEndTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    serve_id, order_id, serve_user_id, serve_create_user, serve_create_time, serve_update_user, 
+    serve_update_time, serve_status, serve_start_time, serve_end_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from haige_order_serve_details
+    where serve_id = #{serveId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from haige_order_serve_details
+    where serve_id = #{serveId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.haige.db.entity.ServeDetailDO">
+    insert into haige_order_serve_details (serve_id, order_id, serve_user_id, 
+      serve_create_user, serve_create_time, serve_update_user, 
+      serve_update_time, serve_status, serve_start_time, 
+      serve_end_time)
+    values (#{serveId,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{serveUserId,jdbcType=INTEGER}, 
+      #{serveCreateUser,jdbcType=INTEGER}, #{serveCreateTime,jdbcType=TIMESTAMP}, #{serveUpdateUser,jdbcType=INTEGER}, 
+      #{serveUpdateTime,jdbcType=TIMESTAMP}, #{serveStatus,jdbcType=VARCHAR}, #{serveStartTime,jdbcType=TIMESTAMP}, 
+      #{serveEndTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.haige.db.entity.ServeDetailDO">
+    insert into haige_order_serve_details
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="serveId != null">
+        serve_id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="serveUserId != null">
+        serve_user_id,
+      </if>
+      <if test="serveCreateUser != null">
+        serve_create_user,
+      </if>
+      <if test="serveCreateTime != null">
+        serve_create_time,
+      </if>
+      <if test="serveUpdateUser != null">
+        serve_update_user,
+      </if>
+      <if test="serveUpdateTime != null">
+        serve_update_time,
+      </if>
+      <if test="serveStatus != null">
+        serve_status,
+      </if>
+      <if test="serveStartTime != null">
+        serve_start_time,
+      </if>
+      <if test="serveEndTime != null">
+        serve_end_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="serveId != null">
+        #{serveId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="serveUserId != null">
+        #{serveUserId,jdbcType=INTEGER},
+      </if>
+      <if test="serveCreateUser != null">
+        #{serveCreateUser,jdbcType=INTEGER},
+      </if>
+      <if test="serveCreateTime != null">
+        #{serveCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="serveUpdateUser != null">
+        #{serveUpdateUser,jdbcType=INTEGER},
+      </if>
+      <if test="serveUpdateTime != null">
+        #{serveUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="serveStatus != null">
+        #{serveStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="serveStartTime != null">
+        #{serveStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="serveEndTime != null">
+        #{serveEndTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.haige.db.entity.ServeDetailDO">
+    update haige_order_serve_details
+    <set>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="serveUserId != null">
+        serve_user_id = #{serveUserId,jdbcType=INTEGER},
+      </if>
+      <if test="serveCreateUser != null">
+        serve_create_user = #{serveCreateUser,jdbcType=INTEGER},
+      </if>
+      <if test="serveCreateTime != null">
+        serve_create_time = #{serveCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="serveUpdateUser != null">
+        serve_update_user = #{serveUpdateUser,jdbcType=INTEGER},
+      </if>
+      <if test="serveUpdateTime != null">
+        serve_update_time = #{serveUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="serveStatus != null">
+        serve_status = #{serveStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="serveStartTime != null">
+        serve_start_time = #{serveStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="serveEndTime != null">
+        serve_end_time = #{serveEndTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where serve_id = #{serveId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.haige.db.entity.ServeDetailDO">
+    update haige_order_serve_details
+    set order_id = #{orderId,jdbcType=INTEGER},
+      serve_user_id = #{serveUserId,jdbcType=INTEGER},
+      serve_create_user = #{serveCreateUser,jdbcType=INTEGER},
+      serve_create_time = #{serveCreateTime,jdbcType=TIMESTAMP},
+      serve_update_user = #{serveUpdateUser,jdbcType=INTEGER},
+      serve_update_time = #{serveUpdateTime,jdbcType=TIMESTAMP},
+      serve_status = #{serveStatus,jdbcType=VARCHAR},
+      serve_start_time = #{serveStartTime,jdbcType=TIMESTAMP},
+      serve_end_time = #{serveEndTime,jdbcType=TIMESTAMP}
+    where serve_id = #{serveId,jdbcType=INTEGER}
+  </update>
+</mapper>
