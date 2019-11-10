@@ -1,6 +1,7 @@
 package com.haige.integration;
 
 import com.haige.integration.param.SubmitOrderParam;
+import reactor.core.publisher.Mono;
 
 /**
  * @author Archie
@@ -8,5 +9,9 @@ import com.haige.integration.param.SubmitOrderParam;
  */
 public interface WXPayService {
 
-    void submitOrder(SubmitOrderParam submitOrderParam);
+    /**
+     * 统一下单接口
+     * @param submitOrderParam
+     */
+    Mono<Object> submitOrder(Mono<SubmitOrderParam> submitOrderParam);
 }

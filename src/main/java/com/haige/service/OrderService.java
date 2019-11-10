@@ -3,6 +3,7 @@ package com.haige.service;
 import com.haige.common.bean.ResultInfo;
 import com.haige.service.dto.SubmitOrderDTO;
 import com.haige.web.vo.SubmitOrderVo;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 /**
@@ -15,5 +16,5 @@ public interface OrderService {
      * @param orderRequestMono
      * @return
      */
-    Mono<ResultInfo<SubmitOrderVo>> submit(Mono<SubmitOrderDTO> orderRequestMono);
+    Mono<ResultInfo<SubmitOrderVo>> submit(ServerWebExchange serverWebExchange, Mono<SubmitOrderDTO> orderRequestMono);
 }

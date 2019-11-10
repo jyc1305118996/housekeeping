@@ -35,6 +35,6 @@ public class OrderController {
     @PostMapping(value = "/submitOrder", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Mono<ResultInfo<SubmitOrderVo>> submit(ServerWebExchange serverWebExchange, @RequestBody @Valid Mono<SubmitOrderRequest> submitOrderRequest) {
-        return orderService.submit(submitOrderRequest.map(OrderConvertUtils::toDTO));
+        return orderService.submit(serverWebExchange, submitOrderRequest.map(OrderConvertUtils::toDTO));
     }
 }

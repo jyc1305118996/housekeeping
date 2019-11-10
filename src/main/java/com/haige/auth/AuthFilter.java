@@ -1,6 +1,6 @@
 package com.haige.auth;
 
-import com.haige.common.enums.StatusCode;
+import com.haige.common.enums.StatusCodeEnum;
 import com.haige.service.UserBaseService;
 import com.haige.service.dto.UserBaseDTO;
 import com.haige.util.DateUtils;
@@ -43,23 +43,23 @@ public class AuthFilter implements WebFilter {
             response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
             List<String> auth = request.getHeaders().get("Authorization");
             if (auth == null || auth.isEmpty()){
-                return response.writeWith(Mono.just(response.bufferFactory().wrap(("{\"code\":\"" + StatusCode.NOT_LOGIN.getCode() + "\", \"message\":\"" + StatusCode.NOT_LOGIN.getValue() + "\", \"data\":\"\", \"count\":\"\"}").getBytes())));
+                return response.writeWith(Mono.just(response.bufferFactory().wrap(("{\"code\":\"" + StatusCodeEnum.NOT_LOGIN.getCode() + "\", \"message\":\"" + StatusCodeEnum.NOT_LOGIN.getValue() + "\", \"data\":\"\", \"count\":\"\"}").getBytes())));
             }
             try{
                 UserBaseDTO userBaseDTO= userBaseService.findByToken(auth.get(0));
                 // 未登录
                 if (userBaseDTO == null){
-                    return response.writeWith(Mono.just(response.bufferFactory().wrap(("{\"code\":\"" + StatusCode.NOT_LOGIN.getCode() + "\", \"message\":\"" + StatusCode.NOT_LOGIN.getValue() + "\", \"data\":\"\", \"count\":\"\"}").getBytes())));
+                    return response.writeWith(Mono.just(response.bufferFactory().wrap(("{\"code\":\"" + StatusCodeEnum.NOT_LOGIN.getCode() + "\", \"message\":\"" + StatusCodeEnum.NOT_LOGIN.getValue() + "\", \"data\":\"\", \"count\":\"\"}").getBytes())));
                 }
                 String expreDate = userBaseDTO.getUbdTokenExpreDate();
                 LocalDateTime dateTime = DateUtils.convertToDateTime(expreDate);
                 // 过期
                 if (dateTime.isBefore(LocalDateTime.now())){
-                    return response.writeWith(Mono.just(response.bufferFactory().wrap(("{\"code\":\"" + StatusCode.BEOVERDUE.getCode() + "\", \"message\":\"" + StatusCode.BEOVERDUE.getValue() + "\", \"data\":\"\", \"count\":\"\"}").getBytes())));
+                    return response.writeWith(Mono.just(response.bufferFactory().wrap(("{\"code\":\"" + StatusCodeEnum.BEOVERDUE.getCode() + "\", \"message\":\"" + StatusCodeEnum.BEOVERDUE.getValue() + "\", \"data\":\"\", \"count\":\"\"}").getBytes())));
                 }
             }catch (Exception e){
                 // 未认证非法请求
-                return response.writeWith(Mono.just(response.bufferFactory().wrap(("{\"code\":\"" + StatusCode.NOT_LOGIN.getCode() + "\", \"message\":\"" + StatusCode.NOT_LOGIN.getValue() + "\", \"data\":\"\", \"count\":\"\"}").getBytes())));
+                return response.writeWith(Mono.just(response.bufferFactory().wrap(("{\"code\":\"" + StatusCodeEnum.NOT_LOGIN.getCode() + "\", \"message\":\"" + StatusCodeEnum.NOT_LOGIN.getValue() + "\", \"data\":\"\", \"count\":\"\"}").getBytes())));
             }
         }
         // 认证通过

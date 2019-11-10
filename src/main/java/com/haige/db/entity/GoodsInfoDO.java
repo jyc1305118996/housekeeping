@@ -41,7 +41,7 @@ public class GoodsInfoDO {
 
     private Date goodsUpdateTime;
 
-    private Date goodsUpdateUser;
+    private Integer goodsUpdateUser;
 
     private BigDecimal goodsPrice;
 

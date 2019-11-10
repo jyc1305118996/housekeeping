@@ -1,6 +1,6 @@
 package com.haige.exceptionHandler;
 
-import com.haige.common.enums.StatusCode;
+import com.haige.common.enums.StatusCodeEnum;
 import com.haige.common.bean.ResultInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -37,8 +37,8 @@ public class CommonExceptionHandler {
                         String defaultMessage = fieldError.getDefaultMessage();
                         errors.add(field + defaultMessage);
                     });
-            errorResultInfo.setCode(StatusCode.BAD_REQUEST.getCode());
-            errorResultInfo.setMessage(StatusCode.BAD_REQUEST.getValue());
+            errorResultInfo.setCode(StatusCodeEnum.BAD_REQUEST.getCode());
+            errorResultInfo.setMessage(StatusCodeEnum.BAD_REQUEST.getValue());
             log.error("异常信息是:{}", errors.toString());
             errorResultInfo.setMessage( errors.toString());
         }
@@ -49,7 +49,7 @@ public class CommonExceptionHandler {
     public ResultInfo<String> exception(Exception ex){
         log.error("异常信息:{}", ex.getMessage(), ex);
         ResultInfo<String> errorResultInfo = new ResultInfo<String>();
-        errorResultInfo.setCode(StatusCode.BAD_REQUEST.getCode());
+        errorResultInfo.setCode(StatusCodeEnum.BAD_REQUEST.getCode());
         errorResultInfo.setMessage("请求出错啦");
         return errorResultInfo;
     }
@@ -57,7 +57,7 @@ public class CommonExceptionHandler {
 //    public ResultInfo<String> exception(RuntimeException ex){
 //        log.error("异常信息:{}", ex.getMessage(), ex);
 //        ResultInfo<String> errorResultInfo = new ResultInfo<String>();
-//        errorResultInfo.setCode(StatusCode.BAD_REQUEST.getCode());
+//        errorResultInfo.setCode(StatusCodeEnum.BAD_REQUEST.getCode());
 //        errorResultInfo.setMessage(ex.getMessage());
 //        return errorResultInfo;
 //    }

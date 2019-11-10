@@ -9,7 +9,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderDO {
-    private Integer orderId;
+    private String orderId;
 
     private Integer goodsId;
 

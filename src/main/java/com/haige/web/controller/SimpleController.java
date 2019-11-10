@@ -4,7 +4,7 @@ import com.haige.auth.annotation.Permission;
 import com.haige.auth.enums.PermissionType;
 import com.haige.common.bean.Result;
 import com.haige.common.bean.ResultInfo;
-import com.haige.common.enums.StatusCode;
+import com.haige.common.enums.StatusCodeEnum;
 import com.haige.service.SystemUserService;
 import com.haige.util.FileUtils;
 
@@ -77,7 +77,7 @@ public class SimpleController {
                 return resultInfo;
             } catch (Exception e) {
                 e.printStackTrace();
-                return new ResultInfo<Object>(StatusCode.PROCESSING_EXCEPTION);
+                return new ResultInfo<Object>(StatusCodeEnum.PROCESSING_EXCEPTION);
             }
         });
 

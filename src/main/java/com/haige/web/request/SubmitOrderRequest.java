@@ -16,7 +16,6 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class SubmitOrderRequest {
     @NotNull
-    @Length(min = 1)
-    private String goodsId;
+    private Integer goodsId;
     private long[] couponIds;
 }

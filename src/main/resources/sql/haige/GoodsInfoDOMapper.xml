@@ -17,7 +17,7 @@
     <result column="goods_create_time" jdbcType="TIMESTAMP" property="goodsCreateTime" />
     <result column="goods_create_user" jdbcType="INTEGER" property="goodsCreateUser" />
     <result column="goods_update_time" jdbcType="TIMESTAMP" property="goodsUpdateTime" />
-    <result column="goods_update_user" jdbcType="TIMESTAMP" property="goodsUpdateUser" />
+    <result column="goods_update_user" jdbcType="INTEGER" property="goodsUpdateUser" />
     <result column="goods_price" jdbcType="DECIMAL" property="goodsPrice" />
     <result column="goods_discount_price" jdbcType="DECIMAL" property="goodsDiscountPrice" />
   </resultMap>
@@ -50,7 +50,7 @@
       #{goodsPersonType,jdbcType=TINYINT}, #{goodsPersonFreq,jdbcType=TINYINT}, #{goodsPersonNum,jdbcType=TINYINT}, 
       #{goodsAdvise,jdbcType=VARCHAR}, #{goodsActiveDesc,jdbcType=VARCHAR}, #{goodsRestrictDesc,jdbcType=VARCHAR}, 
       #{goodsCreateTime,jdbcType=TIMESTAMP}, #{goodsCreateUser,jdbcType=INTEGER}, #{goodsUpdateTime,jdbcType=TIMESTAMP}, 
-      #{goodsUpdateUser,jdbcType=TIMESTAMP}, #{goodsPrice,jdbcType=DECIMAL}, #{goodsDiscountPrice,jdbcType=DECIMAL}
+      #{goodsUpdateUser,jdbcType=INTEGER}, #{goodsPrice,jdbcType=DECIMAL}, #{goodsDiscountPrice,jdbcType=DECIMAL}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.haige.db.entity.GoodsInfoDO">
@@ -158,7 +158,7 @@
         #{goodsUpdateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="goodsUpdateUser != null">
-        #{goodsUpdateUser,jdbcType=TIMESTAMP},
+        #{goodsUpdateUser,jdbcType=INTEGER},
       </if>
       <if test="goodsPrice != null">
         #{goodsPrice,jdbcType=DECIMAL},
@@ -214,7 +214,7 @@
         goods_update_time = #{goodsUpdateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="goodsUpdateUser != null">
-        goods_update_user = #{goodsUpdateUser,jdbcType=TIMESTAMP},
+        goods_update_user = #{goodsUpdateUser,jdbcType=INTEGER},
       </if>
       <if test="goodsPrice != null">
         goods_price = #{goodsPrice,jdbcType=DECIMAL},
@@ -241,7 +241,7 @@
       goods_create_time = #{goodsCreateTime,jdbcType=TIMESTAMP},
       goods_create_user = #{goodsCreateUser,jdbcType=INTEGER},
       goods_update_time = #{goodsUpdateTime,jdbcType=TIMESTAMP},
-      goods_update_user = #{goodsUpdateUser,jdbcType=TIMESTAMP},
+      goods_update_user = #{goodsUpdateUser,jdbcType=INTEGER},
       goods_price = #{goodsPrice,jdbcType=DECIMAL},
       goods_discount_price = #{goodsDiscountPrice,jdbcType=DECIMAL}
     where goods_Id = #{goodsId,jdbcType=INTEGER}

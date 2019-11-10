@@ -1,5 +1,6 @@
 package com.haige;
 
+import com.haige.common.bean.IdWorker;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -43,5 +44,10 @@ public class HaigeApplication {
     @Bean
     public RestTemplate getRestTemplate(){
         return new RestTemplate();
+    }
+
+    @Bean
+    public IdWorker idWorker(){
+        return new IdWorker(1, 1);
     }
 }

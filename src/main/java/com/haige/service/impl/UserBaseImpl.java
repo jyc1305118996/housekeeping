@@ -1,7 +1,7 @@
 package com.haige.service.impl;
 
 import com.haige.common.bean.ResultInfo;
-import com.haige.common.enums.StatusCode;
+import com.haige.common.enums.StatusCodeEnum;
 import com.haige.db.entity.UserBaseDO;
 import com.haige.db.mapper.UserBaseDOMapper;
 import com.haige.integration.WXLoginService;
@@ -97,7 +97,7 @@ public class UserBaseImpl implements UserBaseService {
                     return userBaseDO;
                 }).map(userBaseDO -> {
                     UserBaseVO userBaseVO = UserBaseConvertUtils.toVO(userBaseDO);
-                    ResultInfo<UserBaseVO> resultInfo = new ResultInfo<>(StatusCode.OK);
+                    ResultInfo<UserBaseVO> resultInfo = new ResultInfo<>(StatusCodeEnum.OK);
                     resultInfo.setData(userBaseVO);
                     return resultInfo;
                 });
