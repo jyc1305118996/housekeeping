@@ -2,7 +2,9 @@ package com.haige.db.mapper;
 
 
 import com.haige.db.entity.GoodsCouponDO;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface GoodsCouponDOMapper {
     int deleteByPrimaryKey(Integer gcId);
 

@@ -15,6 +15,6 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SubmitOrderDTO {
-    private String goodsId;
-    private long[] couponIds;
+    private Integer goodsId;
+    private Integer[] couponIds;
 }

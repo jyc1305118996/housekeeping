@@ -18,11 +18,14 @@
     <result column="goods_create_user" jdbcType="INTEGER" property="goodsCreateUser" />
     <result column="goods_update_time" jdbcType="TIMESTAMP" property="goodsUpdateTime" />
     <result column="goods_update_user" jdbcType="TIMESTAMP" property="goodsUpdateUser" />
+    <result column="goods_price" jdbcType="DECIMAL" property="goodsPrice" />
+    <result column="goods_discount_price" jdbcType="DECIMAL" property="goodsDiscountPrice" />
   </resultMap>
   <sql id="Base_Column_List">
     goods_Id, goods_name, goods_remarks, goods_title, goods_freq, goods_expre_date, goods_person_type, 
     goods_person_freq, goods_person_num, goods_advise, goods_active_desc, goods_restrict_desc, 
-    goods_create_time, goods_create_user, goods_update_time, goods_update_user
+    goods_create_time, goods_create_user, goods_update_time, goods_update_user, goods_price, 
+    goods_discount_price
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -40,13 +43,15 @@
       goods_person_type, goods_person_freq, goods_person_num, 
       goods_advise, goods_active_desc, goods_restrict_desc, 
       goods_create_time, goods_create_user, goods_update_time, 
-      goods_update_user)
+      goods_update_user, goods_price, goods_discount_price
+      )
     values (#{goodsId,jdbcType=INTEGER}, #{goodsName,jdbcType=VARCHAR}, #{goodsRemarks,jdbcType=VARCHAR}, 
       #{goodsTitle,jdbcType=VARCHAR}, #{goodsFreq,jdbcType=TINYINT}, #{goodsExpreDate,jdbcType=TIMESTAMP}, 
       #{goodsPersonType,jdbcType=TINYINT}, #{goodsPersonFreq,jdbcType=TINYINT}, #{goodsPersonNum,jdbcType=TINYINT}, 
       #{goodsAdvise,jdbcType=VARCHAR}, #{goodsActiveDesc,jdbcType=VARCHAR}, #{goodsRestrictDesc,jdbcType=VARCHAR}, 
       #{goodsCreateTime,jdbcType=TIMESTAMP}, #{goodsCreateUser,jdbcType=INTEGER}, #{goodsUpdateTime,jdbcType=TIMESTAMP}, 
-      #{goodsUpdateUser,jdbcType=TIMESTAMP})
+      #{goodsUpdateUser,jdbcType=TIMESTAMP}, #{goodsPrice,jdbcType=DECIMAL}, #{goodsDiscountPrice,jdbcType=DECIMAL}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.haige.db.entity.GoodsInfoDO">
     insert into haige_goods_info
@@ -99,6 +104,12 @@
       <if test="goodsUpdateUser != null">
         goods_update_user,
       </if>
+      <if test="goodsPrice != null">
+        goods_price,
+      </if>
+      <if test="goodsDiscountPrice != null">
+        goods_discount_price,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="goodsId != null">
@@ -148,6 +159,12 @@
       </if>
       <if test="goodsUpdateUser != null">
         #{goodsUpdateUser,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsPrice != null">
+        #{goodsPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsDiscountPrice != null">
+        #{goodsDiscountPrice,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -199,6 +216,12 @@
       <if test="goodsUpdateUser != null">
         goods_update_user = #{goodsUpdateUser,jdbcType=TIMESTAMP},
       </if>
+      <if test="goodsPrice != null">
+        goods_price = #{goodsPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsDiscountPrice != null">
+        goods_discount_price = #{goodsDiscountPrice,jdbcType=DECIMAL},
+      </if>
     </set>
     where goods_Id = #{goodsId,jdbcType=INTEGER}
   </update>
@@ -218,15 +241,14 @@
       goods_create_time = #{goodsCreateTime,jdbcType=TIMESTAMP},
       goods_create_user = #{goodsCreateUser,jdbcType=INTEGER},
       goods_update_time = #{goodsUpdateTime,jdbcType=TIMESTAMP},
-      goods_update_user = #{goodsUpdateUser,jdbcType=TIMESTAMP}
+      goods_update_user = #{goodsUpdateUser,jdbcType=TIMESTAMP},
+      goods_price = #{goodsPrice,jdbcType=DECIMAL},
+      goods_discount_price = #{goodsDiscountPrice,jdbcType=DECIMAL}
     where goods_Id = #{goodsId,jdbcType=INTEGER}
   </update>
-
   <select id="findGoodsInfoDoList" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from haige_goods_info
-
-
   </select>
 </mapper>

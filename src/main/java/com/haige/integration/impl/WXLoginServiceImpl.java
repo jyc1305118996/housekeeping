@@ -3,6 +3,7 @@ package com.haige.integration.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.haige.integration.WXLoginService;
+import com.haige.integration.enums.WXUrlEnums;
 import com.haige.integration.model.UserinfoResult;
 import com.haige.integration.model.WXAccessTokenResult;
 import com.haige.integration.param.AccessTokenParam;
@@ -26,17 +27,6 @@ import java.util.HashMap;
 @Slf4j
 public class WXLoginServiceImpl implements WXLoginService {
 
-    /**
-     * 获取接口权限
-     */
-    @Value("${wx.accessTokenUrl}")
-    public String accessTokenUrl;
-    /**
-     * 获取用户信息
-     */
-    @Value("${wx.userInfoUrl}")
-    public String userInfoUrl;
-
     public String grantType = "authorization_code";
 
     @Autowired
@@ -50,7 +40,7 @@ public class WXLoginServiceImpl implements WXLoginService {
                     param.put("secret", accessTokenParam1.getSecret());
                     param.put("js_code", accessTokenParam1.getCode());
                     param.put("grant_type", grantType);
-                    return restTemplate.getForEntity(accessTokenUrl + "?appid={appid}&secret={secret}&js_code={js_code}&grant_type={grant_type}", String.class, param);
+                    return restTemplate.getForEntity(WXUrlEnums.ACCESS_TOKEN_URL + "?appid={appid}&secret={secret}&js_code={js_code}&grant_type={grant_type}", String.class, param);
                 })
                 .map(responseEntity -> {
                     WXAccessTokenResult wxAccessTokenResult = new WXAccessTokenResult();

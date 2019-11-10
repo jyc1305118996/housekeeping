@@ -2,7 +2,9 @@ package com.haige.db.mapper;
 
 
 import com.haige.db.entity.ServeDetailDO;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface ServeDetailDOMapper {
     int deleteByPrimaryKey(Integer serveId);
 
