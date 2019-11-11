@@ -4,10 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Date;
+
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class GoodsInfoDO {
     private Integer goodsId;
 
@@ -39,6 +41,9 @@ public class GoodsInfoDO {
 
     private Date goodsUpdateTime;
 
-    private Date goodsUpdateUser;
+    private Integer goodsUpdateUser;
 
+    private BigDecimal goodsPrice;
+
+    private BigDecimal goodsDiscountPrice;
 }

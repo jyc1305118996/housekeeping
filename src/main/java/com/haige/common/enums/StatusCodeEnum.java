@@ -4,7 +4,7 @@ package com.haige.common.enums;
  * @author Archie
  * @date 2019/10/19 0:05
  */
-public enum StatusCode {
+public enum StatusCodeEnum {
 
     /**
      * 成功返回状态
@@ -100,7 +100,7 @@ public enum StatusCode {
     private String value;
 
 
-    StatusCode(int code, String value) {
+    StatusCodeEnum(int code, String value) {
         this.code = code;
         this.value = value;
     }

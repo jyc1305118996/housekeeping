@@ -1,13 +1,12 @@
 package com.haige.service.impl;
 
 import com.haige.common.bean.ResultInfo;
-import com.haige.common.enums.StatusCode;
+import com.haige.common.enums.StatusCodeEnum;
 import com.haige.db.entity.ShortMsgDO;
 import com.haige.db.mapper.ShortMsgDOMapper;
-import com.haige.integration.SmsServiceClient;
+import com.haige.integration.SmsClient;
 import com.haige.integration.param.SendMessageParam;
 import com.haige.integration.model.SendMessageResult;
-import com.haige.service.SmsService;
 import com.haige.service.convert.ShortMsgConvertUtils;
 import com.haige.service.dto.SendSmsDTO;
 import com.haige.util.TimerUtils;
@@ -30,12 +29,12 @@ import java.util.TimerTask;
  */
 @Service
 @Slf4j
-public class SmsServiceImpl implements SmsService {
+public class SmsServiceImpl implements com.haige.service.SmsService {
     @Autowired
     private ShortMsgDOMapper shortMsgDOMapper;
 
     @Autowired
-    private SmsServiceClient smsServiceClient;
+    private SmsClient smsClient;
 
     @Override
     public Flux<ShortMsgDO> findByIphone(String iphone, String date) {
@@ -62,7 +61,7 @@ public class SmsServiceImpl implements SmsService {
                     param.put("code", code);
                     SendMessageParam.SmsTemplate smsTemplate = ShortMsgConvertUtils.getSecurityCodeTemplate(param);
                     sendMessageParam.setSmsTemplate(smsTemplate);
-                    SendMessageResult sendMessageResult = smsServiceClient.sendMessage(sendMessageParam);
+                    SendMessageResult sendMessageResult = smsClient.sendMessage(sendMessageParam);
                     if ("success".equals(sendMessageResult.getSmsStatus())) {
                         log.info("验证码发送成功:iphone:{},message:{}", smsDTO.getIphone(), code);
                         webSessionMono.subscribe(webSession -> {
@@ -90,7 +89,7 @@ public class SmsServiceImpl implements SmsService {
                 })
                 .map(shortMsgDO -> {
                     shortMsgDOMapper.insertSelective(shortMsgDO);
-                    return new ResultInfo<String>(StatusCode.OK);
+                    return new ResultInfo<String>(StatusCodeEnum.OK);
                 });
     }
 

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haige.db.mapper.OrderDOMapper">
+  <resultMap id="BaseResultMap" type="com.haige.db.entity.OrderDO">
+    <id column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="order_status" jdbcType="VARCHAR" property="orderStatus" />
+    <result column="order_create_user" jdbcType="INTEGER" property="orderCreateUser" />
+    <result column="order_create_time" jdbcType="TIMESTAMP" property="orderCreateTime" />
+    <result column="order_store" jdbcType="INTEGER" property="orderStore" />
+    <result column="order_update_user" jdbcType="INTEGER" property="orderUpdateUser" />
+    <result column="order_update_time" jdbcType="TIMESTAMP" property="orderUpdateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    order_id, goods_id, goods_name, order_status, order_create_user, order_create_time, 
+    order_store, order_update_user, order_update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from haige_order_info
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from haige_order_info
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.haige.db.entity.OrderDO">
+    insert into haige_order_info (order_id, goods_id, goods_name, 
+      order_status, order_create_user, order_create_time, 
+      order_store, order_update_user, order_update_time
+      )
+    values (#{orderId,jdbcType=VARCHAR}, #{goodsId,jdbcType=INTEGER}, #{goodsName,jdbcType=VARCHAR},
+      #{orderStatus,jdbcType=VARCHAR}, #{orderCreateUser,jdbcType=INTEGER}, #{orderCreateTime,jdbcType=TIMESTAMP}, 
+      #{orderStore,jdbcType=INTEGER}, #{orderUpdateUser,jdbcType=INTEGER}, #{orderUpdateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.haige.db.entity.OrderDO">
+    insert into haige_order_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="goodsName != null">
+        goods_name,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="orderCreateUser != null">
+        order_create_user,
+      </if>
+      <if test="orderCreateTime != null">
+        order_create_time,
+      </if>
+      <if test="orderStore != null">
+        order_store,
+      </if>
+      <if test="orderUpdateUser != null">
+        order_update_user,
+      </if>
+      <if test="orderUpdateTime != null">
+        order_update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsName != null">
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCreateUser != null">
+        #{orderCreateUser,jdbcType=INTEGER},
+      </if>
+      <if test="orderCreateTime != null">
+        #{orderCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderStore != null">
+        #{orderStore,jdbcType=INTEGER},
+      </if>
+      <if test="orderUpdateUser != null">
+        #{orderUpdateUser,jdbcType=INTEGER},
+      </if>
+      <if test="orderUpdateTime != null">
+        #{orderUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.haige.db.entity.OrderDO">
+    update haige_order_info
+    <set>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsName != null">
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCreateUser != null">
+        order_create_user = #{orderCreateUser,jdbcType=INTEGER},
+      </if>
+      <if test="orderCreateTime != null">
+        order_create_time = #{orderCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderStore != null">
+        order_store = #{orderStore,jdbcType=INTEGER},
+      </if>
+      <if test="orderUpdateUser != null">
+        order_update_user = #{orderUpdateUser,jdbcType=INTEGER},
+      </if>
+      <if test="orderUpdateTime != null">
+        order_update_time = #{orderUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.haige.db.entity.OrderDO">
+    update haige_order_info
+    set goods_id = #{goodsId,jdbcType=INTEGER},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      order_status = #{orderStatus,jdbcType=VARCHAR},
+      order_create_user = #{orderCreateUser,jdbcType=INTEGER},
+      order_create_time = #{orderCreateTime,jdbcType=TIMESTAMP},
+      order_store = #{orderStore,jdbcType=INTEGER},
+      order_update_user = #{orderUpdateUser,jdbcType=INTEGER},
+      order_update_time = #{orderUpdateTime,jdbcType=TIMESTAMP}
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,9 +1,8 @@
 package com.haige.common.bean;
 
-import com.haige.common.enums.StatusCode;
+import com.haige.common.enums.StatusCodeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * 通用结果返回类
@@ -23,11 +22,16 @@ public class ResultInfo<T> {
     private String count;
 
 
-    public ResultInfo(StatusCode statusCode) {
-        this.code = statusCode.getCode();
-        this.setMessage(statusCode.getValue());
+    public ResultInfo(StatusCodeEnum statusCodeEnum) {
+        this.code = statusCodeEnum.getCode();
+        this.setMessage(statusCodeEnum.getValue());
     }
 
     public ResultInfo() {
+    }
+    public static <R> ResultInfo<R> buildSuccess(R r){
+        ResultInfo<R> resultInfo = new ResultInfo<>(StatusCodeEnum.OK);
+        resultInfo.setData(r);
+        return resultInfo;
     }
 }

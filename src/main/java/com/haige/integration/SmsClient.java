@@ -7,7 +7,7 @@ import com.haige.integration.model.SendMessageResult;
  * @author Archie
  * @date 2019/10/18 0:40
  */
-public interface SmsServiceClient {
+public interface SmsClient {
 
     /**
      * 短信发送

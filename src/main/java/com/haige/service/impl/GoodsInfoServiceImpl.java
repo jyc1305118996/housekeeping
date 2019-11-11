@@ -1,7 +1,7 @@
 package com.haige.service.impl;
 
 import com.haige.common.bean.ResultInfo;
-import com.haige.common.enums.StatusCode;
+import com.haige.common.enums.StatusCodeEnum;
 import com.haige.db.entity.GoodsInfoDO;
 import com.haige.db.mapper.GoodsInfoDOMapper;
 import com.haige.service.GoodsInfoService;
@@ -31,8 +31,8 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
         ResultInfo<List<GoodsInfoDO>> result = new ResultInfo<List<GoodsInfoDO>>();
         result.setData(goodsInfoDoList);
         result.setCount(String.valueOf(goodsInfoDoList.size()));
-        result.setCode(StatusCode.OK.getCode());
-        result.setMessage(StatusCode.OK.getValue());
+        result.setCode(StatusCodeEnum.OK.getCode());
+        result.setMessage(StatusCodeEnum.OK.getValue());
         return Mono.justOrEmpty(result);
     }
 
@@ -41,8 +41,8 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
         GoodsInfoDO goodsInfoDo = goodsInfoDOMapper.selectByPrimaryKey(goodsid);
         ResultInfo<GoodsInfoDO> result = new ResultInfo<GoodsInfoDO>();
         result.setData(goodsInfoDo);
-        result.setCode(StatusCode.OK.getCode());
-        result.setMessage(StatusCode.OK.getValue());
+        result.setCode(StatusCodeEnum.OK.getCode());
+        result.setMessage(StatusCodeEnum.OK.getValue());
         return Mono.justOrEmpty(result);
     }
 }

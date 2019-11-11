@@ -1,11 +1,11 @@
 package com.haige.service.impl;
 
 import com.haige.common.bean.ResultInfo;
-import com.haige.common.enums.StatusCode;
+import com.haige.common.enums.StatusCodeEnum;
 import com.haige.db.entity.UserBaseDO;
 import com.haige.db.mapper.SystemUserMapper;
 import com.haige.db.mapper.UserBaseDOMapper;
-import com.haige.integration.WXServiceClient;
+import com.haige.integration.WXLoginService;
 import com.haige.integration.param.AccessTokenParam;
 import com.haige.service.SystemUserService;
 import com.haige.service.convert.UserBaseConvertUtils;
@@ -42,7 +42,7 @@ public class SystemUserServiceImpl implements SystemUserService {
     private UserBaseDOMapper userBaseDOMapper;
 
     @Autowired
-    private WXServiceClient wxServiceClient;
+    private WXLoginService wxLoginService;
 
     /**
      * 手机号登陆
@@ -78,7 +78,7 @@ public class SystemUserServiceImpl implements SystemUserService {
         AtomicReference<String> avatarUrl = new AtomicReference<>();
         AtomicReference<String>  phone = new AtomicReference<>();
         // 调用微信
-        return wxServiceClient.getAccessToken(
+        return wxLoginService.getAccessToken(
                 phoneLoginVOMono
                         .doOnNext(wxLoginDTO1 -> {
                             nickName.set(wxLoginDTO1.getNickName());
@@ -120,7 +120,7 @@ public class SystemUserServiceImpl implements SystemUserService {
                     return userBaseDO;
                 })
                 .map(userBaseDO -> {
-                    ResultInfo<UserBaseVO> resultInfo = new ResultInfo<>(StatusCode.OK);
+                    ResultInfo<UserBaseVO> resultInfo = new ResultInfo<>(StatusCodeEnum.OK);
                     UserBaseVO userBaseVO = UserBaseConvertUtils.toVO(userBaseDO);
                     resultInfo.setData(userBaseVO);
                     return resultInfo;
