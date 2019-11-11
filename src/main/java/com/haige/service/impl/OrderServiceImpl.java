@@ -1,5 +1,6 @@
 package com.haige.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.haige.common.bean.IdWorker;
 import com.haige.common.bean.ResultInfo;
 import com.haige.common.enums.OrderStatusEnum;
@@ -12,8 +13,8 @@ import com.haige.db.mapper.GoodsInfoDOMapper;
 import com.haige.db.mapper.OrderDOMapper;
 import com.haige.db.mapper.UserBaseDOMapper;
 import com.haige.integration.WXPayService;
-import com.haige.integration.param.SubmitOrderParam;
 import com.haige.service.OrderService;
+import com.haige.service.convert.OrderConvertUtils;
 import com.haige.service.dto.SubmitOrderDTO;
 import com.haige.web.vo.SubmitOrderVo;
 import lombok.extern.slf4j.Slf4j;
@@ -67,12 +68,16 @@ public class OrderServiceImpl implements OrderService {
         List<String> tokens = request.getHeaders().get("Authorization");
         String ip = request.getRemoteAddress().toString();
         UserBaseDO userBaseDO = userBaseDOMapper.findByToken(tokens.get(0));
-        Mono<SubmitOrderParam> param = orderRequestMono
+        return orderRequestMono
                 .map(submitOrderDTO -> {
                     // 查询套餐金额,查询优惠券金额,计算出总金额并返回
                     GoodsInfoDO goodsInfoDO = goodsInfoDOMapper.selectByPrimaryKey(submitOrderDTO.getGoodsId());
                     // 套餐金额
                     BigDecimal goodsPrice = goodsInfoDO.getGoodsPrice();
+                    // 生成订单
+                    OrderDO orderDO = new OrderDO();
+                    orderDO.setOrderPrice(goodsPrice);
+                    orderDO.setOrderAmount(goodsPrice);
                     // 判断优惠卷
                     if (submitOrderDTO.getCouponIds() != null && submitOrderDTO.getCouponIds().length > 0) {
                         BigDecimal money = new BigDecimal(0);
@@ -81,10 +86,10 @@ public class OrderServiceImpl implements OrderService {
                                 .map(id -> goodsCouponDOMapper.selectByPrimaryKey(id))
                                 .map(GoodsCouponDO::getGcPrice)
                                 .forEach(money::add);
-                        goodsPrice.divide(money);
+                        BigDecimal divide = goodsPrice.divide(money);
+                        orderDO.setOrderAmount(divide);
+                        orderDO.setCouponIds(JSON.toJSONString(submitOrderDTO.getCouponIds()));
                     }
-                    // 生成订单
-                    OrderDO orderDO = new OrderDO();
                     orderDO.setOrderId(String.valueOf(idWorker.nextId()));
                     orderDO.setGoodsId(submitOrderDTO.getGoodsId());
                     orderDO.setGoodsName(goodsInfoDO.getGoodsName());
@@ -93,20 +98,12 @@ public class OrderServiceImpl implements OrderService {
                     orderDO.setOrderStatus(OrderStatusEnum.NON_PAYMENT.getOrderStatus());
                     orderDO.setOrderUpdateTime(new Date());
                     orderDO.setOrderUpdateUser(userBaseDO.getUbdId());
+                    orderDO.setOrderAmount(goodsPrice);
                     orderDOMapper.insertSelective(orderDO);
                     return orderDO;
                 })
                 .map(orderDO -> {
-                    // 发起微信支付
-                    SubmitOrderParam submitOrderParam = new SubmitOrderParam();
-                    // todo 填写参数
-                    return submitOrderParam;
-                });
-        // 调用微信支付
-        // todo 编写微信支付
-        return wxPayService.submitOrder(param)
-                .map(o ->{
-                    SubmitOrderVo submitOrderVo = new SubmitOrderVo();
+                    SubmitOrderVo submitOrderVo = OrderConvertUtils.toVO(orderDO);
                     return ResultInfo.buildSuccess(submitOrderVo);
                 });
     }

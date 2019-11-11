@@ -17,7 +17,11 @@ public enum  OrderStatusEnum {
     /**
      * 支付失败
      */
-    UNPAID("300");
+    UNPAID("300"),
+    /**
+     * 订单关闭
+     */
+    CLOSED("400");
 
     private String orderStatus;
 

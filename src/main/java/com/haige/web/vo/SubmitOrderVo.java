@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 /**
  * @author Archie
  * @date 2019/11/10 13:50
@@ -12,5 +15,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SubmitOrderVo {
-    private String sing;
+    private String orderId;
+
+    private String goodsName;
+
+    private String orderStatus;
+
+    private BigDecimal orderAmount;
+
+    private BigDecimal orderPrice;
 }

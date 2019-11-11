@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Date;
 @Data
 @AllArgsConstructor
@@ -26,4 +27,10 @@ public class OrderDO {
     private Integer orderUpdateUser;
 
     private Date orderUpdateTime;
+
+    private BigDecimal orderAmount;
+
+    private BigDecimal orderPrice;
+
+    private String couponIds;
 }
