@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.haige.db.entity.FileInfoDO">
+<mapper namespace="com.haige.db.mapper.FileInfoDOMapper">
   <resultMap id="BaseResultMap" type="com.haige.db.entity.FileInfoDO">
     <id column="file_id" jdbcType="INTEGER" property="fileId" />
     <result column="file_real_name" jdbcType="VARCHAR" property="fileRealName" />
@@ -12,6 +12,9 @@
     <result column="file_batch" jdbcType="INTEGER" property="fileBatch" />
     <result column="file_is_use" jdbcType="VARCHAR" property="fileIsUse" />
   </resultMap>
+
+
+
   <sql id="Base_Column_List">
     file_id, file_real_name, file_name, file_real_path, file_path, file_work, file_work_id, 
     file_batch, file_is_use
@@ -139,4 +142,12 @@
       file_is_use = #{fileIsUse,jdbcType=VARCHAR}
     where file_id = #{fileId,jdbcType=INTEGER}
   </update>
+
+
+  <select id="selectFileById"   parameterType="INTEGER" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from haige_file_info
+    where file_work ='goods' and file_work_id = #{goodsId}
+  </select>
 </mapper>

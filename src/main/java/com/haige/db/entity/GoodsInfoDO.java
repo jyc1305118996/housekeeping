@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -46,4 +47,6 @@ public class GoodsInfoDO {
     private BigDecimal goodsPrice;
 
     private BigDecimal goodsDiscountPrice;
+
+    private List<FileInfoDO> files;
 }

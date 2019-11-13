@@ -20,10 +20,13 @@
     <result column="goods_update_user" jdbcType="INTEGER" property="goodsUpdateUser" />
     <result column="goods_price" jdbcType="DECIMAL" property="goodsPrice" />
     <result column="goods_discount_price" jdbcType="DECIMAL" property="goodsDiscountPrice" />
+    <collection property="files" javaType ="ArrayList" column="goods_Id" ofType="FileInfoDO" select="com.haige.db.mapper.FileInfoDOMapper.selectFileById"></collection>
   </resultMap>
+
+
   <sql id="Base_Column_List">
     goods_Id, goods_name, goods_remarks, goods_title, goods_freq, goods_expre_date, goods_person_type, 
-    goods_person_freq, goods_person_num, goods_advise, goods_active_desc, goods_restrict_desc, 
+    goods_person_freq, goods_person_num, goods_advise, goods_active_desc, goods_restrict_desc,
     goods_create_time, goods_create_user, goods_update_time, goods_update_user, goods_price, 
     goods_discount_price
   </sql>
@@ -251,4 +254,7 @@
     <include refid="Base_Column_List" />
     from haige_goods_info
   </select>
+
+
+
 </mapper>

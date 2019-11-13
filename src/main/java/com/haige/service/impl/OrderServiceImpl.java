@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.haige.common.bean.IdWorker;
 import com.haige.common.bean.ResultInfo;
 import com.haige.common.enums.OrderStatusEnum;
+import com.haige.common.enums.StatusCodeEnum;
 import com.haige.db.entity.GoodsCouponDO;
 import com.haige.db.entity.GoodsInfoDO;
 import com.haige.db.entity.OrderDO;
@@ -14,8 +15,10 @@ import com.haige.db.mapper.OrderDOMapper;
 import com.haige.db.mapper.UserBaseDOMapper;
 import com.haige.integration.WXPayService;
 import com.haige.service.OrderService;
+import com.haige.service.UserBaseService;
 import com.haige.service.convert.OrderConvertUtils;
 import com.haige.service.dto.SubmitOrderDTO;
+import com.haige.service.dto.UserBaseDTO;
 import com.haige.web.vo.SubmitOrderVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,7 @@ import reactor.core.publisher.Mono;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -62,6 +66,8 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private WXPayService wxPayService;
 
+    @Autowired
+    private UserBaseService userBaseService;
     @Override
     public Mono<ResultInfo<SubmitOrderVo>> submit(ServerWebExchange serverWebExchange, Mono<SubmitOrderDTO> orderRequestMono) {
         ServerHttpRequest request = serverWebExchange.getRequest();
@@ -106,5 +112,38 @@ public class OrderServiceImpl implements OrderService {
                     SubmitOrderVo submitOrderVo = OrderConvertUtils.toVO(orderDO);
                     return ResultInfo.buildSuccess(submitOrderVo);
                 });
+    }
+
+    @Override
+    public Mono<ResultInfo<List<OrderDO>>> queryOrderListByCondition(ServerWebExchange serverWebExchange, int status) {
+
+        //status ==0 则查询所有
+        //否则按照状态来
+        ServerHttpRequest request = serverWebExchange.getRequest();
+        List<String> auth = request.getHeaders().get("Authorization");
+        UserBaseDTO userBaseDTO= userBaseService.findByToken(auth.get(0));
+        //获取用户权限
+        //管理员查询全部
+        //
+        int userAdmin = userBaseDTO.getUbdAdmin();
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put("status",String.valueOf(status));
+
+        if(userAdmin == 0){
+            hashMap.put("userid","0");
+
+        }else{
+
+            hashMap.put("userid",userBaseDTO.getUbdId().toString());//非管理员查询自己的
+        }
+
+        List<OrderDO> orderDOList = orderDOMapper.findOrderDoList(hashMap);
+        ResultInfo<List<OrderDO>> result = new ResultInfo<List<OrderDO>>();
+        result.setData(orderDOList);
+        result.setCount(String.valueOf(orderDOList.size()));
+        result.setCode(StatusCodeEnum.OK.getCode());
+        result.setMessage(StatusCodeEnum.OK.getValue());
+        return Mono.justOrEmpty(result);
+
     }
 }
