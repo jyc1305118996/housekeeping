@@ -3,7 +3,9 @@ package com.haige.integration.impl;
 import com.haige.integration.WXPayService;
 import com.haige.integration.convert.WXPayConvertUtils;
 import com.haige.integration.enums.WXUrlEnums;
+import com.haige.integration.model.SubmitOrderResult;
 import com.haige.integration.param.SubmitOrderParam;
+import com.haige.util.wxUtil.WXPayUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -18,6 +20,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
+import java.util.Map;
 
 /**
  * @author Archie
@@ -32,16 +35,26 @@ public class WXPayServiceImpl implements WXPayService {
 
 
     @Override
-    public Mono<Object> submitOrder(Mono<SubmitOrderParam> submitOrderParam) {
-        return submitOrderParam.map(submitOrderParam1 -> {
-//            String xml = WXPayConvertUtils.convert(submitOrderParam1);
-//            HttpHeaders headers = new HttpHeaders();
-//            headers.setContentType(MediaType.APPLICATION_XML);
-//            HttpEntity<String> formEntity = new HttpEntity<String>(xml, headers);
-//            ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity(WXUrlEnums.SUBMIT_ORDER_URL, formEntity, String.class);
-//            System.out.println(stringResponseEntity.getBody());
-            System.out.println("aa");
-            return submitOrderParam;
+    public Mono<SubmitOrderResult> submitOrder(Mono<String> submitOrderParam) {
+        return submitOrderParam.map(param -> {
+            SubmitOrderResult submitOrderResult = new SubmitOrderResult();
+            log.debug("微信支付发起的数据请求是:{}", param);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_XML);
+            HttpEntity<String> formEntity = new HttpEntity<>(param, headers);
+            ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity(WXUrlEnums.SUBMIT_ORDER_URL, formEntity, String.class);
+            String xmlResponse = stringResponseEntity.getBody();
+            log.debug("微信支付发起的结果是:{}", xmlResponse);
+            try {
+                Map<String, String> map = WXPayUtil.xmlToMap(xmlResponse);
+                if (map.get("return_code").equals("SUCCESS") && map.get("result_code").equals("SUCCESS")){
+                    submitOrderResult.setPrepayId(map.get("prepay_id"));
+                }
+            } catch (Exception e) {
+                log.error("微信支付结果解析失败");
+                throw new RuntimeException("微信支付结果解析失败", e);
+            }
+            return submitOrderResult;
         });
     }
 }

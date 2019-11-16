@@ -14,24 +14,28 @@ import com.haige.db.mapper.GoodsInfoDOMapper;
 import com.haige.db.mapper.OrderDOMapper;
 import com.haige.db.mapper.UserBaseDOMapper;
 import com.haige.integration.WXPayService;
+import com.haige.integration.param.SubmitOrderParam;
 import com.haige.service.OrderService;
 import com.haige.service.UserBaseService;
 import com.haige.service.convert.OrderConvertUtils;
+import com.haige.service.dto.PayDTO;
 import com.haige.service.dto.SubmitOrderDTO;
 import com.haige.service.dto.UserBaseDTO;
+import com.haige.util.wxUtil.WXPayUtil;
+import com.haige.web.vo.PayVO;
 import com.haige.web.vo.SubmitOrderVo;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Archie
@@ -68,6 +72,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private UserBaseService userBaseService;
+
+    @Value("${wx.mchId}")
+    private String mchId;
+    @Value("${wx.apikey}")
+    private String appkey;
+
     @Override
     public Mono<ResultInfo<SubmitOrderVo>> submit(ServerWebExchange serverWebExchange, Mono<SubmitOrderDTO> orderRequestMono) {
         ServerHttpRequest request = serverWebExchange.getRequest();
@@ -96,7 +106,7 @@ public class OrderServiceImpl implements OrderService {
                         orderDO.setOrderAmount(divide);
                         orderDO.setCouponIds(JSON.toJSONString(submitOrderDTO.getCouponIds()));
                     }
-                    orderDO.setOrderId(String.valueOf(idWorker.nextId()));
+                    orderDO.setOrderId("DDH" + String.valueOf(idWorker.nextId()));
                     orderDO.setGoodsId(submitOrderDTO.getGoodsId());
                     orderDO.setGoodsName(goodsInfoDO.getGoodsName());
                     orderDO.setOrderCreateTime(new Date());
@@ -121,20 +131,20 @@ public class OrderServiceImpl implements OrderService {
         //否则按照状态来
         ServerHttpRequest request = serverWebExchange.getRequest();
         List<String> auth = request.getHeaders().get("Authorization");
-        UserBaseDTO userBaseDTO= userBaseService.findByToken(auth.get(0));
+        UserBaseDTO userBaseDTO = userBaseService.findByToken(auth.get(0));
         //获取用户权限
         //管理员查询全部
         //
         int userAdmin = userBaseDTO.getUbdAdmin();
-        HashMap<String,String> hashMap = new HashMap<>();
-        hashMap.put("status",String.valueOf(status));
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("status", String.valueOf(status));
 
-        if(userAdmin == 0){
-            hashMap.put("userid","0");
+        if (userAdmin == 0) {
+            hashMap.put("userid", "0");
 
-        }else{
+        } else {
 
-            hashMap.put("userid",userBaseDTO.getUbdId().toString());//非管理员查询自己的
+            hashMap.put("userid", userBaseDTO.getUbdId().toString());//非管理员查询自己的
         }
 
         List<OrderDO> orderDOList = orderDOMapper.findOrderDoList(hashMap);
@@ -144,6 +154,63 @@ public class OrderServiceImpl implements OrderService {
         result.setCode(StatusCodeEnum.OK.getCode());
         result.setMessage(StatusCodeEnum.OK.getValue());
         return Mono.justOrEmpty(result);
+
+    }
+
+    @Override
+    public Mono<ResultInfo> pay(ServerWebExchange exchange, Mono<PayDTO> payDTOMono) {
+        Mono<String> orderParamMono = payDTOMono
+                .map(payDTO -> {
+                    // 查询订单。封装微信支付参数
+                    OrderDO orderDO = orderDOMapper.selectByPrimaryKey(payDTO.getOrderId());
+                    HashMap<String, String> data = new HashMap<>();
+                    // 小程序身份证
+                    data.put("appid", payDTO.getAppid());
+                    // 商户号
+                    data.put("mch_id", mchId);
+                    // 设备号
+                    data.put("device_info", "app");
+                    // 随机字符串  包含数据和字母
+                    String nonceStr = RandomStringUtils.random(32, true, true);
+                    data.put("nonce_str", nonceStr);
+                    // 商品名
+                    data.put("body", orderDO.getGoodsName());
+                    // 商户订单号
+                    data.put("out_trade_no", orderDO.getOrderId());
+                    // 标价金额   元转变为分
+                    String fee = String.valueOf(((int) (orderDO.getOrderAmount().doubleValue() * 100)));
+                    data.put("total_fee", fee);
+                    // 终端ip
+                    String ip = exchange.getRequest().getRemoteAddress().getHostName();
+                    data.put("spbill_create_ip", ip);
+                    // todo 微信成功回调地址
+                    data.put("notify_url", "http://www.weixin.qq.com/wxpay/pay.php");
+                    // 交易类型
+                    data.put("trade_type", "JSAPI");
+                    // 查询用户
+                    String wxID = userBaseDOMapper.selectByPrimaryKey(orderDO.getOrderCreateUser()).getUbdWechatId();
+                    data.put("openid", wxID);
+                    Map<String, String> collect = data.entrySet()
+                            .stream()
+                            .sorted(Comparator.comparing(entry -> entry.getKey().substring(0, 1)))
+                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) ->  b, LinkedHashMap::new));
+                    // 计算签名
+                    String xmlParam = null;
+                    try {
+                        xmlParam = WXPayUtil.generateSignedXml(collect, appkey);
+                    } catch (Exception e) {
+                        log.error("小程序签名生成失败:{}", e.getMessage(), e);
+                        throw new RuntimeException("小程序签名生成失败:{}", e);
+                    }
+                    return xmlParam;
+                });
+        // 发起预支付
+        return wxPayService.submitOrder(orderParamMono)
+                .map(submitOrderResult -> {
+                    PayVO payVO = new PayVO();
+                    payVO.setPrepayId(submitOrderResult.getPrepayId());
+                    return ResultInfo.buildSuccess(payVO);
+                });
 
     }
 }

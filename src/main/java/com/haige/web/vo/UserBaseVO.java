@@ -18,4 +18,6 @@ public class UserBaseVO {
     private String ubdIsNew;
 
     private String ubdHeadPortrait;
+
+    private String ubdFixedPhone;
 }

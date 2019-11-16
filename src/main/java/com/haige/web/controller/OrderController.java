@@ -4,6 +4,7 @@ import com.haige.common.bean.ResultInfo;
 import com.haige.db.entity.OrderDO;
 import com.haige.service.OrderService;
 import com.haige.web.convert.OrderConvertUtils;
+import com.haige.web.request.PayRequest;
 import com.haige.web.request.SubmitOrderRequest;
 import com.haige.web.vo.SubmitOrderVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ public class OrderController {
 
     /**
      * 用户下单接口
+     *
      * @return
      */
     @PostMapping(value = "/submitOrder", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
@@ -41,12 +43,22 @@ public class OrderController {
     @GetMapping(value = "/queryOrderList", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 
-    public Mono<ResultInfo<List<OrderDO>>>  queryOrderList(ServerWebExchange serverWebExchange, @RequestParam(value = "status",required = false) Integer status) {
-        if(null == status){
+    public Mono<ResultInfo<List<OrderDO>>> queryOrderList(ServerWebExchange serverWebExchange, @RequestParam(value = "status", required = false) Integer status) {
+        if (null == status) {
             status = 0;//状态不传输就默认查所有
         }
 
-        return orderService.queryOrderListByCondition(serverWebExchange,status);
+        return orderService.queryOrderListByCondition(serverWebExchange, status);
+    }
+
+    /**
+     * 提交支付接口
+     * @return
+     */
+    @PostMapping(value = "/pay", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Mono<ResultInfo> pay(ServerWebExchange exchange, @RequestBody @Valid Mono<PayRequest> payRequestMono) {
+        return orderService.pay(exchange, payRequestMono.map(OrderConvertUtils::toDTO));
     }
 
 }

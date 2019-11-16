@@ -34,4 +34,9 @@ public class ResultInfo<T> {
         resultInfo.setData(r);
         return resultInfo;
     }
+    public static  ResultInfo<String> buildFailed(String r){
+        ResultInfo<String> resultInfo = new ResultInfo<>(StatusCodeEnum.OK);
+        resultInfo.setData(r);
+        return resultInfo;
+    }
 }

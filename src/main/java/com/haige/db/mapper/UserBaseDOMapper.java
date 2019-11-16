@@ -8,13 +8,13 @@ import org.springframework.stereotype.Repository;
 import java.math.BigDecimal;
 @Repository
 public interface UserBaseDOMapper {
-    int deleteByPrimaryKey(BigDecimal ubdId);
+    int deleteByPrimaryKey(Integer ubdId);
 
     int insert(UserBaseDO record);
 
     int insertSelective(UserBaseDO record);
 
-    UserBaseDO selectByPrimaryKey(BigDecimal ubdId);
+    UserBaseDO selectByPrimaryKey(Integer ubdId);
 
     int updateByPrimaryKeySelective(UserBaseDO record);
 

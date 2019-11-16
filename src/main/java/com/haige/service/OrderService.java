@@ -2,6 +2,7 @@ package com.haige.service;
 
 import com.haige.common.bean.ResultInfo;
 import com.haige.db.entity.OrderDO;
+import com.haige.service.dto.PayDTO;
 import com.haige.service.dto.SubmitOrderDTO;
 import com.haige.web.vo.SubmitOrderVo;
 import org.springframework.web.server.ServerWebExchange;
@@ -31,4 +32,11 @@ public interface OrderService {
     * @date: 2019-11-12
     */
     Mono<ResultInfo<List<OrderDO>>> queryOrderListByCondition(ServerWebExchange serverWebExchange, int status);
+
+    /**
+     * 统一下单
+     * @param payDTOMono
+     * @return
+     */
+    Mono<ResultInfo> pay(ServerWebExchange exchange, Mono<PayDTO> payDTOMono);
 }

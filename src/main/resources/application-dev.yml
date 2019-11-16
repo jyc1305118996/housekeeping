@@ -42,3 +42,6 @@ aliyun:
     accessKeyId: "LTAI4Fhz9C1SMqgUTgJYPA2x"
     accessSecret: "cLh4tNX44oH3XQUHa6G2lnhPOhjPyc"
     signName: "安居在家"
+wx:
+  mchId: "1556369561"
+  apikey: "3c8242b2060b43fba9c32e8c115eaf8e"

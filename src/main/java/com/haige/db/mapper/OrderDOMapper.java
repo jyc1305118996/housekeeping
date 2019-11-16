@@ -9,13 +9,13 @@ import java.util.List;
 
 @Repository
 public interface OrderDOMapper {
-    int deleteByPrimaryKey(Integer orderId);
+    int deleteByPrimaryKey(String orderId);
 
     int insert(OrderDO record);
 
     int insertSelective(OrderDO record);
 
-    OrderDO selectByPrimaryKey(Integer orderId);
+    OrderDO selectByPrimaryKey(String orderId);
 
     int updateByPrimaryKeySelective(OrderDO record);
 
