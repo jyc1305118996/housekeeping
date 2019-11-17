@@ -1,9 +1,11 @@
 package com.haige.service;
 
 import com.haige.common.bean.ResultInfo;
+import com.haige.service.dto.BindDingDTO;
 import com.haige.service.dto.UserBaseDTO;
 import com.haige.service.dto.WXLoginDTO;
 import com.haige.web.vo.UserBaseVO;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 /**
@@ -16,4 +18,12 @@ public interface UserBaseService {
     UserBaseDTO findByToken(String token);
 
     Mono<ResultInfo<UserBaseVO>> wxLogin(Mono<WXLoginDTO> wxLoginDTO);
+
+    /**
+     * 使手机号和用户绑定
+     * @param serverWebExchange
+     * @param bindDingDTOMono
+     * @return
+     */
+    Mono<ResultInfo> bindingIphone(ServerWebExchange serverWebExchange, Mono<BindDingDTO> bindDingDTOMono);
 }

@@ -3,7 +3,8 @@ package com.haige.web.controller;
 import com.haige.common.bean.ResultInfo;
 import com.haige.service.SystemUserService;
 import com.haige.service.UserBaseService;
-import com.haige.web.convert.WXLoginConvertUtils;
+import com.haige.web.convert.UserBaseConvertUtils;
+import com.haige.web.request.BindDingRequest;
 import com.haige.web.vo.PhoneLoginVO;
 import com.haige.web.vo.UserBaseVO;
 import com.haige.web.vo.WXLoginVO;
@@ -34,7 +35,7 @@ public class UserBaseController {
     @PostMapping(value = "/login/phone", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Mono<ResultInfo<UserBaseVO>> testcode(ServerWebExchange exchange, @RequestBody @Valid Mono<PhoneLoginVO> phone) {
-        return systemUserService.loginByPhoneAndCode(exchange, phone.map(WXLoginConvertUtils::toDTO));
+        return systemUserService.loginByPhoneAndCode(exchange, phone.map(UserBaseConvertUtils::toDTO));
     }
 
     /**
@@ -46,6 +47,12 @@ public class UserBaseController {
     @PostMapping(value = "/login/wx", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Mono<ResultInfo<UserBaseVO>> wxLogin(@RequestBody @Valid Mono<WXLoginVO> wxLoginVO) {
-        return userBaseService.wxLogin(wxLoginVO.map(WXLoginConvertUtils::toDTO));
+        return userBaseService.wxLogin(wxLoginVO.map(UserBaseConvertUtils::toDTO));
+    }
+
+    @PostMapping(value = "/binding/iphone", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Mono<ResultInfo> bindingIphone(ServerWebExchange serverWebExchange, @RequestBody @Valid Mono<BindDingRequest> bindDingRequest) {
+        return userBaseService.bindingIphone(serverWebExchange, bindDingRequest.map(UserBaseConvertUtils::toDTO));
     }
 }

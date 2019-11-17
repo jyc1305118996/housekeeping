@@ -8,18 +8,22 @@ import com.haige.integration.WXLoginService;
 import com.haige.integration.param.AccessTokenParam;
 import com.haige.service.UserBaseService;
 import com.haige.service.convert.UserBaseConvertUtils;
+import com.haige.service.dto.BindDingDTO;
 import com.haige.service.dto.UserBaseDTO;
 import com.haige.service.dto.WXLoginDTO;
 import com.haige.util.DateUtils;
 import com.haige.web.vo.UserBaseVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -100,6 +104,28 @@ public class UserBaseImpl implements UserBaseService {
                     ResultInfo<UserBaseVO> resultInfo = new ResultInfo<>(StatusCodeEnum.OK);
                     resultInfo.setData(userBaseVO);
                     return resultInfo;
+                });
+    }
+
+    @Override
+    public Mono<ResultInfo> bindingIphone(ServerWebExchange serverWebExchange, Mono<BindDingDTO> bindDingDTOMono) {
+        ServerHttpRequest request = serverWebExchange.getRequest();
+        return bindDingDTOMono
+                .zipWith(serverWebExchange.getSession(), (param, session) -> {
+                    String checkCode = param.getCheckCode();
+                    String temCode = session.getAttribute(param.getIphone());
+                    if (!checkCode.equals(temCode)) {
+                        throw new RuntimeException("验证码不正确，绑定失败");
+                    }
+                    return param;
+                })
+                .map(param -> {
+                    // 关联用户
+                    List<String> tokens = request.getHeaders().get("Authorization");
+                    UserBaseDO userBaseDO = userBaseDOMapper.findByToken(tokens.get(0));
+                    userBaseDO.setUbdFixedPhone(param.getIphone());
+                    userBaseDOMapper.updateByPrimaryKey(userBaseDO);
+                    return ResultInfo.buildFailed("OK");
                 });
     }
 }

@@ -177,7 +177,7 @@ public class OrderServiceImpl implements OrderService {
                     data.put("body", orderDO.getGoodsName());
                     // 商户订单号
                     data.put("out_trade_no", orderDO.getOrderId());
-                    // 标价金额   元转变为分
+                    // todo 标价金额   元转变为分
                     String fee = String.valueOf(((int) (orderDO.getOrderAmount().doubleValue() * 100)));
                     data.put("total_fee", "1");
                     // 终端ip

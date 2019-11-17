@@ -45,16 +45,17 @@ public class WXPayServiceImpl implements WXPayService {
             ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity(WXUrlEnums.SUBMIT_ORDER_URL, formEntity, String.class);
             String xmlResponse = stringResponseEntity.getBody();
             log.debug("微信支付发起的结果是:{}", xmlResponse);
+            Map<String, String> map = null;
             try {
-                Map<String, String> map = WXPayUtil.xmlToMap(xmlResponse);
-                if (map.get("return_code").equals("SUCCESS") && map.get("result_code").equals("SUCCESS")){
-                    submitOrderResult.setPrepayId(map.get("prepay_id"));
-                    log.debug("微信调用支付成功:{}", map.get("prepay_id"));
-                }else {
-                    throw new RuntimeException("微信支付失败" + map.get("return_msg"));
-                }
+                map = WXPayUtil.xmlToMap(xmlResponse);
             } catch (Exception e) {
                 throw new RuntimeException("微信支付结果解析失败", e);
+            }
+            if (map.get("return_code").equals("SUCCESS") && map.get("result_code").equals("SUCCESS")) {
+                submitOrderResult.setPrepayId(map.get("prepay_id"));
+                log.debug("微信调用支付成功:{}", map.get("prepay_id"));
+            } else {
+                throw new RuntimeException("微信支付失败" + map.get("return_msg"));
             }
             return submitOrderResult;
         });
