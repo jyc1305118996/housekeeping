@@ -179,7 +179,7 @@ public class OrderServiceImpl implements OrderService {
                     data.put("out_trade_no", orderDO.getOrderId());
                     // 标价金额   元转变为分
                     String fee = String.valueOf(((int) (orderDO.getOrderAmount().doubleValue() * 100)));
-                    data.put("total_fee", fee);
+                    data.put("total_fee", "1");
                     // 终端ip
                     String ip = exchange.getRequest().getRemoteAddress().getHostName();
                     data.put("spbill_create_ip", ip);
@@ -190,6 +190,7 @@ public class OrderServiceImpl implements OrderService {
                     // 查询用户
                     String wxID = userBaseDOMapper.selectByPrimaryKey(orderDO.getOrderCreateUser()).getUbdWechatId();
                     data.put("openid", wxID);
+                    // 按照k得首字母排序
                     Map<String, String> collect = data.entrySet()
                             .stream()
                             .sorted(Comparator.comparing(entry -> entry.getKey().substring(0, 1)))

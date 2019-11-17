@@ -5,7 +5,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
+
+import java.nio.charset.Charset;
+import java.util.List;
 
 
 /**
@@ -43,7 +48,22 @@ public class HaigeApplication {
 
     @Bean
     public RestTemplate getRestTemplate(){
-        return new RestTemplate();
+        // 移除resttemplate的默认转换器，添加自定义转换器，解决格式乱码问题
+        RestTemplate restTemplate = new RestTemplate();
+        List<HttpMessageConverter<?>> converterList=restTemplate.getMessageConverters();
+        HttpMessageConverter<?> converterTarget = null;
+        for (HttpMessageConverter<?> item : converterList) {
+            if (item.getClass() == StringHttpMessageConverter.class) {
+                converterTarget = item;
+                break;
+            }
+        }
+        if (converterTarget != null){
+            converterList.remove(converterTarget);
+        }
+        HttpMessageConverter<?> converter = new StringHttpMessageConverter(Charset.forName("UTF-8"));
+        restTemplate.getMessageConverters().add(converter);
+        return restTemplate;
     }
 
     @Bean

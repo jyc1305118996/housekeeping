@@ -49,9 +49,11 @@ public class WXPayServiceImpl implements WXPayService {
                 Map<String, String> map = WXPayUtil.xmlToMap(xmlResponse);
                 if (map.get("return_code").equals("SUCCESS") && map.get("result_code").equals("SUCCESS")){
                     submitOrderResult.setPrepayId(map.get("prepay_id"));
+                    log.debug("微信调用支付成功:{}", map.get("prepay_id"));
+                }else {
+                    throw new RuntimeException("微信支付失败" + map.get("return_msg"));
                 }
             } catch (Exception e) {
-                log.error("微信支付结果解析失败");
                 throw new RuntimeException("微信支付结果解析失败", e);
             }
             return submitOrderResult;
