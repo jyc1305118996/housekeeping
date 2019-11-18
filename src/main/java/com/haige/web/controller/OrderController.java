@@ -70,6 +70,7 @@ public class OrderController {
      * @param exchange
      * @return
      */
+//    @CrossOrigin     如果跨域请尝试
     @PutMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Mono<ResultInfo> updateOrder(ServerWebExchange exchange, @RequestBody @Valid Mono<UpdateOrderRequest> orderRequestMono){
