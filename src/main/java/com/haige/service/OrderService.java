@@ -4,6 +4,7 @@ import com.haige.common.bean.ResultInfo;
 import com.haige.db.entity.OrderDO;
 import com.haige.service.dto.PayDTO;
 import com.haige.service.dto.SubmitOrderDTO;
+import com.haige.service.dto.UpdateOrderDTO;
 import com.haige.web.vo.SubmitOrderVo;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
@@ -39,4 +40,13 @@ public interface OrderService {
      * @return
      */
     Mono<ResultInfo> pay(ServerWebExchange exchange, Mono<PayDTO> payDTOMono);
+
+    /**
+     * 付款后根据付款结果更新订单状态
+     * @param orderRequestMono
+     * @return
+     */
+    Mono<ResultInfo> updateOrder(Mono<UpdateOrderDTO> orderRequestMono);
+
+
 }

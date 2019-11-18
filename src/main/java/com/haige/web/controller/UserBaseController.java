@@ -32,6 +32,12 @@ public class UserBaseController {
     private SystemUserService systemUserService;
 
 
+    /**
+     * 手机号登陆
+     * @param exchange
+     * @param phone
+     * @return
+     */
     @PostMapping(value = "/login/phone", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Mono<ResultInfo<UserBaseVO>> testcode(ServerWebExchange exchange, @RequestBody @Valid Mono<PhoneLoginVO> phone) {

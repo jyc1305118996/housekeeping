@@ -2,8 +2,10 @@ package com.haige.web.convert;
 
 import com.haige.service.dto.PayDTO;
 import com.haige.service.dto.SubmitOrderDTO;
+import com.haige.service.dto.UpdateOrderDTO;
 import com.haige.web.request.PayRequest;
 import com.haige.web.request.SubmitOrderRequest;
+import com.haige.web.request.UpdateOrderRequest;
 import org.springframework.beans.BeanUtils;
 
 /**
@@ -20,5 +22,10 @@ public class OrderConvertUtils {
         PayDTO payDTO = new PayDTO();
         BeanUtils.copyProperties(payRequest, payDTO);
         return payDTO;
+    }
+    public static UpdateOrderDTO toDTO(UpdateOrderRequest updateOrderRequest){
+        UpdateOrderDTO updateOrderDTO = new UpdateOrderDTO();
+        BeanUtils.copyProperties(updateOrderRequest, updateOrderDTO);
+        return updateOrderDTO;
     }
 }

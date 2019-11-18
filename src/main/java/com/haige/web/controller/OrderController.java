@@ -6,6 +6,7 @@ import com.haige.service.OrderService;
 import com.haige.web.convert.OrderConvertUtils;
 import com.haige.web.request.PayRequest;
 import com.haige.web.request.SubmitOrderRequest;
+import com.haige.web.request.UpdateOrderRequest;
 import com.haige.web.vo.SubmitOrderVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -53,6 +54,7 @@ public class OrderController {
 
     /**
      * 提交支付接口
+     *
      * @return
      */
     @PostMapping(value = "/pay", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
@@ -61,4 +63,15 @@ public class OrderController {
         return orderService.pay(exchange, payRequestMono.map(OrderConvertUtils::toDTO));
     }
 
+
+    /**
+     * 更新订单状态接口
+     * @param orderRequestMono
+     * @return
+     */
+    @PutMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Mono<ResultInfo> updateOrder(@RequestBody @Valid Mono<UpdateOrderRequest> orderRequestMono){
+        return orderService.updateOrder(orderRequestMono.map(OrderConvertUtils::toDTO));
+    }
 }

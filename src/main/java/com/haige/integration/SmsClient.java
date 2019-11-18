@@ -4,6 +4,7 @@ import com.haige.integration.param.SendMessageParam;
 import com.haige.integration.model.SendMessageResult;
 
 /**
+ * 第三方短信
  * @author Archie
  * @date 2019/10/18 0:40
  */

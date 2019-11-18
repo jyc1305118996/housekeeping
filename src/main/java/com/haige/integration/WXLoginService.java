@@ -6,7 +6,7 @@ import com.haige.integration.param.AccessTokenParam;
 import com.haige.integration.param.UserinfoParam;
 import reactor.core.publisher.Mono;
 
-/**
+/**微信登陆
  * @author Archie
  * @date 2019/11/1 23:44
  */

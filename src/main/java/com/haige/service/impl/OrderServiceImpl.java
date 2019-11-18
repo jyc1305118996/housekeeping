@@ -20,6 +20,7 @@ import com.haige.service.UserBaseService;
 import com.haige.service.convert.OrderConvertUtils;
 import com.haige.service.dto.PayDTO;
 import com.haige.service.dto.SubmitOrderDTO;
+import com.haige.service.dto.UpdateOrderDTO;
 import com.haige.service.dto.UserBaseDTO;
 import com.haige.util.wxUtil.WXPayUtil;
 import com.haige.web.vo.PayVO;
@@ -194,7 +195,7 @@ public class OrderServiceImpl implements OrderService {
                     Map<String, String> collect = data.entrySet()
                             .stream()
                             .sorted(Comparator.comparing(entry -> entry.getKey().substring(0, 1)))
-                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) ->  b, LinkedHashMap::new));
+                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> b, LinkedHashMap::new));
                     // 计算签名
                     String xmlParam = null;
                     try {
@@ -213,5 +214,16 @@ public class OrderServiceImpl implements OrderService {
                     return ResultInfo.buildSuccess(payVO);
                 });
 
+    }
+
+    @Override
+    public Mono<ResultInfo> updateOrder(Mono<UpdateOrderDTO> orderRequestMono) {
+
+        return orderRequestMono.map(updateOrderDTO -> {
+            OrderDO orderDO = orderDOMapper.selectByPrimaryKey(updateOrderDTO.getOrderId());
+            orderDO.setOrderStatus(updateOrderDTO.getOrderStatus());
+            return orderDOMapper.updateByPrimaryKeySelective(orderDO);
+        })
+                .map(ResultInfo::buildSuccess);
     }
 }
