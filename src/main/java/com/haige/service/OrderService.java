@@ -46,7 +46,7 @@ public interface OrderService {
      * @param orderRequestMono
      * @return
      */
-    Mono<ResultInfo> updateOrder(Mono<UpdateOrderDTO> orderRequestMono);
+    Mono<ResultInfo> updateOrder(ServerWebExchange webExchange, Mono<UpdateOrderDTO> orderRequestMono);
 
 
 }

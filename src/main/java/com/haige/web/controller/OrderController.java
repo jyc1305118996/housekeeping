@@ -67,11 +67,12 @@ public class OrderController {
     /**
      * 更新订单状态接口
      * @param orderRequestMono
+     * @param exchange
      * @return
      */
     @PutMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Mono<ResultInfo> updateOrder(@RequestBody @Valid Mono<UpdateOrderRequest> orderRequestMono){
-        return orderService.updateOrder(orderRequestMono.map(OrderConvertUtils::toDTO));
+    public Mono<ResultInfo> updateOrder(ServerWebExchange exchange, @RequestBody @Valid Mono<UpdateOrderRequest> orderRequestMono){
+        return orderService.updateOrder(exchange, orderRequestMono.map(OrderConvertUtils::toDTO));
     }
 }

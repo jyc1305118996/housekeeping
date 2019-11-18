@@ -33,6 +33,7 @@ public class ShortMsgConvertUtils {
     }
 
     /**
+     * 您有新的订单预约服务，手机号:${phone}，地址:${address}，请及时处理。
      * 获取预约通知模板
      * @param param
      * @return
@@ -45,6 +46,7 @@ public class ShortMsgConvertUtils {
     }
 
     /**
+     * 您预约的服务已为您安排保洁，保洁人员电话${phone},将会于${date}联系您
      * 预约受理模板
      * @param param
      * @return
@@ -52,6 +54,20 @@ public class ShortMsgConvertUtils {
     public static SendMessageParam.SmsTemplate getAppointmentAcceptTemplate(HashMap<String, String> param){
         SendMessageParam.SmsTemplate smsTemplate= new SendMessageParam.SmsTemplate();
         smsTemplate.setTemplateCode("SMS_176913804");
+        smsTemplate.setParam(param);
+        return smsTemplate;
+    }
+
+    /**
+     * 亲爱的会员，您在安居在家购买的套餐:${goods}付款成功。
+     * 订单号为：${orderid},我们会尽快让商家与您联系，记得关注我们的商城喔~感谢您的支持！
+     * 支付ok，通知客户模板
+     * @param param
+     * @return
+     */
+    public static SendMessageParam.SmsTemplate getPayOKTemplate(HashMap<String, String> param){
+        SendMessageParam.SmsTemplate smsTemplate= new SendMessageParam.SmsTemplate();
+        smsTemplate.setTemplateCode("SMS_177547763");
         smsTemplate.setParam(param);
         return smsTemplate;
     }

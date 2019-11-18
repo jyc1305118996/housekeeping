@@ -13,11 +13,14 @@ import com.haige.db.mapper.GoodsCouponDOMapper;
 import com.haige.db.mapper.GoodsInfoDOMapper;
 import com.haige.db.mapper.OrderDOMapper;
 import com.haige.db.mapper.UserBaseDOMapper;
+import com.haige.integration.SmsClient;
 import com.haige.integration.WXPayService;
+import com.haige.integration.param.SendMessageParam;
 import com.haige.integration.param.SubmitOrderParam;
 import com.haige.service.OrderService;
 import com.haige.service.UserBaseService;
 import com.haige.service.convert.OrderConvertUtils;
+import com.haige.service.convert.ShortMsgConvertUtils;
 import com.haige.service.dto.PayDTO;
 import com.haige.service.dto.SubmitOrderDTO;
 import com.haige.service.dto.UpdateOrderDTO;
@@ -73,6 +76,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private UserBaseService userBaseService;
+
+    @Autowired
+    private SmsClient smsClient;
 
     @Value("${wx.mchId}")
     private String mchId;
@@ -217,12 +223,29 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Mono<ResultInfo> updateOrder(Mono<UpdateOrderDTO> orderRequestMono) {
-
+    public Mono<ResultInfo> updateOrder(ServerWebExchange exchange, Mono<UpdateOrderDTO> orderRequestMono) {
+        ServerHttpRequest request = exchange.getRequest();
         return orderRequestMono.map(updateOrderDTO -> {
             OrderDO orderDO = orderDOMapper.selectByPrimaryKey(updateOrderDTO.getOrderId());
             orderDO.setOrderStatus(updateOrderDTO.getOrderStatus());
-            return orderDOMapper.updateByPrimaryKeySelective(orderDO);
+            orderDOMapper.updateByPrimaryKeySelective(orderDO);
+            return orderDO;
+        }).map(orderDO -> {
+            if ("100".equals(orderDO.getOrderStatus())) {
+                // 发送下单成功通知短信
+                List<String> auth = request.getHeaders().get("Authorization");
+                UserBaseDO userBaseDO = userBaseDOMapper.findByToken(auth.get(0));
+                // 付款成功发送短信
+                HashMap<String, String> param = new HashMap<>();
+                param.put("goods", orderDO.getGoodsName());
+                param.put("orderid", orderDO.getOrderId());
+                SendMessageParam.SmsTemplate payOKTemplate = ShortMsgConvertUtils.getPayOKTemplate(param);
+                SendMessageParam sendMessageParam = new SendMessageParam();
+                sendMessageParam.setSmsTemplate(payOKTemplate);
+                sendMessageParam.setIphone(userBaseDO.getUbdFixedPhone());
+                smsClient.sendMessage(sendMessageParam);
+            }
+            return "SUCCESS";
         })
                 .map(ResultInfo::buildSuccess);
     }
