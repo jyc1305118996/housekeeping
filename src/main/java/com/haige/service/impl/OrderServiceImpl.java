@@ -238,7 +238,8 @@ public class OrderServiceImpl implements OrderService {
                 // 付款成功发送短信
                 HashMap<String, String> param = new HashMap<>();
                 param.put("goods", orderDO.getGoodsName());
-                param.put("orderid", orderDO.getOrderId());
+                param.put("orderid", orderDO.getOrderId().substring(3));
+                // 获取模板
                 SendMessageParam.SmsTemplate payOKTemplate = ShortMsgConvertUtils.getPayOKTemplate(param);
                 SendMessageParam sendMessageParam = new SendMessageParam();
                 sendMessageParam.setSmsTemplate(payOKTemplate);

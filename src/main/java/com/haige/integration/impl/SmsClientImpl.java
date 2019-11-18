@@ -36,6 +36,7 @@ public class SmsClientImpl implements SmsClient {
 
     @Override
     public SendMessageResult sendMessage(SendMessageParam sendMessageParam) {
+        log.debug("iphone:{},message:{}", sendMessageParam.getIphone(), sendMessageParam.getSmsTemplate().getParam());
         SendMessageResult sendMessageResult = new SendMessageResult();
         sendMessageResult.setSmsStatus("success");
 
