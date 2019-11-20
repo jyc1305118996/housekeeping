@@ -2,6 +2,7 @@ package com.haige.service;
 
 import com.haige.common.bean.ResultInfo;
 import com.haige.db.entity.OrderDO;
+import com.haige.service.dto.AllotDTO;
 import com.haige.service.dto.PayDTO;
 import com.haige.service.dto.SubmitOrderDTO;
 import com.haige.service.dto.UpdateOrderDTO;
@@ -47,6 +48,14 @@ public interface OrderService {
      * @return
      */
     Mono<ResultInfo> updateOrder(ServerWebExchange webExchange, Mono<UpdateOrderDTO> orderRequestMono);
+
+    /**
+     * 给员工分配订单
+     * @param allotDTOMono
+     * @return
+     */
+    Mono<ResultInfo> allot(Mono<AllotDTO> allotDTOMono);
+
 
 
 }

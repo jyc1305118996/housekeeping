@@ -4,6 +4,7 @@ import com.haige.common.bean.ResultInfo;
 import com.haige.db.entity.OrderDO;
 import com.haige.service.OrderService;
 import com.haige.web.convert.OrderConvertUtils;
+import com.haige.web.request.AllotParam;
 import com.haige.web.request.PayRequest;
 import com.haige.web.request.SubmitOrderRequest;
 import com.haige.web.request.UpdateOrderRequest;
@@ -66,14 +67,21 @@ public class OrderController {
 
     /**
      * 更新订单状态接口
+     *
      * @param orderRequestMono
      * @param exchange
      * @return
      */
-//    @CrossOrigin     如果跨域请尝试
     @PutMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Mono<ResultInfo> updateOrder(ServerWebExchange exchange, @RequestBody @Valid Mono<UpdateOrderRequest> orderRequestMono){
+    public Mono<ResultInfo> updateOrder(ServerWebExchange exchange, @RequestBody @Valid Mono<UpdateOrderRequest> orderRequestMono) {
         return orderService.updateOrder(exchange, orderRequestMono.map(OrderConvertUtils::toDTO));
+    }
+
+
+    @PostMapping(value = "/allot", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Mono<ResultInfo> allot(@RequestBody @Valid Mono<AllotParam> allotParamMono) {
+        return orderService.allot(allotParamMono.map(OrderConvertUtils::toDTO));
     }
 }

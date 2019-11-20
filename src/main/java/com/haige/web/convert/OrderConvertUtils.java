@@ -1,8 +1,10 @@
 package com.haige.web.convert;
 
+import com.haige.service.dto.AllotDTO;
 import com.haige.service.dto.PayDTO;
 import com.haige.service.dto.SubmitOrderDTO;
 import com.haige.service.dto.UpdateOrderDTO;
+import com.haige.web.request.AllotParam;
 import com.haige.web.request.PayRequest;
 import com.haige.web.request.SubmitOrderRequest;
 import com.haige.web.request.UpdateOrderRequest;
@@ -27,5 +29,10 @@ public class OrderConvertUtils {
         UpdateOrderDTO updateOrderDTO = new UpdateOrderDTO();
         BeanUtils.copyProperties(updateOrderRequest, updateOrderDTO);
         return updateOrderDTO;
+    }
+    public static AllotDTO toDTO(AllotParam allotParam){
+        AllotDTO allotDTO = new AllotDTO();
+        BeanUtils.copyProperties(allotParam, allotDTO);
+        return allotDTO;
     }
 }

@@ -1,4 +1,4 @@
-package com.haige.web.request;
+package com.haige.service.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,16 +9,13 @@ import javax.validation.constraints.NotNull;
 
 /**
  * @author Archie
- * @date 2019/11/10 13:53
+ * @date 2019/11/20 23:38
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SubmitOrderRequest {
-    @NotNull
-    private Integer goodsId;
-    private long[] couponIds;
-    @NotNull
-    @Length(min = 1)
-    private String address;
+public class AllotDTO {
+    private String orderId;
+    private String userId;
+
 }

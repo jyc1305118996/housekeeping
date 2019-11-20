@@ -17,4 +17,5 @@ import javax.validation.constraints.NotNull;
 public class SubmitOrderDTO {
     private Integer goodsId;
     private Integer[] couponIds;
+    private String address;
 }

@@ -21,10 +21,7 @@ import com.haige.service.OrderService;
 import com.haige.service.UserBaseService;
 import com.haige.service.convert.OrderConvertUtils;
 import com.haige.service.convert.ShortMsgConvertUtils;
-import com.haige.service.dto.PayDTO;
-import com.haige.service.dto.SubmitOrderDTO;
-import com.haige.service.dto.UpdateOrderDTO;
-import com.haige.service.dto.UserBaseDTO;
+import com.haige.service.dto.*;
 import com.haige.util.wxUtil.WXPayUtil;
 import com.haige.web.vo.PayVO;
 import com.haige.web.vo.SubmitOrderVo;
@@ -99,6 +96,7 @@ public class OrderServiceImpl implements OrderService {
                     BigDecimal goodsPrice = goodsInfoDO.getGoodsPrice();
                     // 生成订单
                     OrderDO orderDO = new OrderDO();
+                    // todo  订单需要添加地址字段
                     orderDO.setOrderPrice(goodsPrice);
                     orderDO.setOrderAmount(goodsPrice);
                     // 判断优惠卷
@@ -249,5 +247,11 @@ public class OrderServiceImpl implements OrderService {
             return "SUCCESS";
         })
                 .map(ResultInfo::buildSuccess);
+    }
+
+    @Override
+    public Mono<ResultInfo> allot(Mono<AllotDTO> allotDTOMono) {
+        // todo
+        return null;
     }
 }
