@@ -55,7 +55,7 @@ public class HaigeDataSourceConfig {
         final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(clusterDataSource);
         sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver()
-                .getResources("classpath:sql/haige/*.xml"));
+                .getResources("classpath:sql/*/*.xml"));
         return sessionFactory.getObject();
     }
 

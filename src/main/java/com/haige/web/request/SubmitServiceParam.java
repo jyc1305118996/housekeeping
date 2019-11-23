@@ -20,7 +20,7 @@ public class SubmitServiceParam {
     private String orderId;
     @NotNull
     @Length(min = 1)
-    private String visitTime;
+    private String serviceTime;
     @NotNull
     @Length(min = 1)
     private String iphone;

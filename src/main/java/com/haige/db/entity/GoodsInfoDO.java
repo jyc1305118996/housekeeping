@@ -20,7 +20,7 @@ public class GoodsInfoDO {
 
     private String goodsTitle;
 
-    private Byte goodsFreq;
+    private Integer goodsFreq;
 
     private Date goodsExpreDate;
 

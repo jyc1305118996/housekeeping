@@ -6,7 +6,7 @@
     <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
     <result column="goods_remarks" jdbcType="VARCHAR" property="goodsRemarks" />
     <result column="goods_title" jdbcType="VARCHAR" property="goodsTitle" />
-    <result column="goods_freq" jdbcType="TINYINT" property="goodsFreq" />
+    <result column="goods_freq" jdbcType="INTEGER" property="goodsFreq" />
     <result column="goods_expre_date" jdbcType="TIMESTAMP" property="goodsExpreDate" />
     <result column="goods_person_type" jdbcType="TINYINT" property="goodsPersonType" />
     <result column="goods_person_freq" jdbcType="TINYINT" property="goodsPersonFreq" />
@@ -49,7 +49,7 @@
       goods_update_user, goods_price, goods_discount_price
       )
     values (#{goodsId,jdbcType=INTEGER}, #{goodsName,jdbcType=VARCHAR}, #{goodsRemarks,jdbcType=VARCHAR}, 
-      #{goodsTitle,jdbcType=VARCHAR}, #{goodsFreq,jdbcType=TINYINT}, #{goodsExpreDate,jdbcType=TIMESTAMP}, 
+      #{goodsTitle,jdbcType=VARCHAR}, #{goodsFreq,jdbcType=INTEGER}, #{goodsExpreDate,jdbcType=TIMESTAMP},
       #{goodsPersonType,jdbcType=TINYINT}, #{goodsPersonFreq,jdbcType=TINYINT}, #{goodsPersonNum,jdbcType=TINYINT}, 
       #{goodsAdvise,jdbcType=VARCHAR}, #{goodsActiveDesc,jdbcType=VARCHAR}, #{goodsRestrictDesc,jdbcType=VARCHAR}, 
       #{goodsCreateTime,jdbcType=TIMESTAMP}, #{goodsCreateUser,jdbcType=INTEGER}, #{goodsUpdateTime,jdbcType=TIMESTAMP}, 
@@ -128,7 +128,7 @@
         #{goodsTitle,jdbcType=VARCHAR},
       </if>
       <if test="goodsFreq != null">
-        #{goodsFreq,jdbcType=TINYINT},
+        #{goodsFreq,jdbcType=INTEGER},
       </if>
       <if test="goodsExpreDate != null">
         #{goodsExpreDate,jdbcType=TIMESTAMP},
@@ -184,7 +184,7 @@
         goods_title = #{goodsTitle,jdbcType=VARCHAR},
       </if>
       <if test="goodsFreq != null">
-        goods_freq = #{goodsFreq,jdbcType=TINYINT},
+        goods_freq = #{goodsFreq,jdbcType=INTEGER},
       </if>
       <if test="goodsExpreDate != null">
         goods_expre_date = #{goodsExpreDate,jdbcType=TIMESTAMP},
@@ -233,7 +233,7 @@
     set goods_name = #{goodsName,jdbcType=VARCHAR},
       goods_remarks = #{goodsRemarks,jdbcType=VARCHAR},
       goods_title = #{goodsTitle,jdbcType=VARCHAR},
-      goods_freq = #{goodsFreq,jdbcType=TINYINT},
+      goods_freq = #{goodsFreq,jdbcType=INTEGER},
       goods_expre_date = #{goodsExpreDate,jdbcType=TIMESTAMP},
       goods_person_type = #{goodsPersonType,jdbcType=TINYINT},
       goods_person_freq = #{goodsPersonFreq,jdbcType=TINYINT},

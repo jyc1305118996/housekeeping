@@ -12,7 +12,7 @@ import java.util.Date;
 public class ServeDetailDO {
     private Integer serveId;
 
-    private Integer orderId;
+    private String orderId;
 
     private Integer serveUserId;
 
@@ -29,4 +29,10 @@ public class ServeDetailDO {
     private Date serveStartTime;
 
     private Date serveEndTime;
+
+    private String concatIphone;
+
+    private String concatName;
+
+    private String concatAddress;
 }

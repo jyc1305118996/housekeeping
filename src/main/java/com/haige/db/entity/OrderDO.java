@@ -33,4 +33,8 @@ public class OrderDO {
     private BigDecimal orderPrice;
 
     private String couponIds;
+
+    private String orderAddress;
+
+    private Integer orderCount;
 }

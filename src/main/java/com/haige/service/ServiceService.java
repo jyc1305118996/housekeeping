@@ -10,5 +10,10 @@ import reactor.core.publisher.Mono;
  * @date 2019/11/20 23:31
  */
 public interface ServiceService {
+    /**
+     * 预约服务
+     * @param serviceDTOMono
+     * @return
+     */
     Mono<ResultInfo> submit(Mono<SubmitServiceDTO> serviceDTOMono);
 }

@@ -96,7 +96,8 @@ public class OrderServiceImpl implements OrderService {
                     BigDecimal goodsPrice = goodsInfoDO.getGoodsPrice();
                     // 生成订单
                     OrderDO orderDO = new OrderDO();
-                    // todo  订单需要添加地址字段
+                    orderDO.setOrderAddress(submitOrderDTO.getAddress());
+                    orderDO.setOrderCount(goodsInfoDO.getGoodsFreq());
                     orderDO.setOrderPrice(goodsPrice);
                     orderDO.setOrderAmount(goodsPrice);
                     // 判断优惠卷
@@ -251,7 +252,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Mono<ResultInfo> allot(Mono<AllotDTO> allotDTOMono) {
-        // todo
+        // todo  人员分配订单
         return null;
     }
 }

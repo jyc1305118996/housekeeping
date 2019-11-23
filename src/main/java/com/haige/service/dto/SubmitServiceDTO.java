@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class SubmitServiceDTO {
     private String orderId;
-    private String visitTime;
+    private String serviceTime;
     private String iphone;
     private String name;
 }
