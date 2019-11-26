@@ -187,7 +187,7 @@ public class OrderServiceImpl implements OrderService {
                     String fee = String.valueOf(((int) (orderDO.getOrderAmount().doubleValue() * 100)));
                     data.put("total_fee", "1");
                     // 终端ip
-                    String ip = exchange.getRequest().getRemoteAddress().getHostName();
+                    String ip = exchange.getRequest().getHeaders().get("X-Real-IP").get(0);
                     data.put("spbill_create_ip", ip);
                     // todo 微信成功回调地址
                     data.put("notify_url", "http://www.weixin.qq.com/wxpay/pay.php");

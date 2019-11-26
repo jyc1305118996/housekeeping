@@ -6,6 +6,7 @@ import com.haige.filter.ReactiveRequestContextHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 
@@ -36,7 +37,8 @@ public class WebLogAspect {
                     // 记录下请求内容
                     log.info("URL : " + request.getURI());
                     log.info("HTTP_METHOD : " + request.getMethod());
-                    log.info("IP : " + request.getRemoteAddress());
+                    HttpHeaders headers = request.getHeaders();
+                    log.info("IP : " + headers.get("X-Real-IP"));
                     MultiValueMap<String, String> queryParams = request.getQueryParams();
                     queryParams.forEach((name, value) -> {
                         log.info("name:{},value:{}", name, value);

@@ -114,6 +114,7 @@ public class UserBaseImpl implements UserBaseService {
                 .zipWith(serverWebExchange.getSession(), (param, session) -> {
                     String checkCode = param.getCheckCode();
                     String temCode = session.getAttribute(param.getIphone());
+                    log.debug("session验证码:{}, 传入验证码:{}",temCode, checkCode);
                     if (!checkCode.equals(temCode)) {
                         throw new RuntimeException("验证码不正确，绑定失败");
                     }
