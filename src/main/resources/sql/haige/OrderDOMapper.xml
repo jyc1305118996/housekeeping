@@ -213,4 +213,20 @@
       </if>
     </where>
   </select>
+
+  <select id="countOrder" resultMap="java.util.List" parameterType = "java.util.HashMap">
+    SELECT COUNT(*) as ct,order_status
+
+
+    from haige_order_info
+    <where>
+      <if test=" userid != 0">
+        order_create_user = #{userid,jdbcType=INTEGER}
+      </if>
+
+    </where>
+
+    GROUP BY order_status
+
+  </select>
 </mapper>

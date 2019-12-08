@@ -24,8 +24,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 import reactor.util.function.Tuples;
@@ -299,4 +301,35 @@ public class OrderServiceImpl implements OrderService {
                 })
                 .map(ResultInfo::buildSuccess);
     }
+
+
+  @Override
+  public  Mono<ResultInfo<List<HashMap<String,String>>>>  countOrder(ServerWebExchange serverWebExchange) {
+    ServerHttpRequest request = serverWebExchange.getRequest();
+    List<String> auth = request.getHeaders().get("Authorization");
+    UserBaseDTO userBaseDTO = userBaseService.findByToken(auth.get(0));
+    //获取用户权限
+    //管理员查询全部
+    //
+    int userAdmin = userBaseDTO.getUbdAdmin();
+    HashMap<String, String> hashMap = new HashMap<>();
+    //hashMap.put("status", String.valueOf(status));
+
+    if (userAdmin == 0) {
+      hashMap.put("userid", "0");
+
+    } else {
+
+      hashMap.put("userid", userBaseDTO.getUbdId().toString());//非管理员查询自己的
+    }
+
+    List<HashMap<String,String>> orderDOList = orderDOMapper.countOrder(hashMap);
+    ResultInfo<List<HashMap<String,String>>> result = new ResultInfo<List<HashMap<String,String>>>();
+    result.setData(orderDOList);
+    result.setCount(String.valueOf(orderDOList.size()));
+    result.setCode(StatusCodeEnum.OK.getCode());
+    result.setMessage(StatusCodeEnum.OK.getValue());
+    return Mono.justOrEmpty(result);
+  }
+
 }

@@ -4,6 +4,7 @@ import com.haige.common.bean.ResultInfo;
 import com.haige.db.entity.OrderDO;
 import com.haige.service.dto.*;
 import com.haige.web.vo.SubmitOrderVo;
+import java.util.HashMap;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
@@ -54,5 +55,10 @@ public interface OrderService {
     Mono<ResultInfo> allot(UserBaseDTO userBaseDTO, Mono<AllotDTO> allotDTOMono);
 
 
+    /**
+     * 查询订单统计数量
+     * @return
+     */
+    Mono<ResultInfo<List<HashMap<String,String>>>> countOrder(ServerWebExchange serverWebExchange);
 
 }
