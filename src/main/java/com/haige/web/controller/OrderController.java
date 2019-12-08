@@ -3,6 +3,7 @@ package com.haige.web.controller;
 import com.haige.common.bean.ResultInfo;
 import com.haige.db.entity.OrderDO;
 import com.haige.service.OrderService;
+import com.haige.service.dto.UserBaseDTO;
 import com.haige.web.convert.OrderConvertUtils;
 import com.haige.web.request.AllotParam;
 import com.haige.web.request.PayRequest;
@@ -81,7 +82,7 @@ public class OrderController {
 
     @PostMapping(value = "/allot", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Mono<ResultInfo> allot(@RequestBody @Valid Mono<AllotParam> allotParamMono) {
-        return orderService.allot(allotParamMono.map(OrderConvertUtils::toDTO));
+    public Mono<ResultInfo> allot(@RequestAttribute("user") UserBaseDTO userBaseDTO, @RequestBody @Valid Mono<AllotParam> allotParamMono) {
+        return orderService.allot(userBaseDTO,  allotParamMono.map(OrderConvertUtils::toDTO));
     }
 }

@@ -5,23 +5,18 @@ import com.haige.common.bean.IdWorker;
 import com.haige.common.bean.ResultInfo;
 import com.haige.common.enums.OrderStatusEnum;
 import com.haige.common.enums.StatusCodeEnum;
-import com.haige.db.entity.GoodsCouponDO;
-import com.haige.db.entity.GoodsInfoDO;
-import com.haige.db.entity.OrderDO;
-import com.haige.db.entity.UserBaseDO;
-import com.haige.db.mapper.GoodsCouponDOMapper;
-import com.haige.db.mapper.GoodsInfoDOMapper;
-import com.haige.db.mapper.OrderDOMapper;
-import com.haige.db.mapper.UserBaseDOMapper;
+import com.haige.db.entity.*;
+import com.haige.db.mapper.*;
 import com.haige.integration.SmsClient;
 import com.haige.integration.WXPayService;
 import com.haige.integration.param.SendMessageParam;
-import com.haige.integration.param.SubmitOrderParam;
 import com.haige.service.OrderService;
 import com.haige.service.UserBaseService;
 import com.haige.service.convert.OrderConvertUtils;
 import com.haige.service.convert.ShortMsgConvertUtils;
 import com.haige.service.dto.*;
+import com.haige.util.DateUtils;
+import com.haige.util.OrderUtils;
 import com.haige.util.wxUtil.WXPayUtil;
 import com.haige.web.vo.PayVO;
 import com.haige.web.vo.SubmitOrderVo;
@@ -33,6 +28,7 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
+import reactor.util.function.Tuples;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -76,6 +72,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private SmsClient smsClient;
+    @Autowired
+    private ServeDetailDOMapper serveDetailDOMapper;
 
     @Value("${wx.mchId}")
     private String mchId;
@@ -237,12 +235,13 @@ public class OrderServiceImpl implements OrderService {
                 // 付款成功发送短信
                 HashMap<String, String> param = new HashMap<>();
                 param.put("goods", orderDO.getGoodsName());
-                param.put("orderid", orderDO.getOrderId().substring(3));
+                param.put("orderid", OrderUtils.subOrderId(orderDO.getOrderId(), 3));
                 // 获取模板
                 SendMessageParam.SmsTemplate payOKTemplate = ShortMsgConvertUtils.getPayOKTemplate(param);
                 SendMessageParam sendMessageParam = new SendMessageParam();
                 sendMessageParam.setSmsTemplate(payOKTemplate);
                 sendMessageParam.setIphone(userBaseDO.getUbdFixedPhone());
+                sendMessageParam.setType("下单");
                 smsClient.sendMessage(sendMessageParam);
             }
             return "SUCCESS";
@@ -250,9 +249,54 @@ public class OrderServiceImpl implements OrderService {
                 .map(ResultInfo::buildSuccess);
     }
 
+    /**
+     * @param userBaseDTO  当前登陆人
+     * @param allotDTOMono 分配信息
+     * @return
+     */
     @Override
-    public Mono<ResultInfo> allot(Mono<AllotDTO> allotDTOMono) {
-        // todo  人员分配订单
-        return null;
+    public Mono<ResultInfo> allot(UserBaseDTO userBaseDTO, Mono<AllotDTO> allotDTOMono) {
+        return allotDTOMono.map(allot -> {
+            ServeDetailDO serveDetailDO = serveDetailDOMapper.selectByPrimaryKey(allot.getServiceId());
+            serveDetailDO.setServeUserId(allot.getUserId());
+            serveDetailDO.setServeCreateUser(userBaseDTO.getUbdId());
+            serveDetailDO.setServeUpdateTime(new Date());
+            serveDetailDOMapper.updateByPrimaryKeySelective(serveDetailDO);
+            return Tuples.of(allot, serveDetailDO);
+        })
+                .map(tuple2 -> {
+                    // 查询服务人员信息
+                    UserBaseDO waiter = userBaseDOMapper.selectByPrimaryKey(tuple2.getT1().getUserId());
+                    // 查询客户信息
+                    OrderDO orderDO = orderDOMapper.selectByPrimaryKey(tuple2.getT2().getOrderId());
+                    UserBaseDO customer = userBaseDOMapper.selectByPrimaryKey(orderDO.getOrderCreateUser());
+
+                    // 发短息通知客户，已分配人员；
+                    HashMap<String, String> acceptReservationsParam = new HashMap<>();
+                    acceptReservationsParam.put("phone", waiter.getUbdFixedPhone());
+                    acceptReservationsParam.put("date", DateUtils.dateToString(tuple2.getT2().getServeStartTime()));
+                    SendMessageParam.SmsTemplate acceptReservations = ShortMsgConvertUtils.getAcceptReservations(acceptReservationsParam);
+                    SendMessageParam sendMessageParam = new SendMessageParam();
+                    // 客户手机号
+                    sendMessageParam.setIphone(customer.getUbdFixedPhone());
+                    sendMessageParam.setSmsTemplate(acceptReservations);
+                    sendMessageParam.setType("预约成功通知");
+                    smsClient.sendMessage(sendMessageParam);
+
+                    // 通知服务人员尽快服务
+                    HashMap<String, String> assignedPersonnelParam = new HashMap<>();
+                    assignedPersonnelParam.put("orderid", OrderUtils.subOrderId(orderDO.getOrderId(), 3));
+                    assignedPersonnelParam.put("name", tuple2.getT2().getConcatName());
+                    assignedPersonnelParam.put("number", tuple2.getT2().getConcatIphone());
+                    SendMessageParam.SmsTemplate assignedPersonnel = ShortMsgConvertUtils.getAssignedPersonnel(assignedPersonnelParam);
+                    SendMessageParam sendMessageParam1 = new SendMessageParam();
+                    // 服务员手机号
+                    sendMessageParam1.setIphone(waiter.getUbdFixedPhone());
+                    sendMessageParam1.setSmsTemplate(assignedPersonnel);
+                    sendMessageParam1.setType("分配任务通知");
+                    smsClient.sendMessage(sendMessageParam1);
+                    return "SUCCESS";
+                })
+                .map(ResultInfo::buildSuccess);
     }
 }

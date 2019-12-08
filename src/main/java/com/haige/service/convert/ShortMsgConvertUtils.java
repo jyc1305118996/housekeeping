@@ -71,4 +71,30 @@ public class ShortMsgConvertUtils {
         smsTemplate.setParam(param);
         return smsTemplate;
     }
+
+    /**
+     * 接受预约模板
+     * 您好，您预约的服务已为您安排保洁，保洁人员电话${phone},将会于${date}联系您
+     * @param param
+     * @return
+     */
+    public static SendMessageParam.SmsTemplate getAcceptReservations(HashMap<String, String> param){
+        SendMessageParam.SmsTemplate smsTemplate= new SendMessageParam.SmsTemplate();
+        smsTemplate.setTemplateCode("SMS_176913804");
+        smsTemplate.setParam(param);
+        return smsTemplate;
+    }
+
+    /**
+     * 指派人员
+     * 您有新的服务安排，订单号：${orderid}，联系人：${name}，联系方式：${number}，请您及时与对方进行联系！
+     * @param param
+     * @return
+     */
+    public static SendMessageParam.SmsTemplate getAssignedPersonnel(HashMap<String, String> param){
+        SendMessageParam.SmsTemplate smsTemplate= new SendMessageParam.SmsTemplate();
+        smsTemplate.setTemplateCode("SMS_180050368");
+        smsTemplate.setParam(param);
+        return smsTemplate;
+    }
 }

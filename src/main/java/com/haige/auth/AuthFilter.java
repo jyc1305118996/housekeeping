@@ -57,11 +57,14 @@ public class AuthFilter implements WebFilter {
                 if (dateTime.isBefore(LocalDateTime.now())){
                     return response.writeWith(Mono.just(response.bufferFactory().wrap(("{\"code\":\"" + StatusCodeEnum.BEOVERDUE.getCode() + "\", \"message\":\"" + StatusCodeEnum.BEOVERDUE.getValue() + "\", \"data\":\"\", \"count\":\"\"}").getBytes())));
                 }
+                // 登陆通过，将用户放入session域
+                exchange.getAttributes().put("user", userBaseDTO);
             }catch (Exception e){
                 // 未认证非法请求
                 return response.writeWith(Mono.just(response.bufferFactory().wrap(("{\"code\":\"" + StatusCodeEnum.NOT_LOGIN.getCode() + "\", \"message\":\"" + StatusCodeEnum.NOT_LOGIN.getValue() + "\", \"data\":\"\", \"count\":\"\"}").getBytes())));
             }
         }
+
         // 认证通过
         return chain.filter(exchange);
     }

@@ -9,10 +9,14 @@ import com.aliyuncs.IAcsClient;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
+import com.haige.db.entity.ShortMsgDO;
+import com.haige.db.mapper.ShortMsgDOMapper;
 import com.haige.integration.SmsClient;
 import com.haige.integration.param.SendMessageParam;
 import com.haige.integration.model.SendMessageResult;
+import com.haige.util.DateUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +36,9 @@ public class SmsClientImpl implements SmsClient {
 
     @Value("${aliyun.sms.signName}")
     private String signName;
+
+    @Autowired
+    private ShortMsgDOMapper shortMsgDOMapper;
 
 
     @Override
@@ -56,12 +63,22 @@ public class SmsClientImpl implements SmsClient {
         try {
             CommonResponse response = client.getCommonResponse(request);
             if (response.getHttpStatus() == 200){
+                // 记录短信日志
+                ShortMsgDO shortMsgDO = new ShortMsgDO();
+                shortMsgDO.setSmiState("Success");
                 JSONObject json = (JSONObject)JSON.parse(response.getData());
                 if (!"OK".equals(json.get("Message"))){
                     sendMessageResult.setSmsStatus("faild");
                     log.error("短信发送失败：{}",json.get("Message") );
                     sendMessageResult.setBadReason(json.get("Message").toString());
+                    shortMsgDO.setSmiBadReason(sendMessageResult.getBadReason());
+                    shortMsgDO.setSmiState("Faild");
                 }
+                shortMsgDO.setSmiContent(paramJson);
+                shortMsgDO.setSmiReceiverPhone(sendMessageParam.getIphone());
+                shortMsgDO.setSmiType(sendMessageParam.getType());
+                shortMsgDO.setSmiSenderTime(DateUtils.nowOfDateTime());
+                shortMsgDOMapper.insertSelective(shortMsgDO);
             }
         } catch (ClientException e) {
             throw new RuntimeException("短信发送失败", e);

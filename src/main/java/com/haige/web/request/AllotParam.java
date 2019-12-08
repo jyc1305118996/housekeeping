@@ -16,10 +16,8 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class AllotParam {
     @NotNull
-    @Length(min = 1)
-    private String orderId;
+    private Integer serviceId;
     @NotNull
-    @Length(min = 1)
-    private String userId;
+    private Integer userId;
 
 }

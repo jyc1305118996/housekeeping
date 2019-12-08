@@ -12,6 +12,7 @@ import com.haige.integration.param.SendMessageParam;
 import com.haige.service.ServiceService;
 import com.haige.service.convert.ShortMsgConvertUtils;
 import com.haige.service.dto.SubmitServiceDTO;
+import com.haige.service.dto.UserBaseDTO;
 import com.haige.util.DateUtils;
 import com.haige.util.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +43,7 @@ public class ServiceServiceImpl implements ServiceService {
 
 
     @Override
-    public Mono<ResultInfo> submit(Mono<SubmitServiceDTO> serviceDTOMono) {
+    public Mono<ResultInfo> submit(UserBaseDTO userBaseDTO, Mono<SubmitServiceDTO> serviceDTOMono) {
         AtomicReference<OrderDO> orderDOAtomicReference = new AtomicReference<>();
         return serviceDTOMono
                 .doOnNext(submitServiceDTO -> {
@@ -52,12 +53,16 @@ public class ServiceServiceImpl implements ServiceService {
                         throw new RuntimeException("订单次数不足");
                     }
                     orderDOAtomicReference.set(orderDO);
+                    // 此时不关联服务人员
                     ServeDetailDO serveDetailDO = new ServeDetailDO();
                     serveDetailDO.setConcatName(submitServiceDTO.getName());
                     serveDetailDO.setConcatAddress(orderDO.getOrderAddress());
                     serveDetailDO.setConcatIphone(submitServiceDTO.getIphone());
                     serveDetailDO.setOrderId(submitServiceDTO.getOrderId());
+                    // 订单创建人，当前登录用户
+                    serveDetailDO.setServeCreateUser(userBaseDTO.getUbdId());
                     serveDetailDO.setServeCreateTime(new Date());
+                    // 服务时间
                     serveDetailDO.setServeStartTime(TimeUtil.getDate(DateUtils.convertToDateTime(submitServiceDTO.getServiceTime())));
                     serveDetailDO.setServeUpdateTime(new Date());
                     serveDetailDO.setServeStatus(ServiceOrderStatusEnum.CONFIRM.getStatus());
@@ -79,6 +84,7 @@ public class ServiceServiceImpl implements ServiceService {
                     sendMessageParam.setSmsTemplate(template);
                     // 管理员电话
                     sendMessageParam.setIphone(managerIphone);
+                    sendMessageParam.setType("预约成功通知");
                     smsClient.sendMessage(sendMessageParam);
                 })
                 .map(submitServiceDTO -> {

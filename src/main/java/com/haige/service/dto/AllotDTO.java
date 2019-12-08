@@ -15,7 +15,13 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AllotDTO {
-    private String orderId;
-    private String userId;
+    /**
+     * 服务单id
+     */
+    private Integer serviceId;
+    /**
+     * 指派的服务人员
+     */
+    private Integer userId;
 
 }

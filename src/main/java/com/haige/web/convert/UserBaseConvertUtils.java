@@ -2,9 +2,11 @@ package com.haige.web.convert;
 
 import com.haige.service.dto.BindDingDTO;
 import com.haige.service.dto.PhoneLoginDTO;
+import com.haige.service.dto.UserBaseDTO;
 import com.haige.service.dto.WXLoginDTO;
 import com.haige.web.request.BindDingRequest;
 import com.haige.web.vo.PhoneLoginVO;
+import com.haige.web.vo.UserBaseVO;
 import com.haige.web.vo.WXLoginVO;
 import org.springframework.beans.BeanUtils;
 
@@ -28,6 +30,12 @@ public class UserBaseConvertUtils {
         BindDingDTO bindDingDTO = new BindDingDTO();
         BeanUtils.copyProperties(bindDingRequest, bindDingDTO);
         return bindDingDTO;
+    }
+
+    public static UserBaseVO toVO(UserBaseDTO userBaseDTO) {
+        UserBaseVO userBaseVO = new UserBaseVO();
+        BeanUtils.copyProperties(userBaseDTO, userBaseVO);
+        return userBaseVO;
     }
 }
 

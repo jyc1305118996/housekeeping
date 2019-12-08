@@ -2,10 +2,7 @@ package com.haige.service;
 
 import com.haige.common.bean.ResultInfo;
 import com.haige.db.entity.OrderDO;
-import com.haige.service.dto.AllotDTO;
-import com.haige.service.dto.PayDTO;
-import com.haige.service.dto.SubmitOrderDTO;
-import com.haige.service.dto.UpdateOrderDTO;
+import com.haige.service.dto.*;
 import com.haige.web.vo.SubmitOrderVo;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
@@ -54,7 +51,7 @@ public interface OrderService {
      * @param allotDTOMono
      * @return
      */
-    Mono<ResultInfo> allot(Mono<AllotDTO> allotDTOMono);
+    Mono<ResultInfo> allot(UserBaseDTO userBaseDTO, Mono<AllotDTO> allotDTOMono);
 
 
 

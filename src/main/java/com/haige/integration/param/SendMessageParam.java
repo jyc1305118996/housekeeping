@@ -18,8 +18,13 @@ public class SendMessageParam {
      * 接受人的手机号
      */
     private String iphone;
+    /**
+     * 发送短信类型
+     */
+    private String type;
 
     private SmsTemplate smsTemplate;
+
 
     /**
      * 模板参数

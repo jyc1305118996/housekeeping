@@ -61,6 +61,7 @@ public class SmsServiceImpl implements com.haige.service.SmsService {
                     param.put("code", code);
                     SendMessageParam.SmsTemplate smsTemplate = ShortMsgConvertUtils.getSecurityCodeTemplate(param);
                     sendMessageParam.setSmsTemplate(smsTemplate);
+                    sendMessageParam.setType(smsDTO.getType());
                     SendMessageResult sendMessageResult = smsClient.sendMessage(sendMessageParam);
                     if ("success".equals(sendMessageResult.getSmsStatus())) {
                         log.info("验证码发送成功:iphone:{},message:{}", smsDTO.getIphone(), code);
@@ -78,19 +79,9 @@ public class SmsServiceImpl implements com.haige.service.SmsService {
                             );
                         });
                     }
-                    ShortMsgDO shortMsgDO = ShortMsgConvertUtils.toDo(smsDTO);
-                    shortMsgDO.setSmiBadReason(sendMessageResult.getBadReason());
-                    shortMsgDO.setSmiState(sendMessageResult.getSmsStatus());
-                    shortMsgDO.setSmiContent(code);
-                    shortMsgDO.setSmiIp(smsDTO.getIp());
-                    shortMsgDO.setSmiReceiverPhone(smsDTO.getIphone());
-                    shortMsgDO.setSmiType(smsDTO.getType());
-                    return shortMsgDO;
+                    return "SUCCESS";
                 })
-                .map(shortMsgDO -> {
-                    shortMsgDOMapper.insertSelective(shortMsgDO);
-                    return new ResultInfo<String>(StatusCodeEnum.OK);
-                });
+                .map(ResultInfo::buildFailed);
     }
 
 
