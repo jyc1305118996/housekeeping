@@ -1,12 +1,20 @@
 ## .gitignore for Grails 1.2 and 1.3
 
+<<<<<<< HEAD
 # .gitignore for maven
+=======
+# .gitignore for maven 
+>>>>>>> 12460fbe157082b45ab636662149a08bba9c4e80
 target/
 *.releaseBackup
 
 # web application files
 #/web-app/WEB-INF
+<<<<<<< HEAD
 
+=======
+ 
+>>>>>>> 12460fbe157082b45ab636662149a08bba9c4e80
 # IDE support files
 /.classpath
 /.launch
@@ -16,6 +24,7 @@ target/
 /*.tmproj
 /ivy*
 /eclipse
+<<<<<<< HEAD
 
 # default HSQL database files for production mode
 /prodDb.*
@@ -24,12 +33,23 @@ target/
 *Db.properties
 *Db.script
 
+=======
+ 
+# default HSQL database files for production mode
+/prodDb.*
+ 
+# general HSQL database files
+*Db.properties
+*Db.script
+ 
+>>>>>>> 12460fbe157082b45ab636662149a08bba9c4e80
 # logs
 /stacktrace.log
 /test/reports
 /logs
 *.log
 *.log.*
+<<<<<<< HEAD
 
 # project release file
 /*.war
@@ -38,15 +58,30 @@ target/
 /*.zip
 /*.zip.sha1
 
+=======
+ 
+# project release file
+/*.war
+ 
+# plugin release file
+/*.zip
+/*.zip.sha1
+ 
+>>>>>>> 12460fbe157082b45ab636662149a08bba9c4e80
 # older plugin install locations
 /plugins
 /web-app/plugins
 /web-app/WEB-INF/classes
+<<<<<<< HEAD
 
+=======
+ 
+>>>>>>> 12460fbe157082b45ab636662149a08bba9c4e80
 # "temporary" build files
 target/
 out/
 build/
+<<<<<<< HEAD
 
 # other
 *.iws
@@ -54,13 +89,28 @@ build/
 #.gitignore for java
 *.class
 
+=======
+ 
+# other
+*.iws
+ 
+#.gitignore for java
+*.class
+ 
+>>>>>>> 12460fbe157082b45ab636662149a08bba9c4e80
 # Package Files #
 *.jar
 *.war
 *.ear
+<<<<<<< HEAD
 
 ## .gitignore for eclipse
 
+=======
+ 
+## .gitignore for eclipse
+ 
+>>>>>>> 12460fbe157082b45ab636662149a08bba9c4e80
 *.pydevproject
 .project
 .metadata
@@ -75,6 +125,7 @@ local.properties
 .classpath
 .settings/
 .loadpath
+<<<<<<< HEAD
 
 # External tool builders
 .externalToolBuilders/
@@ -90,11 +141,32 @@ local.properties
 
 ## .gitignore for intellij
 
+=======
+ 
+# External tool builders
+.externalToolBuilders/
+ 
+# Locally stored "Eclipse launch configurations"
+*.launch
+ 
+# CDT-specific
+.cproject
+ 
+# PDT-specific
+.buildpath
+ 
+## .gitignore for intellij
+ 
+>>>>>>> 12460fbe157082b45ab636662149a08bba9c4e80
 *.iml
 *.ipr
 *.iws
 .idea/
+<<<<<<< HEAD
 
+=======
+ 
+>>>>>>> 12460fbe157082b45ab636662149a08bba9c4e80
 ## .gitignore for linux
 .*
 !.gitignore
@@ -103,6 +175,7 @@ local.properties
 !.eslintrc
 !.travis.yml
 *~
+<<<<<<< HEAD
 
 ## .gitignore for windows
 
@@ -118,19 +191,48 @@ $RECYCLE.BIN/
 
 ## .gitignore for mac os x
 
+=======
+ 
+## .gitignore for windows
+ 
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+ 
+# Folder config file
+Desktop.ini
+ 
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+ 
+## .gitignore for mac os x
+ 
+>>>>>>> 12460fbe157082b45ab636662149a08bba9c4e80
 .DS_Store
 .AppleDouble
 .LSOverride
 Icon
+<<<<<<< HEAD
 
 
 # Thumbnails
 ._*
 
+=======
+ 
+ 
+# Thumbnails
+._*
+ 
+>>>>>>> 12460fbe157082b45ab636662149a08bba9c4e80
 # Files that might appear on external disk
 .Spotlight-V100
 .Trashes
 
 ## hack for graddle wrapper
 !wrapper/*.jar
+<<<<<<< HEAD
 !**/wrapper/*.jar
+=======
+!**/wrapper/*.jar
+>>>>>>> 12460fbe157082b45ab636662149a08bba9c4e80
