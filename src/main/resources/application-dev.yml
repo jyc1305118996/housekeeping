@@ -2,7 +2,7 @@ mybatis:
   type-aliases-package: com.haige.entity   # 起别名
   mapper-locations: /com/haige/repository/mapper/*.xml  # mapper映射文件的位置
 server:
-  port: 8080
+  port: 8081
 spring:
   application:
     name: haige

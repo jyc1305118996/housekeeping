@@ -23,6 +23,7 @@ public interface OrderDOMapper {
 
     List<OrderDO> findOrderDoList(HashMap<String,String> param);
 
+    List<HashMap<String,String>> countOrder(HashMap<String,String> param);
 
 
 }

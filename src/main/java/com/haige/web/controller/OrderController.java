@@ -9,6 +9,7 @@ import com.haige.web.request.PayRequest;
 import com.haige.web.request.SubmitOrderRequest;
 import com.haige.web.request.UpdateOrderRequest;
 import com.haige.web.vo.SubmitOrderVo;
+import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -84,4 +85,11 @@ public class OrderController {
     public Mono<ResultInfo> allot(@RequestBody @Valid Mono<AllotParam> allotParamMono) {
         return orderService.allot(allotParamMono.map(OrderConvertUtils::toDTO));
     }
+
+  @GetMapping(value = "/countOrder", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+      produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  public Mono<ResultInfo<List<HashMap<String, String>>>> countOrder(ServerWebExchange exchange) {
+
+    return orderService.countOrder(exchange);
+  }
 }
