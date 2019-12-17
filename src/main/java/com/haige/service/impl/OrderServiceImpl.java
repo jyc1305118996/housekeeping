@@ -316,10 +316,8 @@ public class OrderServiceImpl implements OrderService {
 
         String userId = userBaseDTO.getUbdId().toString();
         if (userAdmin == 0) {
-            hashMap.put("userid", "0");
-
+            userId = null;
         }
-
         List<HashMap<String, String>> orderDOList = orderDOMapper.countOrder(userId);
         ResultInfo<List<HashMap<String, String>>> result = new ResultInfo<List<HashMap<String, String>>>();
         result.setData(orderDOList);
