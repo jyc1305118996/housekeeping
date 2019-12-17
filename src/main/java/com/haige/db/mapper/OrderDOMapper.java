@@ -2,6 +2,7 @@ package com.haige.db.mapper;
 
 
 import com.haige.db.entity.OrderDO;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -23,7 +24,7 @@ public interface OrderDOMapper {
 
     List<OrderDO> findOrderDoList(HashMap<String,String> param);
 
-    List<HashMap<String,String>> countOrder(HashMap<String,String> param);
+    List<HashMap<String,String>> countOrder(@Param("userId") String userId);
 
 
 }

@@ -314,15 +314,13 @@ public class OrderServiceImpl implements OrderService {
         HashMap<String, String> hashMap = new HashMap<>();
         //hashMap.put("status", String.valueOf(status));
 
+        String userId = userBaseDTO.getUbdId().toString();
         if (userAdmin == 0) {
             hashMap.put("userid", "0");
 
-        } else {
-
-            hashMap.put("userid", userBaseDTO.getUbdId().toString());//非管理员查询自己的
         }
 
-        List<HashMap<String, String>> orderDOList = orderDOMapper.countOrder(hashMap);
+        List<HashMap<String, String>> orderDOList = orderDOMapper.countOrder(userId);
         ResultInfo<List<HashMap<String, String>>> result = new ResultInfo<List<HashMap<String, String>>>();
         result.setData(orderDOList);
         result.setCount(String.valueOf(orderDOList.size()));

@@ -214,14 +214,14 @@
     </where>
   </select>
 
-  <select id="countOrder" resultType="java.util.List" parameterType = "java.util.HashMap">
+  <select id="countOrder" resultType="java.util.Map">
     SELECT COUNT(*) as ct,order_status
 
 
     from haige_order_info
     <where>
-      <if test=" userid != 0">
-        order_create_user = #{userid,jdbcType=INTEGER}
+      <if test=" userId != 0">
+        order_create_user = #{userId,jdbcType=INTEGER}
       </if>
 
     </where>
