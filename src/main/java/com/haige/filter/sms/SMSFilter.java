@@ -135,7 +135,7 @@ public class SMSFilter implements WebFilter {
                                 exchange.getAttributes().put("message", ex.getMessage());
                             });
             if ((boolean) exchange.getAttributes().get("isError")) {
-                return response.writeWith(Mono.just(response.bufferFactory().wrap(("{\"code\":\"400\", \"message\":\" " + exchange.getAttributes().get("message") + " \", \"data\":\"\", \"count\":\"\"}").getBytes())));
+                return response.writeWith(Mono.just(response.bufferFactory().wrap(("{\"code\":\"400\", \"message\":验证码认证失败\" " + exchange.getAttributes().get("message") + " \", \"data\":\"\", \"count\":\"\"}").getBytes())));
             } else {
                 return chain.filter(exchange);
             }

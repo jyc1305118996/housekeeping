@@ -116,7 +116,7 @@ public class SystemUserServiceImpl implements SystemUserService {
                     userBaseDO.setUbdToken(token);
                     LocalDateTime expreDate = LocalDateTime.now().plus(30L, ChronoUnit.DAYS);
                     userBaseDO.setUbdTokenExpreDate(DateUtils.convertToString(expreDate));
-                    userBaseDOMapper.updateByPrimaryKey(userBaseDO);
+                    userBaseDOMapper.updateByPrimaryKeySelective(userBaseDO);
                     return userBaseDO;
                 })
                 .map(userBaseDO -> {

@@ -214,7 +214,7 @@
     </where>
   </select>
 
-  <select id="countOrder" resultMap="java.util.List" parameterType = "java.util.HashMap">
+  <select id="countOrder" resultType="java.util.List" parameterType = "java.util.HashMap">
     SELECT COUNT(*) as ct,order_status
 
 

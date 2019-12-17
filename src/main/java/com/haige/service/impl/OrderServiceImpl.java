@@ -183,9 +183,8 @@ public class OrderServiceImpl implements OrderService {
                     data.put("body", orderDO.getGoodsName());
                     // 商户订单号
                     data.put("out_trade_no", orderDO.getOrderId());
-                    // todo 标价金额   元转变为分
-                    String fee = String.valueOf(((int) (orderDO.getOrderAmount().doubleValue() * 100)));
-                    data.put("total_fee", "1");
+                    String totalFee = String.valueOf(((int) (orderDO.getOrderAmount().doubleValue() * 100)));
+                    data.put("total_fee", totalFee);
                     // 终端ip
                     String ip = exchange.getRequest().getHeaders().get("X-Real-IP").get(0);
                     data.put("spbill_create_ip", ip);
@@ -303,33 +302,33 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-  @Override
-  public  Mono<ResultInfo<List<HashMap<String,String>>>>  countOrder(ServerWebExchange serverWebExchange) {
-    ServerHttpRequest request = serverWebExchange.getRequest();
-    List<String> auth = request.getHeaders().get("Authorization");
-    UserBaseDTO userBaseDTO = userBaseService.findByToken(auth.get(0));
-    //获取用户权限
-    //管理员查询全部
-    //
-    int userAdmin = userBaseDTO.getUbdAdmin();
-    HashMap<String, String> hashMap = new HashMap<>();
-    //hashMap.put("status", String.valueOf(status));
+    @Override
+    public Mono<ResultInfo<List<HashMap<String, String>>>> countOrder(ServerWebExchange serverWebExchange) {
+        ServerHttpRequest request = serverWebExchange.getRequest();
+        List<String> auth = request.getHeaders().get("Authorization");
+        UserBaseDTO userBaseDTO = userBaseService.findByToken(auth.get(0));
+        //获取用户权限
+        //管理员查询全部
+        //
+        int userAdmin = userBaseDTO.getUbdAdmin();
+        HashMap<String, String> hashMap = new HashMap<>();
+        //hashMap.put("status", String.valueOf(status));
 
-    if (userAdmin == 0) {
-      hashMap.put("userid", "0");
+        if (userAdmin == 0) {
+            hashMap.put("userid", "0");
 
-    } else {
+        } else {
 
-      hashMap.put("userid", userBaseDTO.getUbdId().toString());//非管理员查询自己的
+            hashMap.put("userid", userBaseDTO.getUbdId().toString());//非管理员查询自己的
+        }
+
+        List<HashMap<String, String>> orderDOList = orderDOMapper.countOrder(hashMap);
+        ResultInfo<List<HashMap<String, String>>> result = new ResultInfo<List<HashMap<String, String>>>();
+        result.setData(orderDOList);
+        result.setCount(String.valueOf(orderDOList.size()));
+        result.setCode(StatusCodeEnum.OK.getCode());
+        result.setMessage(StatusCodeEnum.OK.getValue());
+        return Mono.justOrEmpty(result);
     }
-
-    List<HashMap<String,String>> orderDOList = orderDOMapper.countOrder(hashMap);
-    ResultInfo<List<HashMap<String,String>>> result = new ResultInfo<List<HashMap<String,String>>>();
-    result.setData(orderDOList);
-    result.setCount(String.valueOf(orderDOList.size()));
-    result.setCode(StatusCodeEnum.OK.getCode());
-    result.setMessage(StatusCodeEnum.OK.getValue());
-    return Mono.justOrEmpty(result);
-  }
 
 }

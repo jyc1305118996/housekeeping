@@ -78,6 +78,8 @@ public class SmsServiceImpl implements com.haige.service.SmsService {
                                     }
                             );
                         });
+                    }else {
+                        throw new RuntimeException("验证码发送失败");
                     }
                     return "SUCCESS";
                 })

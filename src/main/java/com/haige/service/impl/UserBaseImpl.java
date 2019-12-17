@@ -97,7 +97,7 @@ public class UserBaseImpl implements UserBaseService {
                     userBaseDO.setUbdUpdtTime(new Date());
                     LocalDateTime expreDate = LocalDateTime.now().plus(30L, ChronoUnit.DAYS);
                     userBaseDO.setUbdTokenExpreDate(DateUtils.convertToString(expreDate));
-                    userBaseDOMapper.updateByPrimaryKey(userBaseDO);
+                    userBaseDOMapper.updateByPrimaryKeySelective(userBaseDO);
                     return userBaseDO;
                 }).map(userBaseDO -> {
                     UserBaseVO userBaseVO = UserBaseConvertUtils.toVO(userBaseDO);
