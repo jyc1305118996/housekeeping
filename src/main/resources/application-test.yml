@@ -29,6 +29,7 @@ spring:
       maxPoolPreparedStatementPerConnectionSize: 20
       connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
       useGlobalDataSourceStat: true
+      initConnectionSqls: set names utf8mb4;
 pagehelper:
   auto-dialect: "true"
   reasonable: "true"

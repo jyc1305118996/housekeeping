@@ -14,6 +14,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
 
 /**
  * @author : Aaron
@@ -29,6 +30,9 @@ public class HaigeDataSourceConfig {
     @ConfigurationProperties(prefix = "spring.datasource.haige")
     public DataSource druidDataSource() {
         DruidDataSource druidDataSource = new DruidDataSource();
+        druidDataSource.setConnectionInitSqls(new ArrayList<String>(){{
+            add("set names utf8mb4");
+        }});
         return druidDataSource;
     }
 
