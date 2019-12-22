@@ -186,4 +186,18 @@
       concat_address = #{concatAddress,jdbcType=VARCHAR}
     where serve_id = #{serveId,jdbcType=INTEGER}
   </update>
+
+  <select id="findServeDetailDOList" resultType="java.util.Map" parameterType = "java.util.HashMap">
+    select a.order_id,b.goods_id,b.goods_name,b.order_price,a.serve_status,serve_create_time from haige_order_serve_details a
+    left join haige_order_info b
+    on a.order_id = b.order_id
+    <where>
+      <if test="userid != 0">
+        a.serve_create_user = #{userid,jdbcType=INTEGER}
+      </if>
+      <if test="status != 0">
+        AND a.serve_status = #{status,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
 </mapper>

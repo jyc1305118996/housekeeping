@@ -36,6 +36,6 @@ public class WXServiceClientTest {
     public void pay(){
         SubmitOrderParam submitOrderParam = new SubmitOrderParam();
         submitOrderParam.setAppid("aaa");
-        wxPayService.submitOrder(Mono.just(submitOrderParam));
+       // wxPayService.submitOrder(Mono.just(submitOrderParam));
     }
 }

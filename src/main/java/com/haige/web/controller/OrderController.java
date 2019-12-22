@@ -9,6 +9,7 @@ import com.haige.web.request.AllotParam;
 import com.haige.web.request.PayRequest;
 import com.haige.web.request.SubmitOrderRequest;
 import com.haige.web.request.UpdateOrderRequest;
+import com.haige.web.vo.OrderDetailsVO;
 import com.haige.web.vo.SubmitOrderVo;
 import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ public class OrderController {
     @GetMapping(value = "/queryOrderList", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 
-    public Mono<ResultInfo<List<OrderDO>>> queryOrderList(ServerWebExchange serverWebExchange, @RequestParam(value = "status", required = false) Integer status) {
+    public Mono<ResultInfo<List<OrderDetailsVO>>> queryOrderList(ServerWebExchange serverWebExchange, @RequestParam(value = "status", required = false) Integer status) {
         if (null == status) {
             status = 0;//状态不传输就默认查所有
         }
@@ -93,4 +94,15 @@ public class OrderController {
 
     return orderService.countOrder(exchange);
   }
+
+    @GetMapping(value = "/queryServerDetailsList", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+        produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Mono<ResultInfo<List<OrderDetailsVO>>> queryServerDetailsList(ServerWebExchange serverWebExchange, @RequestParam(value = "status", required = false) Integer status) {
+
+        if (null == status) {
+            status = 0;//状态不传输就默认查所有
+        }
+
+        return orderService.queryOrderListByDetailsStatus(serverWebExchange,status);
+    }
 }

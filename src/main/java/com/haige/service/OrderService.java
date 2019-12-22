@@ -3,6 +3,7 @@ package com.haige.service;
 import com.haige.common.bean.ResultInfo;
 import com.haige.db.entity.OrderDO;
 import com.haige.service.dto.*;
+import com.haige.web.vo.OrderDetailsVO;
 import com.haige.web.vo.SubmitOrderVo;
 import java.util.HashMap;
 import org.springframework.web.server.ServerWebExchange;
@@ -25,13 +26,13 @@ public interface OrderService {
 
     
     /**
-    * @description: 查询订单
+    * @description: 根据支付状态查询订单
     * @param: 
     * @return: 返回订单集合
     * @author: huxianming
     * @date: 2019-11-12
     */
-    Mono<ResultInfo<List<OrderDO>>> queryOrderListByCondition(ServerWebExchange serverWebExchange, int status);
+    Mono<ResultInfo<List<OrderDetailsVO>>> queryOrderListByCondition(ServerWebExchange serverWebExchange, int status);
 
     /**
      * 统一下单
@@ -60,5 +61,16 @@ public interface OrderService {
      * @return
      */
     Mono<ResultInfo<List<HashMap<String,String>>>> countOrder(ServerWebExchange serverWebExchange);
+
+
+    /**
+     * @description: 根据服务状态查询订单
+     * @param:
+     * @return: 返回订单集合
+     * @author: huxianming
+     * @date: 2019-11-12
+     */
+    Mono<ResultInfo<List<OrderDetailsVO>>> queryOrderListByDetailsStatus(ServerWebExchange serverWebExchange, int detailsStatus);
+
 
 }
