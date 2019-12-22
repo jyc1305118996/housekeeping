@@ -188,7 +188,7 @@
   </update>
 
   <select id="findServeDetailDOList" resultType="java.util.Map" parameterType = "java.util.HashMap">
-    select a.order_id,b.goods_id,b.goods_name,b.order_price,a.serve_status,serve_create_time from haige_order_serve_details a
+    select a.order_id,b.goods_id,b.goods_name,b.order_amount,a.serve_status,serve_create_time from haige_order_serve_details a
     left join haige_order_info b
     on a.order_id = b.order_id
     <where>

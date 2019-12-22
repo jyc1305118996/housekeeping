@@ -408,7 +408,7 @@ public class OrderServiceImpl implements OrderService {
 
       orderDetailsVO.setGoodsName(serveDetailDOList.get(i).get("goods_name"));
 
-      orderDetailsVO.setPrice(new BigDecimal(serveDetailDOList.get(i).get("order_price")));
+      orderDetailsVO.setPrice(new BigDecimal(serveDetailDOList.get(i).get("order_amount")));
 
       orderDetailsVO.setStatus(Integer.valueOf(serveDetailDOList.get(i).get("serve_status")));
 
