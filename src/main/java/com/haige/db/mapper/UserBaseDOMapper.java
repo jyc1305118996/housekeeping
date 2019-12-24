@@ -2,6 +2,8 @@ package com.haige.db.mapper;
 
 
 import com.haige.db.entity.UserBaseDO;
+import com.haige.service.dto.UserBaseDTO;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -23,4 +25,7 @@ public interface UserBaseDOMapper {
     UserBaseDO findByToken(@Param("token") String token);
 
     UserBaseDO findByUnionid(@Param("unionid")String unionid);
+
+
+    List<UserBaseDTO> findUserListBYUbdAdmin(@Param("ubdAdmin") Integer ubdAdmin);
 }

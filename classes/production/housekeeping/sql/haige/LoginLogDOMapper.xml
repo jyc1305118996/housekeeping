@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haige.db.mapper.LoginLogDOMapper">
+  <resultMap id="BaseResultMap" type="com.haige.db.entity.LoginLogDO">
+    <id column="SLL_ID" jdbcType="DECIMAL" property="sllId" />
+    <result column="SL_IP" jdbcType="VARCHAR" property="slIp" />
+    <result column="SLL_USER" jdbcType="VARCHAR" property="sllUser" />
+    <result column="SLL_USER_TYPE" jdbcType="DECIMAL" property="sllUserType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    SLL_ID, SL_IP, SLL_USER, SLL_USER_TYPE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from haige_sys_login_log
+    where SLL_ID = #{sllId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from haige_sys_login_log
+    where SLL_ID = #{sllId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.haige.db.entity.LoginLogDO">
+    insert into haige_sys_login_log (SLL_ID, SL_IP, SLL_USER, 
+      SLL_USER_TYPE)
+    values (#{sllId,jdbcType=DECIMAL}, #{slIp,jdbcType=VARCHAR}, #{sllUser,jdbcType=VARCHAR}, 
+      #{sllUserType,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.haige.db.entity.LoginLogDO">
+    insert into haige_sys_login_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sllId != null">
+        SLL_ID,
+      </if>
+      <if test="slIp != null">
+        SL_IP,
+      </if>
+      <if test="sllUser != null">
+        SLL_USER,
+      </if>
+      <if test="sllUserType != null">
+        SLL_USER_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sllId != null">
+        #{sllId,jdbcType=DECIMAL},
+      </if>
+      <if test="slIp != null">
+        #{slIp,jdbcType=VARCHAR},
+      </if>
+      <if test="sllUser != null">
+        #{sllUser,jdbcType=VARCHAR},
+      </if>
+      <if test="sllUserType != null">
+        #{sllUserType,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.haige.db.entity.LoginLogDO">
+    update haige_sys_login_log
+    <set>
+      <if test="slIp != null">
+        SL_IP = #{slIp,jdbcType=VARCHAR},
+      </if>
+      <if test="sllUser != null">
+        SLL_USER = #{sllUser,jdbcType=VARCHAR},
+      </if>
+      <if test="sllUserType != null">
+        SLL_USER_TYPE = #{sllUserType,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where SLL_ID = #{sllId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.haige.db.entity.LoginLogDO">
+    update haige_sys_login_log
+    set SL_IP = #{slIp,jdbcType=VARCHAR},
+      SLL_USER = #{sllUser,jdbcType=VARCHAR},
+      SLL_USER_TYPE = #{sllUserType,jdbcType=DECIMAL}
+    where SLL_ID = #{sllId,jdbcType=DECIMAL}
+  </update>
+</mapper>

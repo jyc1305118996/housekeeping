@@ -12,6 +12,7 @@ import com.haige.service.dto.BindDingDTO;
 import com.haige.service.dto.UserBaseDTO;
 import com.haige.service.dto.WXLoginDTO;
 import com.haige.util.DateUtils;
+import com.haige.web.vo.OrderDetailsVO;
 import com.haige.web.vo.UserBaseVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,4 +130,23 @@ public class UserBaseImpl implements UserBaseService {
                     return ResultInfo.buildFailed("OK");
                 });
     }
+
+  /**
+   * @description:
+   * @param:  * ubdAdmin 用户等级
+   * @return: * 用户列表
+   * @author: aaron
+   * @date: 2019-12-24
+   **/
+  @Override
+  public Mono<ResultInfo<List<UserBaseDTO>>> queryUserList(ServerWebExchange serverWebExchange,
+      Integer ubdAdmin) {
+
+    List<UserBaseDTO> userList = userBaseDOMapper.findUserListBYUbdAdmin(ubdAdmin);
+    ResultInfo<List<UserBaseDTO>> result = new ResultInfo<List<UserBaseDTO>>();
+    result.setData(userList);
+    result.setCount(String.valueOf(userList.size()));
+    result.setCode(StatusCodeEnum.OK.getCode());
+    result.setMessage(StatusCodeEnum.OK.getValue());
+    return Mono.justOrEmpty(result);  }
 }

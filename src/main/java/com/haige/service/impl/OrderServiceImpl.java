@@ -398,24 +398,45 @@ public class OrderServiceImpl implements OrderService {
         .findServeDetailDOList(hashMap);
     List<OrderDetailsVO> orderDetailsVOList = new ArrayList<>(serveDetailDOList.size());
 
-    for (int i = 0; i < serveDetailDOList.size(); i++) {
+     serveDetailDOList.forEach(OrderDetailsVO ->{
+
       OrderDetailsVO orderDetailsVO = new OrderDetailsVO();
 
-      orderDetailsVO.setGoodsId(serveDetailDOList.get(i).get("goods_id"));
+      orderDetailsVO.setGoodsId(OrderDetailsVO.get("goods_id"));
 
 
-      orderDetailsVO.setOrderId(serveDetailDOList.get(i).get("order_id"));
+      orderDetailsVO.setOrderId(OrderDetailsVO.get("order_id"));
 
-      orderDetailsVO.setGoodsName(serveDetailDOList.get(i).get("goods_name"));
+      orderDetailsVO.setGoodsName(OrderDetailsVO.get("goods_name"));
 
-      orderDetailsVO.setPrice(new BigDecimal(serveDetailDOList.get(i).get("order_amount")));
+      orderDetailsVO.setPrice(new BigDecimal(OrderDetailsVO.get("order_amount")));
 
-      orderDetailsVO.setStatus(Integer.valueOf(serveDetailDOList.get(i).get("serve_status")));
+      orderDetailsVO.setStatus(Integer.valueOf(OrderDetailsVO.get("serve_status")));
 
-     // orderDetailsVO.setTime(serveDetailDOList.get(i).get("serve_create_time"));
+      // orderDetailsVO.setTime(serveDetailDOList.get(i).get("serve_create_time"));
 
       orderDetailsVOList.add(orderDetailsVO);
-    }
+
+    });
+
+//    for (int i = 0; i < serveDetailDOList.size(); i++) {
+//      OrderDetailsVO orderDetailsVO = new OrderDetailsVO();
+//
+//      orderDetailsVO.setGoodsId(serveDetailDOList.get(i).get("goods_id"));
+//
+//
+//      orderDetailsVO.setOrderId(serveDetailDOList.get(i).get("order_id"));
+//
+//      orderDetailsVO.setGoodsName(serveDetailDOList.get(i).get("goods_name"));
+//
+//      orderDetailsVO.setPrice(new BigDecimal(serveDetailDOList.get(i).get("order_amount")));
+//
+//      orderDetailsVO.setStatus(Integer.valueOf(serveDetailDOList.get(i).get("serve_status")));
+//
+//     // orderDetailsVO.setTime(serveDetailDOList.get(i).get("serve_create_time"));
+//
+//      orderDetailsVOList.add(orderDetailsVO);
+//    }
 
     ResultInfo<List<OrderDetailsVO>> result = new ResultInfo<List<OrderDetailsVO>>();
     result.setData(orderDetailsVOList);

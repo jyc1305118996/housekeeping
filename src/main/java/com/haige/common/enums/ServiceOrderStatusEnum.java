@@ -8,15 +8,15 @@ public enum ServiceOrderStatusEnum {
     /**
      *  订单确认
      */
-    CONFIRM("100"),
+    CONFIRM("1000"),
     /**
      * 订单服务完成
      */
-    FINISH("200"),
+    FINISH("2000"),
     /**
      * 订单关闭
      */
-    CLOSED("300");
+    CLOSED("3000");
     private String status;
 
     ServiceOrderStatusEnum(String status) {

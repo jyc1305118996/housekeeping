@@ -3,11 +3,14 @@ package com.haige.web.controller;
 import com.haige.common.bean.ResultInfo;
 import com.haige.service.SystemUserService;
 import com.haige.service.UserBaseService;
+import com.haige.service.dto.UserBaseDTO;
 import com.haige.web.convert.UserBaseConvertUtils;
 import com.haige.web.request.BindDingRequest;
+import com.haige.web.vo.OrderDetailsVO;
 import com.haige.web.vo.PhoneLoginVO;
 import com.haige.web.vo.UserBaseVO;
 import com.haige.web.vo.WXLoginVO;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -60,5 +63,16 @@ public class UserBaseController {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Mono<ResultInfo> bindingIphone(ServerWebExchange serverWebExchange, @RequestBody @Valid Mono<BindDingRequest> bindDingRequest) {
         return userBaseService.bindingIphone(serverWebExchange, bindDingRequest.map(UserBaseConvertUtils::toDTO));
+    }
+
+    @GetMapping(value = "/queryUserList", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+        produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Mono<ResultInfo<List<UserBaseDTO>>> queryUserList(ServerWebExchange serverWebExchange, @RequestParam(value = "ubdAdmin", required = false) Integer ubdAdmin) {
+
+        if (null == ubdAdmin) {
+            ubdAdmin = 0;//状态不传输就默认查所有
+        }
+
+        return userBaseService.queryUserList(serverWebExchange,ubdAdmin);
     }
 }
