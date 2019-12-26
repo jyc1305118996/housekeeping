@@ -16,6 +16,7 @@
     <result column="coupon_ids" jdbcType="VARCHAR" property="couponIds" />
     <result column="order_address" jdbcType="VARCHAR" property="orderAddress" />
     <result column="order_count" jdbcType="INTEGER" property="orderCount" />
+    <collection property="files" javaType ="ArrayList" column="goods_Id" ofType="FileInfoDO" select="com.haige.db.mapper.FileInfoDOMapper.selectFileById"></collection>
   </resultMap>
   <sql id="Base_Column_List">
     order_id, goods_id, goods_name, order_status, order_create_user, order_create_time, 

@@ -1,5 +1,6 @@
 package com.haige.db.entity;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,4 +38,7 @@ public class OrderDO {
     private String orderAddress;
 
     private Integer orderCount;
+
+    private List<FileInfoDO> files;
+
 }

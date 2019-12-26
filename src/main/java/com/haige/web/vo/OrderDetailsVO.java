@@ -1,7 +1,9 @@
 package com.haige.web.vo;
 
+import com.haige.db.entity.FileInfoDO;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,4 +29,11 @@ public class OrderDetailsVO {
   private Integer status;
 
   private Date time;
+
+  //地址
+  private String address;
+
+  private List<FileInfoDO> files;
+
+  private String number;
 }

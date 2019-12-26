@@ -166,6 +166,11 @@ public class OrderServiceImpl implements OrderService {
 
       orderDetailsVO.setTime(orderDOList.get(i).getOrderCreateTime());
 
+      orderDetailsVO.setFiles(orderDOList.get(i).getFiles());
+
+      orderDetailsVO.setAddress(orderDOList.get(i).getOrderAddress());
+
+      orderDetailsVO.setNumber(orderDOList.get(i).getOrderCount().toString());
       orderDetailsVOList.add(orderDetailsVO);
     }
 
@@ -414,6 +419,8 @@ public class OrderServiceImpl implements OrderService {
       orderDetailsVO.setStatus(Integer.valueOf(OrderDetailsVO.get("serve_status")));
 
       // orderDetailsVO.setTime(serveDetailDOList.get(i).get("serve_create_time"));
+
+//       orderDetailsVO.
 
       orderDetailsVOList.add(orderDetailsVO);
 
