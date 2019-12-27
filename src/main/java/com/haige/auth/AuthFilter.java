@@ -39,7 +39,10 @@ public class AuthFilter implements WebFilter {
         boolean isLogin = !request.getPath().value().contains("/login");
         boolean isSms = !request.getPath().value().contains("/sms/send");
         boolean isGoods = !request.getPath().value().contains("/goods");
-        if (isLogin && isSms && isGoods){
+        boolean html = !request.getPath().value().contains(".html");
+        boolean js = !request.getPath().value().contains(".js");
+        boolean css = !request.getPath().value().contains(".css");
+        if (isLogin && isSms && isGoods && html && js && css){
             response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
             List<String> auth = request.getHeaders().get("Authorization");
             if (auth == null || auth.isEmpty()){
