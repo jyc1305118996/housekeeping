@@ -30,4 +30,6 @@ public interface GoodsInfoService {
     Mono<ResultInfo<GoodsInfoDO>> goodsInfoById(Integer goodsid);
 
     Mono<ResultInfo> update(Mono<GoodsInfoDTO> mono);
+
+    Mono<ResultInfo> delete(int id);
 }

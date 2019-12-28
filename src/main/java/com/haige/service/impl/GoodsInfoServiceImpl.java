@@ -54,5 +54,12 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
                 .doOnNext(goodsInfoDTO -> goodsInfoDOMapper.updateByPrimaryKeySelective(goodsInfoDTO))
                 .map(goodsInfoDO -> ResultInfo.buildSuccess("success"));
     }
+
+    @Override
+    public Mono<ResultInfo> delete(int id) {
+        return Mono.just(id)
+                .doOnNext(id1 -> goodsInfoDOMapper.deleteByPrimaryKey(id1))
+                .map(i -> ResultInfo.buildSuccess("success"));
+    }
 }
 

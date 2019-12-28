@@ -63,5 +63,9 @@ public class GoodsController {
         return goodsInfoService.update(mono.map(GoodsConvertUtils::convert));
     }
 
-
+    @DeleteMapping(value = "/delete/{id}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Mono<ResultInfo> delete(@PathVariable("id") int id){
+        return goodsInfoService.delete(id);
+    }
 }
