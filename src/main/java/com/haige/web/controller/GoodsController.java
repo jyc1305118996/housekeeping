@@ -5,12 +5,15 @@ import com.haige.auth.enums.PermissionType;
 import com.haige.common.bean.ResultInfo;
 import com.haige.db.entity.GoodsInfoDO;
 import com.haige.service.GoodsInfoService;
+import com.haige.web.convert.GoodsConvertUtils;
+import com.haige.web.request.UpdateGoodsRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -22,7 +25,6 @@ import java.util.List;
 @RequestMapping("/goods")
 @Slf4j
 public class GoodsController {
-
 
 
     @Autowired
@@ -40,7 +42,7 @@ public class GoodsController {
     @Permission(PermissionType.ALL)
     public Mono<ResultInfo<List<GoodsInfoDO>>> queryGoodsInfoList() {
 
-  
+
         return goodsInfoService.goodsInfoList();
     }
 
@@ -55,6 +57,11 @@ public class GoodsController {
     }
 
 
+    @PutMapping(value = "/updateGoodsInfo", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Mono<ResultInfo> update(@RequestBody @Valid Mono<UpdateGoodsRequest> mono) {
+        return goodsInfoService.update(mono.map(GoodsConvertUtils::convert));
+    }
 
 
 }

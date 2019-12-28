@@ -1,10 +1,13 @@
-package com.haige.service.dto;
+package com.haige.web.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * @author Archie
@@ -13,25 +16,23 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GoodsDTO {
+public class UpdateGoodsRequest {
+    @NotNull
     private Integer goodsId;
-
+    @NotNull
     private String goodsName;
-
+    @NotNull
     private String goodsRemarks;
-
-    private String goodsTitle;
-
+    @NotNull
     private Integer goodsFreq;
-
+    @NotNull
     private String goodsAdvise;
-
-    private String goodsActiveDesc;
-
-    private String goodsRestrictDesc;
-
+    @NotNull
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date goodsExpreDate;
+    @NotNull
     private BigDecimal goodsPrice;
-
+    @NotNull
     private BigDecimal goodsDiscountPrice;
 
 }
