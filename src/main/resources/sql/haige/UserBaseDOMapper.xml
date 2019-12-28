@@ -278,6 +278,12 @@
     where UBD_TOKEN = #{token,jdbcType=INTEGER}
   </select>
 
+  <select id="findByUnionid" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from haige_sys_user_base_dtls
+    where UBD_WECHAT_ID = #{unionid,jdbcType=INTEGER}
+  </select>
   <select id="findUserListBYUbdAdmin" resultMap="BaseResultMap" parameterType="java.lang.Integer">
     select
     <include refid="Base_Column_List" />

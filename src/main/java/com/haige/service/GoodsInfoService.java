@@ -3,6 +3,7 @@ package com.haige.service;
 
 import com.haige.common.bean.ResultInfo;
 import com.haige.db.entity.GoodsInfoDO;
+import com.haige.service.dto.GoodsInfoDTO;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -28,4 +29,5 @@ public interface GoodsInfoService {
      */
     Mono<ResultInfo<GoodsInfoDO>> goodsInfoById(Integer goodsid);
 
+    Mono<ResultInfo> update(Mono<GoodsInfoDTO> mono);
 }
