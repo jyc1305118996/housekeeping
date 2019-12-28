@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.haige.db.mapper.ServeDetailDOMapper">
   <resultMap id="BaseResultMap" type="com.haige.db.entity.ServeDetailDO">
-    <id column="serve_id" jdbcType="INTEGER" property="serveId" />
-    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
-    <result column="serve_user_id" jdbcType="INTEGER" property="serveUserId" />
-    <result column="serve_create_user" jdbcType="INTEGER" property="serveCreateUser" />
-    <result column="serve_create_time" jdbcType="TIMESTAMP" property="serveCreateTime" />
-    <result column="serve_update_user" jdbcType="INTEGER" property="serveUpdateUser" />
-    <result column="serve_update_time" jdbcType="TIMESTAMP" property="serveUpdateTime" />
-    <result column="serve_status" jdbcType="VARCHAR" property="serveStatus" />
-    <result column="serve_start_time" jdbcType="TIMESTAMP" property="serveStartTime" />
-    <result column="serve_end_time" jdbcType="TIMESTAMP" property="serveEndTime" />
-    <result column="concat_iphone" jdbcType="VARCHAR" property="concatIphone" />
-    <result column="concat_name" jdbcType="VARCHAR" property="concatName" />
-    <result column="concat_address" jdbcType="VARCHAR" property="concatAddress" />
+    <id column="serve_id" jdbcType="INTEGER" property="serveId"/>
+    <result column="order_id" jdbcType="VARCHAR" property="orderId"/>
+    <result column="serve_user_id" jdbcType="INTEGER" property="serveUserId"/>
+    <result column="serve_create_user" jdbcType="INTEGER" property="serveCreateUser"/>
+    <result column="serve_create_time" jdbcType="TIMESTAMP" property="serveCreateTime"/>
+    <result column="serve_update_user" jdbcType="INTEGER" property="serveUpdateUser"/>
+    <result column="serve_update_time" jdbcType="TIMESTAMP" property="serveUpdateTime"/>
+    <result column="serve_status" jdbcType="VARCHAR" property="serveStatus"/>
+    <result column="serve_start_time" jdbcType="TIMESTAMP" property="serveStartTime"/>
+    <result column="serve_end_time" jdbcType="TIMESTAMP" property="serveEndTime"/>
+    <result column="concat_iphone" jdbcType="VARCHAR" property="concatIphone"/>
+    <result column="concat_name" jdbcType="VARCHAR" property="concatName"/>
+    <result column="concat_address" jdbcType="VARCHAR" property="concatAddress"/>
   </resultMap>
   <sql id="Base_Column_List">
     serve_id, order_id, serve_user_id, serve_create_user, serve_create_time, serve_update_user, 
     serve_update_time, serve_status, serve_start_time, serve_end_time, concat_iphone, concat_name, concat_address
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
+    select
+    <include refid="Base_Column_List"/>
     from haige_order_serve_details
     where serve_id = #{serveId,jdbcType=INTEGER}
   </select>
@@ -187,10 +188,14 @@
     where serve_id = #{serveId,jdbcType=INTEGER}
   </update>
 
-  <select id="findServeDetailDOList" resultType="java.util.Map" parameterType = "java.util.HashMap">
-    select a.order_id,b.goods_id,b.goods_name,b.order_amount,a.serve_status,serve_create_time from haige_order_serve_details a
+  <select id="findServeDetailDOList" resultType="java.util.Map" parameterType="java.util.HashMap">
+    select
+    a.order_id,b.goods_id,b.goods_name,b.order_amount,a.serve_status,serve_create_time,c.file_path,b.order_count,a.concat_address
+    from haige_order_serve_details a
     left join haige_order_info b
     on a.order_id = b.order_id
+    left join (select max(file_Id),hfi.* FROM haige_file_info hfi	where file_work ='goods' GROUP BY file_work_id ) c
+    on b.goods_id = c.file_work_id and file_work ='goods'
     <where>
       <if test="userid != 0">
         a.serve_create_user = #{userid,jdbcType=INTEGER}

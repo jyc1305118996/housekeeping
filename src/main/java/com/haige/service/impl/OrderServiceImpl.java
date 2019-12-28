@@ -17,6 +17,8 @@ import com.haige.service.convert.ShortMsgConvertUtils;
 import com.haige.service.dto.*;
 import com.haige.util.DateUtils;
 import com.haige.util.OrderUtils;
+import com.haige.util.TimeUtil;
+import com.haige.util.TimeUtil.TimeFormat;
 import com.haige.util.wxUtil.WXPayUtil;
 import com.haige.web.vo.OrderDetailsVO;
 import com.haige.web.vo.PayVO;
@@ -171,6 +173,8 @@ public class OrderServiceImpl implements OrderService {
       orderDetailsVO.setAddress(orderDOList.get(i).getOrderAddress());
 
       orderDetailsVO.setNumber(orderDOList.get(i).getOrderCount().toString());
+
+      orderDetailsVO.setFiles(orderDOList.get(i).getFiles());
       orderDetailsVOList.add(orderDetailsVO);
     }
 
@@ -391,8 +395,7 @@ public class OrderServiceImpl implements OrderService {
     int userAdmin = userBaseDTO.getUbdAdmin();
     HashMap<String, String> hashMap = new HashMap<>();
     hashMap.put("status", String.valueOf(detailsStatus));
-
-     if (userAdmin == 0) {
+      if (userAdmin == 0) {
       hashMap.put("userid", "0");
 
     } else {
@@ -403,47 +406,37 @@ public class OrderServiceImpl implements OrderService {
         .findServeDetailDOList(hashMap);
     List<OrderDetailsVO> orderDetailsVOList = new ArrayList<>(serveDetailDOList.size());
 
-     serveDetailDOList.forEach(OrderDetailsVO ->{
 
+
+    for (int i = 0; i < serveDetailDOList.size(); i++) {
       OrderDetailsVO orderDetailsVO = new OrderDetailsVO();
 
-      orderDetailsVO.setGoodsId(OrderDetailsVO.get("goods_id"));
+      orderDetailsVO.setGoodsId(String.valueOf(serveDetailDOList.get(i).get("goods_id")));
 
 
-      orderDetailsVO.setOrderId(OrderDetailsVO.get("order_id"));
+      orderDetailsVO.setOrderId(serveDetailDOList.get(i).get("order_id"));
 
-      orderDetailsVO.setGoodsName(OrderDetailsVO.get("goods_name"));
+      orderDetailsVO.setGoodsName(serveDetailDOList.get(i).get("goods_name"));
 
-      orderDetailsVO.setPrice(new BigDecimal(OrderDetailsVO.get("order_amount")));
+      orderDetailsVO.setPrice(new BigDecimal(String.valueOf(serveDetailDOList.get(i).get("order_amount"))));
 
-      orderDetailsVO.setStatus(Integer.valueOf(OrderDetailsVO.get("serve_status")));
+      orderDetailsVO.setStatus(Integer.valueOf(serveDetailDOList.get(i).get("serve_status")));
 
-      // orderDetailsVO.setTime(serveDetailDOList.get(i).get("serve_create_time"));
 
-//       orderDetailsVO.
+      orderDetailsVO.setNumber(String.valueOf(serveDetailDOList.get(i).get("order_count")));
 
+      List<FileInfoDO> list = new ArrayList();
+      FileInfoDO fileInfoDO = new FileInfoDO();
+      fileInfoDO.setFilePath(serveDetailDOList.get(i).get("file_path"));
+      list.add(fileInfoDO);
+
+      orderDetailsVO.setFiles(list);
+      orderDetailsVO.setAddress(serveDetailDOList.get(i).get("concat_address"));
+      System.out.println(String.valueOf(serveDetailDOList.get(i).get("serve_create_time")));
+      orderDetailsVO.setTime(TimeUtil.strToDate(String.valueOf(serveDetailDOList.get(i).get("serve_create_time"))));
+// a.order_id,b.goods_id,b.goods_name,b.order_amount,a.serve_status,serve_create_time,c.file_path,b.order_count
       orderDetailsVOList.add(orderDetailsVO);
-
-    });
-
-//    for (int i = 0; i < serveDetailDOList.size(); i++) {
-//      OrderDetailsVO orderDetailsVO = new OrderDetailsVO();
-//
-//      orderDetailsVO.setGoodsId(serveDetailDOList.get(i).get("goods_id"));
-//
-//
-//      orderDetailsVO.setOrderId(serveDetailDOList.get(i).get("order_id"));
-//
-//      orderDetailsVO.setGoodsName(serveDetailDOList.get(i).get("goods_name"));
-//
-//      orderDetailsVO.setPrice(new BigDecimal(serveDetailDOList.get(i).get("order_amount")));
-//
-//      orderDetailsVO.setStatus(Integer.valueOf(serveDetailDOList.get(i).get("serve_status")));
-//
-//     // orderDetailsVO.setTime(serveDetailDOList.get(i).get("serve_create_time"));
-//
-//      orderDetailsVOList.add(orderDetailsVO);
-//    }
+    }
 
     ResultInfo<List<OrderDetailsVO>> result = new ResultInfo<List<OrderDetailsVO>>();
     result.setData(orderDetailsVOList);
