@@ -218,15 +218,20 @@
 
   <select id="countOrder" resultType="java.util.Map">
     SELECT COUNT(*) as ct,order_status
-
-
     from haige_order_info
     <where>
       <if test=" userId != null">
         order_create_user = #{userId,jdbcType=INTEGER}
       </if>
     </where>
-
+    GROUP BY order_status
+    UNION all
+    select  count(*) ct,serve_status as order_status from haige_order_serve_details
+    <where>
+      <if test=" userId != null">
+        serve_create_user = #{userId,jdbcType=INTEGER}
+      </if>
+    </where>
     GROUP BY order_status
 
   </select>
