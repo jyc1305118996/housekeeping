@@ -12,7 +12,6 @@ import com.haige.service.dto.BindDingDTO;
 import com.haige.service.dto.UserBaseDTO;
 import com.haige.service.dto.WXLoginDTO;
 import com.haige.util.DateUtils;
-import com.haige.web.vo.OrderDetailsVO;
 import com.haige.web.vo.UserBaseVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

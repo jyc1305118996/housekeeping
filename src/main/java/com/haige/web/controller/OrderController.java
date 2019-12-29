@@ -1,17 +1,16 @@
 package com.haige.web.controller;
 
 import com.haige.common.bean.ResultInfo;
-import com.haige.db.entity.OrderDO;
 import com.haige.service.OrderService;
 import com.haige.service.dto.UserBaseDTO;
 import com.haige.web.convert.OrderConvertUtils;
-import com.haige.web.request.AllotParam;
-import com.haige.web.request.PayRequest;
-import com.haige.web.request.SubmitOrderRequest;
-import com.haige.web.request.UpdateOrderRequest;
-import com.haige.web.vo.OrderDetailsVO;
+import com.haige.web.convert.ServiceOrderDetailConvertUtils;
+import com.haige.web.request.*;
+import com.haige.web.vo.OrderDetailVO;
 import com.haige.web.vo.SubmitOrderVo;
+
 import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -48,7 +47,7 @@ public class OrderController {
     @GetMapping(value = "/queryOrderList", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 
-    public Mono<ResultInfo<List<OrderDetailsVO>>> queryOrderList(ServerWebExchange serverWebExchange, @RequestParam(value = "status", required = false) Integer status) {
+    public Mono<ResultInfo<List<OrderDetailVO>>> queryOrderList(ServerWebExchange serverWebExchange, @RequestParam(value = "status", required = false) Integer status) {
         if (null == status) {
             status = 0;//状态不传输就默认查所有
         }
@@ -85,24 +84,30 @@ public class OrderController {
     @PostMapping(value = "/allot", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Mono<ResultInfo> allot(@RequestAttribute("user") UserBaseDTO userBaseDTO, @RequestBody @Valid Mono<AllotParam> allotParamMono) {
-        return orderService.allot(userBaseDTO,  allotParamMono.map(OrderConvertUtils::toDTO));
+        return orderService.allot(userBaseDTO, allotParamMono.map(OrderConvertUtils::toDTO));
     }
 
-  @GetMapping(value = "/countOrder", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
-      produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-  public Mono<ResultInfo<List<HashMap<String, String>>>> countOrder(ServerWebExchange exchange) {
+    @GetMapping(value = "/countOrder", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Mono<ResultInfo<List<HashMap<String, String>>>> countOrder(ServerWebExchange exchange) {
 
-    return orderService.countOrder(exchange);
-  }
+        return orderService.countOrder(exchange);
+    }
 
     @GetMapping(value = "/queryServerDetailsList", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
-        produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Mono<ResultInfo<List<OrderDetailsVO>>> queryServerDetailsList(ServerWebExchange serverWebExchange, @RequestParam(value = "status", required = false) Integer status) {
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Mono<ResultInfo<List<OrderDetailVO>>> queryServerDetailsList(ServerWebExchange serverWebExchange, @RequestParam(value = "status", required = false) Integer status) {
 
         if (null == status) {
             status = 0;//状态不传输就默认查所有
         }
 
-        return orderService.queryOrderListByDetailsStatus(serverWebExchange,status);
+        return orderService.queryOrderListByDetailsStatus(serverWebExchange, status);
+    }
+
+    @PutMapping(value = "/updateServerDetail", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Mono<ResultInfo> updateServerDetail(@RequestBody @Valid Mono<UpdateOrderDetailRequest> request) {
+        return  orderService.updateServerDetail(request.map(ServiceOrderDetailConvertUtils::toDTO));
     }
 }

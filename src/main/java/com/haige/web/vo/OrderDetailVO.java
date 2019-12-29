@@ -17,8 +17,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderDetailsVO {
+public class OrderDetailVO {
 
+  private String serveId;
   private String orderId;
 
   private String goodsId;

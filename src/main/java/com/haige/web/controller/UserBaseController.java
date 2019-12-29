@@ -6,7 +6,6 @@ import com.haige.service.UserBaseService;
 import com.haige.service.dto.UserBaseDTO;
 import com.haige.web.convert.UserBaseConvertUtils;
 import com.haige.web.request.BindDingRequest;
-import com.haige.web.vo.OrderDetailsVO;
 import com.haige.web.vo.PhoneLoginVO;
 import com.haige.web.vo.UserBaseVO;
 import com.haige.web.vo.WXLoginVO;
