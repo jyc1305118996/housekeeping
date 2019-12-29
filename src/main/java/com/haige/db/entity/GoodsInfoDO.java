@@ -24,7 +24,7 @@ public class GoodsInfoDO {
 
     private Integer goodsFreq;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date goodsExpreDate;
 
     private Byte goodsPersonType;
@@ -38,11 +38,11 @@ public class GoodsInfoDO {
     private String goodsActiveDesc;
 
     private String goodsRestrictDesc;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date goodsCreateTime;
 
     private Integer goodsCreateUser;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date goodsUpdateTime;
 
     private Integer goodsUpdateUser;
