@@ -194,7 +194,7 @@
     from haige_order_serve_details a
     left join haige_order_info b
     on a.order_id = b.order_id
-    left join (select max(file_Id),hfi.* FROM haige_file_info hfi	where file_work ='goods' GROUP BY file_work_id ) c
+    left join (select min(file_Id),hfi.* FROM haige_file_info hfi	where file_work ='goods'  and file_is_use ='1' GROUP BY file_work_id ) c
     on b.goods_id = c.file_work_id and file_work ='goods'
     <where>
       <if test="userid != 0">
@@ -204,5 +204,7 @@
         AND a.serve_status = #{status,jdbcType=VARCHAR}
       </if>
     </where>
+    order by serve_create_time desc
+
   </select>
 </mapper>

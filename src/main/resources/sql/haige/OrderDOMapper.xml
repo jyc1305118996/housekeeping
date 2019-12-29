@@ -213,6 +213,7 @@
         AND order_status = #{status,jdbcType=VARCHAR}
       </if>
     </where>
+    order by order_create_time desc
   </select>
 
   <select id="countOrder" resultType="java.util.Map">

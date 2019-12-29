@@ -148,6 +148,6 @@
     select
     <include refid="Base_Column_List" />
     from haige_file_info
-    where file_work ='goods' and file_work_id = #{goodsId}
+    where file_work ='goods' and file_work_id = #{goodsId} and file_is_use ='1' order by file_id asc
   </select>
 </mapper>
