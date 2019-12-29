@@ -21,6 +21,4 @@ public class UpdateServiceOrderDetailDTO {
   private String concatName;
   private Integer status;
   private Date time;
-  private String concatAddress;
-
 }
