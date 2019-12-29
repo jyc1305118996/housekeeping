@@ -458,12 +458,5 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
-    @Override
-    public Mono<ResultInfo> updateServerDetail(Mono<UpdateOrderDetailDTO> updateOrderDetailDTOMono) {
-        return updateOrderDetailDTOMono.map(ServiceOrderDetailConvertUtils::toDO)
-                .doOnNext(serveDetailDO -> {
-                    serveDetailDOMapper.updateByPrimaryKeySelective(serveDetailDO);
-                })
-                .map(serveDetailDO -> ResultInfo.buildSuccess("success"));
-    }
+
 }

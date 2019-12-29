@@ -72,5 +72,5 @@ public interface OrderService {
     Mono<ResultInfo<List<OrderDetailVO>>> queryOrderListByDetailsStatus(ServerWebExchange serverWebExchange, int detailsStatus);
 
 
-    Mono<ResultInfo> updateServerDetail(Mono<UpdateOrderDetailDTO> updateOrderDetailDTOMono);
+
 }

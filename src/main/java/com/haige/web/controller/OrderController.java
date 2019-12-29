@@ -104,10 +104,4 @@ public class OrderController {
 
         return orderService.queryOrderListByDetailsStatus(serverWebExchange, status);
     }
-
-    @PutMapping(value = "/updateServerDetail", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Mono<ResultInfo> updateServerDetail(@RequestBody @Valid Mono<UpdateOrderDetailRequest> request) {
-        return  orderService.updateServerDetail(request.map(ServiceOrderDetailConvertUtils::toDTO));
-    }
 }
