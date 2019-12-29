@@ -75,7 +75,7 @@ public class OrderServiceImpl implements OrderService {
   private String appkey;
 
   @Override
-  public Mono<ResultInfo<SubmitOrderVo>> xsubmit(
+  public Mono<ResultInfo<SubmitOrderVo>> submit(
       ServerWebExchange serverWebExchange, Mono<SubmitOrderDTO> orderRequestMono) {
     ServerHttpRequest request = serverWebExchange.getRequest();
     List<String> tokens = request.getHeaders().get("Authorization");
