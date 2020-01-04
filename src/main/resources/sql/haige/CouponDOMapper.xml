@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haige.db.mapper.CouponDOMapper">
+  <resultMap id="BaseResultMap" type="com.haige.db.entity.CouponDO">
+    <id column="uc_id" jdbcType="INTEGER" property="ucId" />
+    <result column="uc_user_id" jdbcType="INTEGER" property="ucUserId" />
+    <result column="uc_user_name" jdbcType="VARCHAR" property="ucUserName" />
+    <result column="uc_coupon_price" jdbcType="DECIMAL" property="ucCouponPrice" />
+    <result column="uc_coupon_id" jdbcType="INTEGER" property="ucCouponId" />
+    <result column="uc_coupon_validity" jdbcType="VARCHAR" property="ucCouponValidity" />
+    <result column="uc_is_use" jdbcType="VARCHAR" property="ucIsUse" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    uc_id, uc_user_id, uc_user_name, uc_coupon_price, uc_coupon_id, uc_coupon_validity, 
+    uc_is_use
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from haige_user_coupon
+    where uc_id = #{ucId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from haige_user_coupon
+    where uc_id = #{ucId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.haige.db.entity.CouponDO">
+    insert into haige_user_coupon (uc_id, uc_user_id, uc_user_name, 
+      uc_coupon_price, uc_coupon_id, uc_coupon_validity, 
+      uc_is_use)
+    values (#{ucId,jdbcType=INTEGER}, #{ucUserId,jdbcType=INTEGER}, #{ucUserName,jdbcType=VARCHAR}, 
+      #{ucCouponPrice,jdbcType=DECIMAL}, #{ucCouponId,jdbcType=INTEGER}, #{ucCouponValidity,jdbcType=VARCHAR}, 
+      #{ucIsUse,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.haige.db.entity.CouponDO">
+    insert into haige_user_coupon
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="ucId != null">
+        uc_id,
+      </if>
+      <if test="ucUserId != null">
+        uc_user_id,
+      </if>
+      <if test="ucUserName != null">
+        uc_user_name,
+      </if>
+      <if test="ucCouponPrice != null">
+        uc_coupon_price,
+      </if>
+      <if test="ucCouponId != null">
+        uc_coupon_id,
+      </if>
+      <if test="ucCouponValidity != null">
+        uc_coupon_validity,
+      </if>
+      <if test="ucIsUse != null">
+        uc_is_use,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="ucId != null">
+        #{ucId,jdbcType=INTEGER},
+      </if>
+      <if test="ucUserId != null">
+        #{ucUserId,jdbcType=INTEGER},
+      </if>
+      <if test="ucUserName != null">
+        #{ucUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="ucCouponPrice != null">
+        #{ucCouponPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="ucCouponId != null">
+        #{ucCouponId,jdbcType=INTEGER},
+      </if>
+      <if test="ucCouponValidity != null">
+        #{ucCouponValidity,jdbcType=VARCHAR},
+      </if>
+      <if test="ucIsUse != null">
+        #{ucIsUse,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.haige.db.entity.CouponDO">
+    update haige_user_coupon
+    <set>
+      <if test="ucUserId != null">
+        uc_user_id = #{ucUserId,jdbcType=INTEGER},
+      </if>
+      <if test="ucUserName != null">
+        uc_user_name = #{ucUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="ucCouponPrice != null">
+        uc_coupon_price = #{ucCouponPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="ucCouponId != null">
+        uc_coupon_id = #{ucCouponId,jdbcType=INTEGER},
+      </if>
+      <if test="ucCouponValidity != null">
+        uc_coupon_validity = #{ucCouponValidity,jdbcType=VARCHAR},
+      </if>
+      <if test="ucIsUse != null">
+        uc_is_use = #{ucIsUse,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where uc_id = #{ucId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.haige.db.entity.CouponDO">
+    update haige_user_coupon
+    set uc_user_id = #{ucUserId,jdbcType=INTEGER},
+      uc_user_name = #{ucUserName,jdbcType=VARCHAR},
+      uc_coupon_price = #{ucCouponPrice,jdbcType=DECIMAL},
+      uc_coupon_id = #{ucCouponId,jdbcType=INTEGER},
+      uc_coupon_validity = #{ucCouponValidity,jdbcType=VARCHAR},
+      uc_is_use = #{ucIsUse,jdbcType=VARCHAR}
+    where uc_id = #{ucId,jdbcType=INTEGER}
+  </update>
+</mapper>

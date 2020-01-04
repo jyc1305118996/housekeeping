@@ -36,7 +36,7 @@ public class ResultInfo<T> {
     }
     public static  ResultInfo<String> buildFailed(String r){
         ResultInfo<String> resultInfo = new ResultInfo<>(StatusCodeEnum.BAD_REQUEST);
-        resultInfo.setData(r);
+        resultInfo.setMessage(r);
         return resultInfo;
     }
 }
