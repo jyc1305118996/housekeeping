@@ -259,5 +259,10 @@
     select
     <include refid="Base_Column_List" />
     from haige_goods_info
+    <where>
+      <if test="status != null ">
+        AND goods_is_del = #{status}
+      </if>
+    </where>
   </select>
 </mapper>

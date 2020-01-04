@@ -28,8 +28,8 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
     private GoodsInfoDOMapper goodsInfoDOMapper;
 
     @Override
-    public Mono<ResultInfo<List<GoodsInfoDO>>> goodsInfoList() {
-        List<GoodsInfoDO> goodsInfoDoList = goodsInfoDOMapper.findGoodsInfoDoList();
+    public Mono<ResultInfo<List<GoodsInfoDO>>> goodsInfoList(String status) {
+        List<GoodsInfoDO> goodsInfoDoList = goodsInfoDOMapper.findGoodsInfoDoList(status);
         ResultInfo<List<GoodsInfoDO>> result = new ResultInfo<List<GoodsInfoDO>>();
         result.setData(goodsInfoDoList);
         result.setCount(String.valueOf(goodsInfoDoList.size()));
@@ -56,11 +56,11 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
     }
 
     @Override
-    public Mono<ResultInfo> delete(int id) {
+    public Mono<ResultInfo> isDel(int id, String status) {
         return Mono.just(id)
                 .map(id1 -> goodsInfoDOMapper.selectByPrimaryKey(id1))
                 .doOnNext(goodsInfoDO -> {
-                    goodsInfoDO.setGoodsIsDel("0");
+                    goodsInfoDO.setGoodsIsDel(status);
                     goodsInfoDOMapper.updateByPrimaryKeySelective(goodsInfoDO);
                 })
                 .map(i -> ResultInfo.buildSuccess("success"));

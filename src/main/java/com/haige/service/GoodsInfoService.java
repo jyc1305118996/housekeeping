@@ -19,7 +19,7 @@ public interface GoodsInfoService {
      * @return
      */
 
-    Mono<ResultInfo<List<GoodsInfoDO>>> goodsInfoList();
+    Mono<ResultInfo<List<GoodsInfoDO>>> goodsInfoList(String status);
 
 
     /**
@@ -31,5 +31,5 @@ public interface GoodsInfoService {
 
     Mono<ResultInfo> update(Mono<GoodsInfoDTO> mono);
 
-    Mono<ResultInfo> delete(int id);
+    Mono<ResultInfo> isDel(int id, String status);
 }

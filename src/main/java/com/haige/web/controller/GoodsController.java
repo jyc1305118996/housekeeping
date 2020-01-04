@@ -40,10 +40,10 @@ public class GoodsController {
     @GetMapping(value = "/queryGoodsInfoList",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @Permission(PermissionType.ALL)
-    public Mono<ResultInfo<List<GoodsInfoDO>>> queryGoodsInfoList() {
+    public Mono<ResultInfo<List<GoodsInfoDO>>> queryGoodsInfoList(@RequestParam(value = "status", required = false) String status) {
 
 
-        return goodsInfoService.goodsInfoList();
+        return goodsInfoService.goodsInfoList(status);
     }
 
 
@@ -63,9 +63,9 @@ public class GoodsController {
         return goodsInfoService.update(mono.map(GoodsConvertUtils::convert));
     }
 
-    @DeleteMapping(value = "/deleteGoodsInfo/{id}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+    @DeleteMapping(value = "/isDel/{id}/{status}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Mono<ResultInfo> delete(@PathVariable("id") int id){
-        return goodsInfoService.delete(id);
+    public Mono<ResultInfo> delete(@PathVariable("id") int id, @PathVariable("status") String status) {
+        return goodsInfoService.isDel(id, status);
     }
 }

@@ -2,6 +2,7 @@ package com.haige.db.mapper;
 
 
 import com.haige.db.entity.GoodsInfoDO;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,5 +21,5 @@ public interface GoodsInfoDOMapper {
 
     int updateByPrimaryKey(GoodsInfoDO record);
 
-    List<GoodsInfoDO> findGoodsInfoDoList();
+    List<GoodsInfoDO> findGoodsInfoDoList(@Param("status") String status);
 }
