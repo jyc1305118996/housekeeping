@@ -150,22 +150,22 @@
       <if test="serveUpdateTime != null">
         serve_update_time = #{serveUpdateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="serveStatus != null">
+      <if test="serveStatus != null and serveStatus != ''">
         serve_status = #{serveStatus,jdbcType=VARCHAR},
       </if>
-      <if test="serveStartTime != null">
+      <if test="serveStartTime != null  and serveStartTime != ''">
         serve_start_time = #{serveStartTime,jdbcType=TIMESTAMP},
       </if>
       <if test="serveEndTime != null">
         serve_end_time = #{serveEndTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="concatIphone != null">
+      <if test="concatIphone != null and concatIphone != ''">
         concat_iphone = #{concatIphone,jdbcType=VARCHAR},
       </if>
-      <if test="concatName != null">
+      <if test="concatName != null and concatName != ''">
         concat_name = #{concatName,jdbcType=VARCHAR},
       </if>
-      <if test="concatAddress != null">
+      <if test="concatAddress != null and concatAddress != ''">
         concat_address = #{concatAddress,jdbcType=VARCHAR},
       </if>
     </set>
@@ -189,8 +189,8 @@
   </update>
 
   <select id="findServeDetailDOList" resultType="java.util.Map" parameterType="java.util.HashMap">
-    select
-    a.order_id,b.goods_id,b.goods_name,b.order_amount,a.serve_status,serve_create_time,c.file_path,b.order_count,a.concat_address
+    select a.serve_id,
+    a.order_id,b.goods_id,b.goods_name,b.order_amount,a.serve_status,a,serve_start_time,c.file_path,b.order_count,a.concat_address
     from haige_order_serve_details a
     left join haige_order_info b
     on a.order_id = b.order_id

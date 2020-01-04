@@ -10,8 +10,10 @@ import com.haige.db.mapperExtend.UserBaseDOExtendMapper;
 import com.haige.integration.SmsClient;
 import com.haige.integration.param.SendMessageParam;
 import com.haige.service.ServiceService;
+import com.haige.service.convert.ServiceOrderDetailConvertUtils;
 import com.haige.service.convert.ShortMsgConvertUtils;
 import com.haige.service.dto.SubmitServiceDTO;
+import com.haige.service.dto.UpdateServiceOrderDetailDTO;
 import com.haige.service.dto.UserBaseDTO;
 import com.haige.util.DateUtils;
 import com.haige.util.TimeUtil;
@@ -91,5 +93,13 @@ public class ServiceServiceImpl implements ServiceService {
                     // 返回订单剩余次数
                     return ResultInfo.buildSuccess(orderDOAtomicReference.get().getOrderCount());
                 });
+    }
+    @Override
+    public Mono<ResultInfo> updateServerDetail(Mono<UpdateServiceOrderDetailDTO> updateOrderDetailDTOMono) {
+        return updateOrderDetailDTOMono.map(ServiceOrderDetailConvertUtils::toDO)
+                .doOnNext(serveDetailDO -> {
+                    serveDetailDOMapper.updateByPrimaryKeySelective(serveDetailDO);
+                })
+                .map(serveDetailDO -> ResultInfo.buildSuccess("success"));
     }
 }

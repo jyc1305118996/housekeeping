@@ -4,19 +4,21 @@ import com.haige.common.bean.ResultInfo;
 import com.haige.common.enums.StatusCodeEnum;
 import com.haige.db.entity.UserBaseDO;
 import com.haige.db.mapper.UserBaseDOMapper;
+import com.haige.db.mapperExtend.UserBaseDOExtendMapper;
 import com.haige.integration.WXLoginService;
 import com.haige.integration.param.AccessTokenParam;
 import com.haige.service.UserBaseService;
 import com.haige.service.convert.UserBaseConvertUtils;
 import com.haige.service.dto.BindDingDTO;
+import com.haige.service.dto.LoginDTO;
 import com.haige.service.dto.UserBaseDTO;
 import com.haige.service.dto.WXLoginDTO;
 import com.haige.util.DateUtils;
-import com.haige.web.vo.OrderDetailsVO;
 import com.haige.web.vo.UserBaseVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
@@ -37,7 +39,11 @@ import java.util.concurrent.atomic.AtomicReference;
 public class UserBaseImpl implements UserBaseService {
 
     @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
     private UserBaseDOMapper userBaseDOMapper;
+    @Autowired
+    private UserBaseDOExtendMapper userBaseDOExtendMapper;
 
     @Autowired
     private WXLoginService wxLoginService;
@@ -149,4 +155,29 @@ public class UserBaseImpl implements UserBaseService {
     result.setCode(StatusCodeEnum.OK.getCode());
     result.setMessage(StatusCodeEnum.OK.getValue());
     return Mono.justOrEmpty(result);  }
+
+    @Override
+    public Mono<ResultInfo> login(Mono<LoginDTO> loginDTOMono) {
+        return loginDTOMono.map(loginDTO -> {
+            String username = loginDTO.getUsername();
+            String password = loginDTO.getPassword();
+            UserBaseDO login = userBaseDOExtendMapper.login(username);
+            if (login != null){
+                if (bCryptPasswordEncoder.matches(password, login.getUbdPass())){
+                    // 生成token，以及过期事件
+                    String token = UUID.randomUUID().toString();
+                    LocalDateTime expreDate = LocalDateTime.now().plus(30L, ChronoUnit.DAYS);
+                    login.setUbdToken(token);
+                    login.setUbdTokenExpreDate(DateUtils.convertToString(expreDate));
+                    userBaseDOMapper.updateByPrimaryKeySelective(login);
+                    return ResultInfo.buildSuccess(UserBaseConvertUtils.toVO(login));
+                }else {
+                    return ResultInfo.buildFailed("faild");
+                }
+            }else {
+                return ResultInfo.buildFailed("faild");
+            }
+        });
+
+    }
 }

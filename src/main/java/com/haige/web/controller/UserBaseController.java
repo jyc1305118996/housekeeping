@@ -6,11 +6,13 @@ import com.haige.service.UserBaseService;
 import com.haige.service.dto.UserBaseDTO;
 import com.haige.web.convert.UserBaseConvertUtils;
 import com.haige.web.request.BindDingRequest;
-import com.haige.web.vo.OrderDetailsVO;
+import com.haige.web.request.LoginRequest;
 import com.haige.web.vo.PhoneLoginVO;
 import com.haige.web.vo.UserBaseVO;
 import com.haige.web.vo.WXLoginVO;
+
 import java.util.List;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -37,6 +39,7 @@ public class UserBaseController {
 
     /**
      * 手机号登陆
+     *
      * @param exchange
      * @param phone
      * @return
@@ -66,13 +69,25 @@ public class UserBaseController {
     }
 
     @GetMapping(value = "/queryUserList", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
-        produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Mono<ResultInfo<List<UserBaseDTO>>> queryUserList(ServerWebExchange serverWebExchange, @RequestParam(value = "ubdAdmin", required = false) Integer ubdAdmin) {
 
         if (null == ubdAdmin) {
             ubdAdmin = 0;//状态不传输就默认查所有
         }
 
-        return userBaseService.queryUserList(serverWebExchange,ubdAdmin);
+        return userBaseService.queryUserList(serverWebExchange, ubdAdmin);
+    }
+
+    /**
+     * web登陆接口
+     * @param loginRequest
+     * @return
+     */
+    @CrossOrigin
+    @PostMapping(value = "/login/web", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Mono<ResultInfo> login(@RequestBody @Valid Mono<LoginRequest> loginRequest) {
+        return userBaseService.login(loginRequest.map(UserBaseConvertUtils::toDTO));
     }
 }

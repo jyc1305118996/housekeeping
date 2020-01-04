@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.haige.db.mapperExtend.UserBaseDOExtendMapper">
+  <resultMap id="BaseResultMap" type="com.haige.db.entity.UserBaseDO">
+    <id column="UBD_ID" jdbcType="INTEGER" property="ubdId" />
+    <result column="UBD_NAME" jdbcType="VARCHAR" property="ubdName" />
+    <result column="UBD_PASS" jdbcType="VARCHAR" property="ubdPass" />
+    <result column="UBD_EXPRE_DATE" jdbcType="TIMESTAMP" property="ubdExpreDate" />
+    <result column="UBD_LAST_TIME" jdbcType="TIMESTAMP" property="ubdLastTime" />
+    <result column="UBD_LAST_IP" jdbcType="VARCHAR" property="ubdLastIp" />
+    <result column="UBD_USE" jdbcType="DECIMAL" property="ubdUse" />
+    <result column="UBD_ADMIN" jdbcType="DECIMAL" property="ubdAdmin" />
+    <result column="UBD_POLICE_NAME" jdbcType="VARCHAR" property="ubdPoliceName" />
+    <result column="UBD_FIXED_PHONE" jdbcType="VARCHAR" property="ubdFixedPhone" />
+    <result column="UBD_SEQ" jdbcType="DECIMAL" property="ubdSeq" />
+    <result column="UBD_CRTE_USER_ID" jdbcType="DECIMAL" property="ubdCrteUserId" />
+    <result column="UBD_CRTE_TIME" jdbcType="TIMESTAMP" property="ubdCrteTime" />
+    <result column="UBD_UPDT_USER_ID" jdbcType="DECIMAL" property="ubdUpdtUserId" />
+    <result column="UBD_UPDT_TIME" jdbcType="TIMESTAMP" property="ubdUpdtTime" />
+    <result column="UBD_WECHAT_ID" jdbcType="VARCHAR" property="ubdWechatId" />
+    <result column="UBD_TOKEN" jdbcType="VARCHAR" property="ubdToken" />
+    <result column="UBD_TOKEN_EXPRE_DATE" jdbcType="VARCHAR" property="ubdTokenExpreDate" />
+    <result column="UBD_IS_NEW" jdbcType="VARCHAR" property="ubdIsNew" />
+    <result column="UBD_HEAD_PORTRAIT" jdbcType="VARCHAR" property="ubdHeadPortrait" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    UBD_ID, UBD_NAME, UBD_PASS, UBD_EXPRE_DATE, UBD_LAST_TIME, UBD_LAST_IP, UBD_USE,
+    UBD_ADMIN, UBD_POLICE_NAME, UBD_FIXED_PHONE, UBD_SEQ, UBD_CRTE_USER_ID, UBD_CRTE_TIME,
+    UBD_UPDT_USER_ID, UBD_UPDT_TIME, UBD_WECHAT_ID, UBD_TOKEN, UBD_TOKEN_EXPRE_DATE,UBD_IS_NEW,UBD_HEAD_PORTRAIT
+  </sql>
   <select id="findByManagerIphone" resultType="String">
     select
     userbase.UBD_FIXED_PHONE
@@ -10,5 +37,15 @@
     <if test="orderId != null">
       AND orderinfo.order_id = #{orderId}
     </if>
+  </select>
+  <select id="login" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from haige_sys_user_base_dtls
+    <where>
+      <if test="username != null">
+        AND UBD_NAME = #{username}
+      </if>
+    </where>
   </select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.haige.web.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.haige.db.entity.FileInfoDO;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -16,8 +17,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderDetailsVO {
+public class OrderDetailVO {
 
+  private String serveId;
   private String orderId;
 
   private String goodsId;
@@ -28,6 +30,7 @@ public class OrderDetailsVO {
 
   private Integer status;
 
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date time;
 
   //地址

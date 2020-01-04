@@ -4,7 +4,9 @@ import com.haige.common.bean.ResultInfo;
 import com.haige.service.ServiceService;
 import com.haige.service.convert.ServiceConvertUtils;
 import com.haige.service.dto.UserBaseDTO;
+import com.haige.web.convert.ServiceOrderDetailConvertUtils;
 import com.haige.web.request.SubmitServiceParam;
+import com.haige.web.request.UpdateServiceOrderDetailRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -34,5 +36,11 @@ public class ServiceController {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Mono<ResultInfo> submit(@RequestAttribute("user") UserBaseDTO userBaseDTO, @RequestBody @Valid Mono<SubmitServiceParam> serviceParamMono) {
         return serviceService.submit(userBaseDTO, serviceParamMono.map(ServiceConvertUtils::toDTO));
+    }
+
+    @PutMapping(value = "/updateServerDetail", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Mono<ResultInfo> updateServerDetail(@RequestBody @Valid Mono<UpdateServiceOrderDetailRequest> request) {
+        return  serviceService.updateServerDetail(request.map(ServiceOrderDetailConvertUtils::toDTO));
     }
 }

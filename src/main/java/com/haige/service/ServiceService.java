@@ -2,6 +2,7 @@ package com.haige.service;
 
 import com.haige.common.bean.ResultInfo;
 import com.haige.service.dto.SubmitServiceDTO;
+import com.haige.service.dto.UpdateServiceOrderDetailDTO;
 import com.haige.service.dto.UserBaseDTO;
 import reactor.core.publisher.Mono;
 
@@ -17,4 +18,5 @@ public interface ServiceService {
      * @return
      */
     Mono<ResultInfo> submit(UserBaseDTO userBaseDTO, Mono<SubmitServiceDTO> serviceDTOMono);
+    Mono<ResultInfo> updateServerDetail(Mono<UpdateServiceOrderDetailDTO> updateOrderDetailDTOMono);
 }
