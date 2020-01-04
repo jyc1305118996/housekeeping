@@ -51,5 +51,8 @@ public class GoodsInfoDO {
 
     private BigDecimal goodsDiscountPrice;
 
+
+    private String goodsCoverUrl;
+
     private List<FileInfoDO> files;
 }
