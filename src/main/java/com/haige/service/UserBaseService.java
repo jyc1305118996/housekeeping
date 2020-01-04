@@ -2,6 +2,7 @@ package com.haige.service;
 
 import com.haige.common.bean.ResultInfo;
 import com.haige.service.dto.BindDingDTO;
+import com.haige.service.dto.LoginDTO;
 import com.haige.service.dto.UserBaseDTO;
 import com.haige.service.dto.WXLoginDTO;
 import com.haige.web.vo.UserBaseVO;
@@ -39,7 +40,11 @@ public interface UserBaseService {
      **/
     Mono<ResultInfo<List<UserBaseDTO>>> queryUserList(ServerWebExchange serverWebExchange,Integer ubdAdmin);
 
-
+    /**
+     * web登录接口
+     * @return
+     */
+    Mono<ResultInfo> login(Mono<LoginDTO> loginDTOMono);
 
 
 

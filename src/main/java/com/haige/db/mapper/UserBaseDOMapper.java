@@ -28,4 +28,5 @@ public interface UserBaseDOMapper {
 
 
     List<UserBaseDTO> findUserListBYUbdAdmin(@Param("ubdAdmin") Integer ubdAdmin);
+
 }

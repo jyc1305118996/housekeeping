@@ -12,4 +12,11 @@ public interface UserBaseDOExtendMapper {
      * @return
      */
     String findByManagerIphone(@Param("orderId") String orderId);
+
+    /**
+     * 登陆
+     * @param username
+     * @return
+     */
+    UserBaseDO login(@Param("username") String username);
 }
