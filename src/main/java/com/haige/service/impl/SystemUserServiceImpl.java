@@ -2,7 +2,11 @@ package com.haige.service.impl;
 
 import com.haige.common.bean.ResultInfo;
 import com.haige.common.enums.StatusCodeEnum;
+import com.haige.db.entity.CouponDO;
+import com.haige.db.entity.GoodsCouponDO;
 import com.haige.db.entity.UserBaseDO;
+import com.haige.db.mapper.CouponDOMapper;
+import com.haige.db.mapper.GoodsCouponDOMapper;
 import com.haige.db.mapper.SystemUserMapper;
 import com.haige.db.mapper.UserBaseDOMapper;
 import com.haige.integration.WXLoginService;
@@ -40,9 +44,13 @@ public class SystemUserServiceImpl implements SystemUserService {
 
     @Autowired
     private UserBaseDOMapper userBaseDOMapper;
+    @Autowired
+    private GoodsCouponDOMapper goodsCouponDOMapper;
 
     @Autowired
     private WXLoginService wxLoginService;
+    @Autowired
+    private CouponDOMapper couponDOMapper;
 
     /**
      * 手机号登陆
@@ -104,6 +112,15 @@ public class SystemUserServiceImpl implements SystemUserService {
                         userBaseDO.setUbdIsNew("1");
                         userBaseDO.setUbdFixedPhone(phone.get());
                         userBaseDOMapper.insertSelective(userBaseDO);
+                        // 创建优惠券
+                        GoodsCouponDO goodsCouponDO = goodsCouponDOMapper.selectByPrimaryKey(1);
+                        CouponDO couponDO = new CouponDO();
+                        couponDO.setUcUserId(userBaseDO.getUbdId());
+                        couponDO.setUcUserName(userBaseDO.getUbdName());
+                        couponDO.setUcCouponPrice(goodsCouponDO.getGcPrice());
+                        couponDO.setUcCouponId(goodsCouponDO.getGcId());
+                        couponDO.setUcCouponValidity(DateUtils.convertToString(LocalDateTime.now().plus(30L, ChronoUnit.DAYS)));
+                        couponDOMapper.insertSelective(couponDO);
                     }
                     // 每次登陆都刷新昵称和头像
                     // 用户昵称

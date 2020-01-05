@@ -99,6 +99,9 @@ public class OrderServiceImpl implements OrderService {
                             // 查询套餐金额,查询优惠券金额,计算出总金额并返回
                             GoodsInfoDO goodsInfoDO =
                                     goodsInfoDOMapper.selectByPrimaryKey(submitOrderDTO.getGoodsId());
+                            if (submitOrderDTO.getGoodsId() == 1 && submitOrderDTO.getCouponIds().length != 0){
+                                throw new RuntimeException("静居单次不能使用优惠卷");
+                            }
                             // 套餐金额
                             BigDecimal goodsPrice = goodsInfoDO.getGoodsPrice();
                             // 生成订单
@@ -284,6 +287,11 @@ public class OrderServiceImpl implements OrderService {
                                 // 发送下单成功通知短信
                                 List<String> auth = request.getHeaders().get("Authorization");
                                 UserBaseDO userBaseDO = userBaseDOMapper.findByToken(auth.get(0));
+                                if ("1".equals(userBaseDO.getUbdIsNew())){
+                                    // 更新非新用户
+                                    userBaseDO.setUbdIsNew("0");
+                                    userBaseDOMapper.updateByPrimaryKeySelective(userBaseDO);
+                                }
                                 // 付款成功发送短信
                                 HashMap<String, String> param = new HashMap<>();
                                 param.put("goods", orderDO.getGoodsName());

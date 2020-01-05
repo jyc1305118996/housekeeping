@@ -1,48 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.haige.db.mapper.GoodsInfoDOMapper">
-  <resultMap id="BaseResultMap" type="com.haige.db.entity.GoodsInfoDO">
-    <id column="goods_Id" jdbcType="INTEGER" property="goodsId" />
-    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
-    <result column="goods_remarks" jdbcType="VARCHAR" property="goodsRemarks" />
-    <result column="goods_title" jdbcType="VARCHAR" property="goodsTitle" />
-    <result column="goods_freq" jdbcType="INTEGER" property="goodsFreq" />
-    <result column="goods_expre_date" jdbcType="TIMESTAMP" property="goodsExpreDate" />
-    <result column="goods_person_type" jdbcType="TINYINT" property="goodsPersonType" />
-    <result column="goods_person_freq" jdbcType="TINYINT" property="goodsPersonFreq" />
-    <result column="goods_person_num" jdbcType="TINYINT" property="goodsPersonNum" />
-    <result column="goods_advise" jdbcType="VARCHAR" property="goodsAdvise" />
-    <result column="goods_active_desc" jdbcType="VARCHAR" property="goodsActiveDesc" />
-    <result column="goods_restrict_desc" jdbcType="VARCHAR" property="goodsRestrictDesc" />
-    <result column="goods_create_time" jdbcType="TIMESTAMP" property="goodsCreateTime" />
-    <result column="goods_create_user" jdbcType="INTEGER" property="goodsCreateUser" />
-    <result column="goods_update_time" jdbcType="TIMESTAMP" property="goodsUpdateTime" />
-    <result column="goods_update_user" jdbcType="INTEGER" property="goodsUpdateUser" />
-    <result column="goods_price" jdbcType="DECIMAL" property="goodsPrice" />
-    <result column="goods_discount_price" jdbcType="DECIMAL" property="goodsDiscountPrice" />
-    <result column="goods_cover_url" jdbcType="VARCHAR" property="goodsCoverUrl" />
-    <result column="goods_is_del" jdbcType="VARCHAR" property="goodsIsDel" />
-    <collection property="files" javaType ="ArrayList" column="goods_Id" ofType="FileInfoDO" select="com.haige.db.mapper.FileInfoDOMapper.selectFileById"></collection>
-  </resultMap>
+    <resultMap id="BaseResultMap" type="com.haige.db.entity.GoodsInfoDO">
+        <id column="goods_Id" jdbcType="INTEGER" property="goodsId"/>
+        <result column="goods_name" jdbcType="VARCHAR" property="goodsName"/>
+        <result column="goods_remarks" jdbcType="VARCHAR" property="goodsRemarks"/>
+        <result column="goods_title" jdbcType="VARCHAR" property="goodsTitle"/>
+        <result column="goods_freq" jdbcType="INTEGER" property="goodsFreq"/>
+        <result column="goods_expre_date" jdbcType="TIMESTAMP" property="goodsExpreDate"/>
+        <result column="goods_person_type" jdbcType="TINYINT" property="goodsPersonType"/>
+        <result column="goods_person_freq" jdbcType="TINYINT" property="goodsPersonFreq"/>
+        <result column="goods_person_num" jdbcType="TINYINT" property="goodsPersonNum"/>
+        <result column="goods_advise" jdbcType="VARCHAR" property="goodsAdvise"/>
+        <result column="goods_active_desc" jdbcType="VARCHAR" property="goodsActiveDesc"/>
+        <result column="goods_restrict_desc" jdbcType="VARCHAR" property="goodsRestrictDesc"/>
+        <result column="goods_create_time" jdbcType="TIMESTAMP" property="goodsCreateTime"/>
+        <result column="goods_create_user" jdbcType="INTEGER" property="goodsCreateUser"/>
+        <result column="goods_update_time" jdbcType="TIMESTAMP" property="goodsUpdateTime"/>
+        <result column="goods_update_user" jdbcType="INTEGER" property="goodsUpdateUser"/>
+        <result column="goods_price" jdbcType="DECIMAL" property="goodsPrice"/>
+        <result column="goods_discount_price" jdbcType="DECIMAL" property="goodsDiscountPrice"/>
+        <result column="goods_cover_url" jdbcType="VARCHAR" property="goodsCoverUrl"/>
+        <result column="goods_is_del" jdbcType="VARCHAR" property="goodsIsDel"/>
+        <collection property="files" javaType="ArrayList" column="goods_Id" ofType="FileInfoDO"
+                    select="com.haige.db.mapper.FileInfoDOMapper.selectFileById"></collection>
+    </resultMap>
 
 
-  <sql id="Base_Column_List">
+    <sql id="Base_Column_List">
     goods_Id, goods_name, goods_remarks, goods_title, goods_freq, goods_expre_date, goods_person_type, 
     goods_person_freq, goods_person_num, goods_advise, goods_active_desc, goods_restrict_desc,
     goods_create_time, goods_create_user, goods_update_time, goods_update_user, goods_price, 
     goods_discount_price,goods_cover_url, goods_is_del
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from haige_goods_info
-    where goods_Id = #{goodsId,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from haige_goods_info
+        where goods_Id = #{goodsId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from haige_goods_info
     where goods_Id = #{goodsId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.haige.db.entity.GoodsInfoDO">
+    <insert id="insert" parameterType="com.haige.db.entity.GoodsInfoDO">
     insert into haige_goods_info (goods_Id, goods_name, goods_remarks, 
       goods_title, goods_freq, goods_expre_date, 
       goods_person_type, goods_person_freq, goods_person_num, 
@@ -58,182 +59,182 @@
       #{goodsUpdateUser,jdbcType=INTEGER}, #{goodsPrice,jdbcType=DECIMAL}, #{goodsDiscountPrice,jdbcType=DECIMAL}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.haige.db.entity.GoodsInfoDO">
-    insert into haige_goods_info
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="goodsId != null">
-        goods_Id,
-      </if>
-      <if test="goodsName != null">
-        goods_name,
-      </if>
-      <if test="goodsRemarks != null">
-        goods_remarks,
-      </if>
-      <if test="goodsTitle != null">
-        goods_title,
-      </if>
-      <if test="goodsFreq != null">
-        goods_freq,
-      </if>
-      <if test="goodsExpreDate != null">
-        goods_expre_date,
-      </if>
-      <if test="goodsPersonType != null">
-        goods_person_type,
-      </if>
-      <if test="goodsPersonFreq != null">
-        goods_person_freq,
-      </if>
-      <if test="goodsPersonNum != null">
-        goods_person_num,
-      </if>
-      <if test="goodsAdvise != null">
-        goods_advise,
-      </if>
-      <if test="goodsActiveDesc != null">
-        goods_active_desc,
-      </if>
-      <if test="goodsRestrictDesc != null">
-        goods_restrict_desc,
-      </if>
-      <if test="goodsCreateTime != null">
-        goods_create_time,
-      </if>
-      <if test="goodsCreateUser != null">
-        goods_create_user,
-      </if>
-      <if test="goodsUpdateTime != null">
-        goods_update_time,
-      </if>
-      <if test="goodsUpdateUser != null">
-        goods_update_user,
-      </if>
-      <if test="goodsPrice != null">
-        goods_price,
-      </if>
-      <if test="goodsDiscountPrice != null">
-        goods_discount_price,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="goodsId != null">
-        #{goodsId,jdbcType=INTEGER},
-      </if>
-      <if test="goodsName != null">
-        #{goodsName,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsRemarks != null">
-        #{goodsRemarks,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsTitle != null">
-        #{goodsTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsFreq != null">
-        #{goodsFreq,jdbcType=INTEGER},
-      </if>
-      <if test="goodsExpreDate != null">
-        #{goodsExpreDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="goodsPersonType != null">
-        #{goodsPersonType,jdbcType=TINYINT},
-      </if>
-      <if test="goodsPersonFreq != null">
-        #{goodsPersonFreq,jdbcType=TINYINT},
-      </if>
-      <if test="goodsPersonNum != null">
-        #{goodsPersonNum,jdbcType=TINYINT},
-      </if>
-      <if test="goodsAdvise != null">
-        #{goodsAdvise,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsActiveDesc != null">
-        #{goodsActiveDesc,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsRestrictDesc != null">
-        #{goodsRestrictDesc,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsCreateTime != null">
-        #{goodsCreateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="goodsCreateUser != null">
-        #{goodsCreateUser,jdbcType=INTEGER},
-      </if>
-      <if test="goodsUpdateTime != null">
-        #{goodsUpdateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="goodsUpdateUser != null">
-        #{goodsUpdateUser,jdbcType=INTEGER},
-      </if>
-      <if test="goodsPrice != null">
-        #{goodsPrice,jdbcType=DECIMAL},
-      </if>
-      <if test="goodsDiscountPrice != null">
-        #{goodsDiscountPrice,jdbcType=DECIMAL},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.haige.db.entity.GoodsInfoDO">
-    update haige_goods_info
-    <set>
-      <if test="goodsName != null">
-        goods_name = #{goodsName,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsRemarks != null">
-        goods_remarks = #{goodsRemarks,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsTitle != null">
-        goods_title = #{goodsTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsFreq != null">
-        goods_freq = #{goodsFreq,jdbcType=INTEGER},
-      </if>
-      <if test="goodsExpreDate != null">
-        goods_expre_date = #{goodsExpreDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="goodsPersonType != null">
-        goods_person_type = #{goodsPersonType,jdbcType=TINYINT},
-      </if>
-      <if test="goodsPersonFreq != null">
-        goods_person_freq = #{goodsPersonFreq,jdbcType=TINYINT},
-      </if>
-      <if test="goodsPersonNum != null">
-        goods_person_num = #{goodsPersonNum,jdbcType=TINYINT},
-      </if>
-      <if test="goodsAdvise != null">
-        goods_advise = #{goodsAdvise,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsActiveDesc != null">
-        goods_active_desc = #{goodsActiveDesc,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsRestrictDesc != null">
-        goods_restrict_desc = #{goodsRestrictDesc,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsCreateTime != null">
-        goods_create_time = #{goodsCreateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="goodsCreateUser != null">
-        goods_create_user = #{goodsCreateUser,jdbcType=INTEGER},
-      </if>
-      <if test="goodsUpdateTime != null">
-        goods_update_time = #{goodsUpdateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="goodsUpdateUser != null">
-        goods_update_user = #{goodsUpdateUser,jdbcType=INTEGER},
-      </if>
-      <if test="goodsPrice != null">
-        goods_price = #{goodsPrice,jdbcType=DECIMAL},
-      </if>
-      <if test="goodsDiscountPrice != null">
-        goods_discount_price = #{goodsDiscountPrice,jdbcType=DECIMAL},
-      </if>
-      <if test="goodsIsDel != null">
-        goods_is_del = #{goodsIsDel,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where goods_Id = #{goodsId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.haige.db.entity.GoodsInfoDO">
+    <insert id="insertSelective" parameterType="com.haige.db.entity.GoodsInfoDO">
+        insert into haige_goods_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodsId != null">
+                goods_Id,
+            </if>
+            <if test="goodsName != null">
+                goods_name,
+            </if>
+            <if test="goodsRemarks != null">
+                goods_remarks,
+            </if>
+            <if test="goodsTitle != null">
+                goods_title,
+            </if>
+            <if test="goodsFreq != null">
+                goods_freq,
+            </if>
+            <if test="goodsExpreDate != null">
+                goods_expre_date,
+            </if>
+            <if test="goodsPersonType != null">
+                goods_person_type,
+            </if>
+            <if test="goodsPersonFreq != null">
+                goods_person_freq,
+            </if>
+            <if test="goodsPersonNum != null">
+                goods_person_num,
+            </if>
+            <if test="goodsAdvise != null">
+                goods_advise,
+            </if>
+            <if test="goodsActiveDesc != null">
+                goods_active_desc,
+            </if>
+            <if test="goodsRestrictDesc != null">
+                goods_restrict_desc,
+            </if>
+            <if test="goodsCreateTime != null">
+                goods_create_time,
+            </if>
+            <if test="goodsCreateUser != null">
+                goods_create_user,
+            </if>
+            <if test="goodsUpdateTime != null">
+                goods_update_time,
+            </if>
+            <if test="goodsUpdateUser != null">
+                goods_update_user,
+            </if>
+            <if test="goodsPrice != null">
+                goods_price,
+            </if>
+            <if test="goodsDiscountPrice != null">
+                goods_discount_price,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="goodsId != null">
+                #{goodsId,jdbcType=INTEGER},
+            </if>
+            <if test="goodsName != null">
+                #{goodsName,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsRemarks != null">
+                #{goodsRemarks,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsTitle != null">
+                #{goodsTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsFreq != null">
+                #{goodsFreq,jdbcType=INTEGER},
+            </if>
+            <if test="goodsExpreDate != null">
+                #{goodsExpreDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="goodsPersonType != null">
+                #{goodsPersonType,jdbcType=TINYINT},
+            </if>
+            <if test="goodsPersonFreq != null">
+                #{goodsPersonFreq,jdbcType=TINYINT},
+            </if>
+            <if test="goodsPersonNum != null">
+                #{goodsPersonNum,jdbcType=TINYINT},
+            </if>
+            <if test="goodsAdvise != null">
+                #{goodsAdvise,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsActiveDesc != null">
+                #{goodsActiveDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsRestrictDesc != null">
+                #{goodsRestrictDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsCreateTime != null">
+                #{goodsCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="goodsCreateUser != null">
+                #{goodsCreateUser,jdbcType=INTEGER},
+            </if>
+            <if test="goodsUpdateTime != null">
+                #{goodsUpdateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="goodsUpdateUser != null">
+                #{goodsUpdateUser,jdbcType=INTEGER},
+            </if>
+            <if test="goodsPrice != null">
+                #{goodsPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="goodsDiscountPrice != null">
+                #{goodsDiscountPrice,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.haige.db.entity.GoodsInfoDO">
+        update haige_goods_info
+        <set>
+            <if test="goodsName != null">
+                goods_name = #{goodsName,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsRemarks != null">
+                goods_remarks = #{goodsRemarks,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsTitle != null">
+                goods_title = #{goodsTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsFreq != null">
+                goods_freq = #{goodsFreq,jdbcType=INTEGER},
+            </if>
+            <if test="goodsExpreDate != null">
+                goods_expre_date = #{goodsExpreDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="goodsPersonType != null">
+                goods_person_type = #{goodsPersonType,jdbcType=TINYINT},
+            </if>
+            <if test="goodsPersonFreq != null">
+                goods_person_freq = #{goodsPersonFreq,jdbcType=TINYINT},
+            </if>
+            <if test="goodsPersonNum != null">
+                goods_person_num = #{goodsPersonNum,jdbcType=TINYINT},
+            </if>
+            <if test="goodsAdvise != null">
+                goods_advise = #{goodsAdvise,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsActiveDesc != null">
+                goods_active_desc = #{goodsActiveDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsRestrictDesc != null">
+                goods_restrict_desc = #{goodsRestrictDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsCreateTime != null">
+                goods_create_time = #{goodsCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="goodsCreateUser != null">
+                goods_create_user = #{goodsCreateUser,jdbcType=INTEGER},
+            </if>
+            <if test="goodsUpdateTime != null">
+                goods_update_time = #{goodsUpdateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="goodsUpdateUser != null">
+                goods_update_user = #{goodsUpdateUser,jdbcType=INTEGER},
+            </if>
+            <if test="goodsPrice != null">
+                goods_price = #{goodsPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="goodsDiscountPrice != null">
+                goods_discount_price = #{goodsDiscountPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="goodsIsDel != null">
+                goods_is_del = #{goodsIsDel,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where goods_Id = #{goodsId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.haige.db.entity.GoodsInfoDO">
     update haige_goods_info
     set goods_name = #{goodsName,jdbcType=VARCHAR},
       goods_remarks = #{goodsRemarks,jdbcType=VARCHAR},
