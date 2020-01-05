@@ -21,7 +21,7 @@ import javax.validation.Valid;
  * @date 2019/11/20 23:24
  */
 @RestController
-    @RequestMapping("/service")
+@RequestMapping("/service")
 public class ServiceController {
 
 
@@ -30,6 +30,7 @@ public class ServiceController {
 
     /**
      * 用户预约服务接口
+     *
      * @return
      */
     @PostMapping(value = "/submit", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
@@ -41,13 +42,19 @@ public class ServiceController {
     @PutMapping(value = "/updateServerDetail", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Mono<ResultInfo> updateServerDetail(@RequestBody @Valid Mono<UpdateServiceOrderDetailRequest> request) {
-        return  serviceService.updateServerDetail(request.map(ServiceOrderDetailConvertUtils::toDTO));
+        return serviceService.updateServerDetail(request.map(ServiceOrderDetailConvertUtils::toDTO));
     }
 
 
     @GetMapping(value = "/web/queryServiceOrderList", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
-    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Mono<ResultInfo> queryServiceOrderList(@RequestParam("index") int index, @RequestParam("size") int size){
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Mono<ResultInfo> queryServiceOrderList(@RequestParam("index") int index, @RequestParam("size") int size) {
         return serviceService.queryServiceOrderList(index, size);
+    }
+
+    @GetMapping(value = "/onComplete/{serviceId}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Mono<ResultInfo> onComplete(@PathVariable("serviceId") int serviceId) {
+        return serviceService.onComplete(serviceId);
     }
 }

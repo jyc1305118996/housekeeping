@@ -17,4 +17,9 @@ public class GoodsConvertUtils {
         goodsInfoDO.setGoodsUpdateTime(new Date());
         return goodsInfoDO;
     }
+    public  static GoodsInfoDTO convert(GoodsInfoDO goodsInfoDO){
+        GoodsInfoDTO goodsInfoDTO = new GoodsInfoDTO();
+        BeanUtils.copyProperties(goodsInfoDO, goodsInfoDTO);
+        return goodsInfoDTO;
+    }
 }

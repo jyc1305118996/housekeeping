@@ -1,7 +1,10 @@
 package com.haige.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.haige.common.bean.ResultInfo;
 import com.haige.common.enums.StatusCodeEnum;
+import com.haige.convert.ConvertUtils;
 import com.haige.db.entity.GoodsInfoDO;
 import com.haige.db.mapper.GoodsInfoDOMapper;
 import com.haige.service.GoodsInfoService;
@@ -67,9 +70,16 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
     }
 
     @Override
-    public Mono<ResultInfo<List<GoodsInfoDO>>> webQueryGoodsInfoList() {
-        return Mono.just(goodsInfoDOMapper.findAll())
-                .map(list -> ResultInfo.buildSuccess(list));
+    public Mono<ResultInfo> webQueryGoodsInfoList(int index, int size) {
+        return Mono.just(PageHelper.startPage(index, size))
+                .map(page -> goodsInfoDOMapper.findAll())
+                .map(PageInfo::new)
+                .map(goodsInfoDOPageInfo -> {
+                    List<GoodsInfoDTO> convert = ConvertUtils.convert(goodsInfoDOPageInfo.getList(), GoodsConvertUtils::convert);
+                    ResultInfo<List<GoodsInfoDTO>> listResultInfo = ResultInfo.buildSuccess(convert);
+                    listResultInfo.setCount(goodsInfoDOPageInfo.getTotal());
+                    return listResultInfo;
+                });
     }
 }
 

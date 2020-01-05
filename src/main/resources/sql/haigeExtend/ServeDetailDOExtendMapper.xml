@@ -35,4 +35,8 @@
         left join haige_sys_user_base_dtls
         on haige_sys_user_base_dtls.UBD_ID = service.serve_user_id
     </select>
+    <update id="onComplete">
+        update haige_order_serve_details set serve_status = 2000
+        where serve_id = #{serveId}
+    </update>
 </mapper>

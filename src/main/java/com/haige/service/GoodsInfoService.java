@@ -33,7 +33,7 @@ public interface GoodsInfoService {
 
     Mono<ResultInfo> isDel(int id, String status);
 
-    Mono<ResultInfo<List<GoodsInfoDO>>> webQueryGoodsInfoList();
+    Mono<ResultInfo> webQueryGoodsInfoList(int index, int size);
 
 
 }

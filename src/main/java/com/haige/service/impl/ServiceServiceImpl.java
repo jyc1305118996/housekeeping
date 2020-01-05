@@ -129,4 +129,10 @@ public class ServiceServiceImpl implements ServiceService {
         arrayListResultInfo.setCount(serveDetailDOPageInfo.getTotal());
         return Mono.just(arrayListResultInfo);
     }
+
+    @Override
+    public Mono<ResultInfo> onComplete(int serviceId) {
+        serveDetailDOExtendMapper.onComplete(serviceId);
+        return Mono.just(ResultInfo.buildSuccess("success"));
+    }
 }

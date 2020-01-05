@@ -73,9 +73,9 @@ public class GoodsController {
     @GetMapping(value = "/web/queryGoodsInfoList",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @Permission(PermissionType.ALL)
-    public Mono<ResultInfo<List<GoodsInfoDO>>> webQueryGoodsInfoList() {
+    public Mono<ResultInfo> webQueryGoodsInfoList(@RequestParam("index") int index, @RequestParam("size") int size) {
 
 
-        return goodsInfoService.webQueryGoodsInfoList();
+        return goodsInfoService.webQueryGoodsInfoList(index, size);
     }
 }

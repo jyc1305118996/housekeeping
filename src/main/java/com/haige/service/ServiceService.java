@@ -22,4 +22,5 @@ public interface ServiceService {
 
     Mono<ResultInfo> queryServiceOrderList(int index , int size);
 
+    Mono<ResultInfo> onComplete(int serviceId);
 }
