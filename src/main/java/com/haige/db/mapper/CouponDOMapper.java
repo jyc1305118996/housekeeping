@@ -2,6 +2,9 @@ package com.haige.db.mapper;
 
 
 import com.haige.db.entity.CouponDO;
+import com.haige.service.dto.UserBaseDTO;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -17,4 +20,8 @@ public interface CouponDOMapper {
     int updateByPrimaryKeySelective(CouponDO record);
 
     int updateByPrimaryKey(CouponDO record);
+
+
+    List<CouponDO> findUserCouponList(@Param("userId") Integer userId);
+
 }

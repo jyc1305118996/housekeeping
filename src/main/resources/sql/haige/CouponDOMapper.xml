@@ -115,4 +115,17 @@
       uc_is_use = #{ucIsUse,jdbcType=VARCHAR}
     where uc_id = #{ucId,jdbcType=INTEGER}
   </update>
+  <select id="findUserCouponList" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List" />
+    from haige_user_coupon
+
+    <where>
+      <if test="userId != 0">
+        uc_user_id = #{userId,jdbcType=jdbcType=INTEGER} and uc_is_use =0
+      </if>
+
+    </where>
+  </select>
+
 </mapper>

@@ -1,6 +1,7 @@
 package com.haige.service;
 
 import com.haige.common.bean.ResultInfo;
+import com.haige.db.entity.CouponDO;
 import com.haige.service.dto.BindDingDTO;
 import com.haige.service.dto.LoginDTO;
 import com.haige.service.dto.UserBaseDTO;
@@ -46,6 +47,13 @@ public interface UserBaseService {
      */
     Mono<ResultInfo> login(Mono<LoginDTO> loginDTOMono);
 
+
+    /**
+     * 查询用户的优惠券
+     * @param serverWebExchange
+     * @return
+     */
+    Mono<ResultInfo<List<CouponDO>>> userCoupon(ServerWebExchange serverWebExchange);
 
 
 }
