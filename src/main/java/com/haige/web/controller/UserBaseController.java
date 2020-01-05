@@ -1,6 +1,7 @@
 package com.haige.web.controller;
 
 import com.haige.common.bean.ResultInfo;
+import com.haige.db.entity.CouponDO;
 import com.haige.service.SystemUserService;
 import com.haige.service.UserBaseService;
 import com.haige.service.dto.UserBaseDTO;
@@ -89,5 +90,13 @@ public class UserBaseController {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Mono<ResultInfo> login(@RequestBody @Valid Mono<LoginRequest> loginRequest) {
         return userBaseService.login(loginRequest.map(UserBaseConvertUtils::toDTO));
+    }
+
+    @GetMapping(value = "/userCouponList", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+        produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Mono<ResultInfo<List<CouponDO>>> userCouponList(ServerWebExchange serverWebExchange) {
+
+
+        return userBaseService.userCoupon(serverWebExchange);
     }
 }
