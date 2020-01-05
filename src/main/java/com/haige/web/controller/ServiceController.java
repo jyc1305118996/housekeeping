@@ -43,4 +43,11 @@ public class ServiceController {
     public Mono<ResultInfo> updateServerDetail(@RequestBody @Valid Mono<UpdateServiceOrderDetailRequest> request) {
         return  serviceService.updateServerDetail(request.map(ServiceOrderDetailConvertUtils::toDTO));
     }
+
+
+    @GetMapping(value = "/web/queryServiceOrderList", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Mono<ResultInfo> queryServiceOrderList(@RequestParam("index") int index, @RequestParam("size") int size){
+        return serviceService.queryServiceOrderList(index, size);
+    }
 }

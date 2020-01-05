@@ -207,4 +207,9 @@
     order by serve_create_time desc
 
   </select>
+  <select id="findAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from haige_order_serve_details
+  </select>
 </mapper>

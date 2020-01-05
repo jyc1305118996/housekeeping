@@ -1,8 +1,8 @@
 package com.haige.db.mapper;
 
 
-import com.haige.db.entity.OrderDO;
 import com.haige.db.entity.ServeDetailDO;
+
 import java.util.HashMap;
 import java.util.List;
 import org.springframework.stereotype.Repository;
@@ -22,5 +22,4 @@ public interface ServeDetailDOMapper {
     int updateByPrimaryKey(ServeDetailDO record);
 
     List<HashMap<String,String>> findServeDetailDOList(HashMap<String,String> param);
-
 }

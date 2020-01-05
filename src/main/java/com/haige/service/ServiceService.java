@@ -19,4 +19,7 @@ public interface ServiceService {
      */
     Mono<ResultInfo> submit(UserBaseDTO userBaseDTO, Mono<SubmitServiceDTO> serviceDTOMono);
     Mono<ResultInfo> updateServerDetail(Mono<UpdateServiceOrderDetailDTO> updateOrderDetailDTOMono);
+
+    Mono<ResultInfo> queryServiceOrderList(int index , int size);
+
 }

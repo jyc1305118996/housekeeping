@@ -1,29 +1,38 @@
 package com.haige.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.haige.common.bean.ResultInfo;
 import com.haige.common.enums.ServiceOrderStatusEnum;
+import com.haige.convert.ConvertUtils;
 import com.haige.db.entity.OrderDO;
 import com.haige.db.entity.ServeDetailDO;
+import com.haige.db.entity.ServeDetailInfoDO;
 import com.haige.db.mapper.OrderDOMapper;
 import com.haige.db.mapper.ServeDetailDOMapper;
+import com.haige.db.mapperExtend.ServeDetailDOExtendMapper;
 import com.haige.db.mapperExtend.UserBaseDOExtendMapper;
 import com.haige.integration.SmsClient;
 import com.haige.integration.param.SendMessageParam;
 import com.haige.service.ServiceService;
 import com.haige.service.convert.ServiceOrderDetailConvertUtils;
 import com.haige.service.convert.ShortMsgConvertUtils;
+import com.haige.service.dto.ServeDetailInfoDTO;
 import com.haige.service.dto.SubmitServiceDTO;
 import com.haige.service.dto.UpdateServiceOrderDetailDTO;
 import com.haige.service.dto.UserBaseDTO;
 import com.haige.util.DateUtils;
 import com.haige.util.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -42,7 +51,8 @@ public class ServiceServiceImpl implements ServiceService {
     private SmsClient smsClient;
     @Autowired
     private UserBaseDOExtendMapper userBaseDOExtendMapper;
-
+    @Autowired
+    private ServeDetailDOExtendMapper serveDetailDOExtendMapper;
 
     @Override
     public Mono<ResultInfo> submit(UserBaseDTO userBaseDTO, Mono<SubmitServiceDTO> serviceDTOMono) {
@@ -51,7 +61,7 @@ public class ServiceServiceImpl implements ServiceService {
                 .doOnNext(submitServiceDTO -> {
                     // 查询订单地址,插入预约订单
                     OrderDO orderDO = orderDOMapper.selectByPrimaryKey(submitServiceDTO.getOrderId());
-                    if (orderDO.getOrderCount() <= 0){
+                    if (orderDO.getOrderCount() <= 0) {
                         throw new RuntimeException("订单次数不足");
                     }
                     orderDOAtomicReference.set(orderDO);
@@ -94,6 +104,7 @@ public class ServiceServiceImpl implements ServiceService {
                     return ResultInfo.buildSuccess(orderDOAtomicReference.get().getOrderCount());
                 });
     }
+
     @Override
     public Mono<ResultInfo> updateServerDetail(Mono<UpdateServiceOrderDetailDTO> updateOrderDetailDTOMono) {
         return updateOrderDetailDTOMono.map(ServiceOrderDetailConvertUtils::toDO)
@@ -101,5 +112,21 @@ public class ServiceServiceImpl implements ServiceService {
                     serveDetailDOMapper.updateByPrimaryKeySelective(serveDetailDO);
                 })
                 .map(serveDetailDO -> ResultInfo.buildSuccess("success"));
+    }
+
+    @Override
+    public Mono<ResultInfo> queryServiceOrderList(int index, int size) {
+        PageHelper.startPage(index, size);
+        ArrayList<ServeDetailInfoDO> all = serveDetailDOExtendMapper.findAll();
+        PageInfo<ServeDetailInfoDO> serveDetailDOPageInfo = new PageInfo<>(all);
+
+        List<ServeDetailInfoDTO> convert = ConvertUtils.convert(all, serveDetailDO -> {
+            ServeDetailInfoDTO serveDetailInfoDTO = new ServeDetailInfoDTO();
+            BeanUtils.copyProperties(serveDetailDO, serveDetailInfoDTO);
+            return serveDetailInfoDTO;
+        });
+        ResultInfo arrayListResultInfo = ResultInfo.buildSuccess(convert);
+        arrayListResultInfo.setCount(serveDetailDOPageInfo.getTotal());
+        return Mono.just(arrayListResultInfo);
     }
 }

@@ -169,7 +169,7 @@ public class UserBaseImpl implements UserBaseService {
     List<UserBaseDTO> userList = userBaseDOMapper.findUserListBYUbdAdmin(ubdAdmin);
     ResultInfo<List<UserBaseDTO>> result = new ResultInfo<List<UserBaseDTO>>();
     result.setData(userList);
-    result.setCount(String.valueOf(userList.size()));
+    result.setCount(Long.valueOf(userList.size()));
     result.setCode(StatusCodeEnum.OK.getCode());
     result.setMessage(StatusCodeEnum.OK.getValue());
     return Mono.justOrEmpty(result);  }

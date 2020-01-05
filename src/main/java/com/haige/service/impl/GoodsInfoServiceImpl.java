@@ -32,7 +32,7 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
         List<GoodsInfoDO> goodsInfoDoList = goodsInfoDOMapper.findGoodsInfoDoList(status);
         ResultInfo<List<GoodsInfoDO>> result = new ResultInfo<List<GoodsInfoDO>>();
         result.setData(goodsInfoDoList);
-        result.setCount(String.valueOf(goodsInfoDoList.size()));
+        result.setCount(Long.valueOf(goodsInfoDoList.size()));
         result.setCode(StatusCodeEnum.OK.getCode());
         result.setMessage(StatusCodeEnum.OK.getValue());
         return Mono.justOrEmpty(result);

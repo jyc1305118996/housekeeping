@@ -195,7 +195,7 @@ public class OrderServiceImpl implements OrderService {
 
         ResultInfo<List<OrderDetailVO>> result = new ResultInfo<List<OrderDetailVO>>();
         result.setData(orderDetailVOList);
-        result.setCount(String.valueOf(orderDOList.size()));
+        result.setCount(Long.valueOf(orderDOList.size()));
         result.setCode(StatusCodeEnum.OK.getCode());
         result.setMessage(StatusCodeEnum.OK.getValue());
         return Mono.justOrEmpty(result);
@@ -390,7 +390,7 @@ public class OrderServiceImpl implements OrderService {
         ResultInfo<List<HashMap<String, String>>> result =
                 new ResultInfo<List<HashMap<String, String>>>();
         result.setData(orderDOList);
-        result.setCount(String.valueOf(orderDOList.size()));
+        result.setCount(Long.valueOf(orderDOList.size()));
         result.setCode(StatusCodeEnum.OK.getCode());
         result.setMessage(StatusCodeEnum.OK.getValue());
         return Mono.justOrEmpty(result);
@@ -459,7 +459,7 @@ public class OrderServiceImpl implements OrderService {
 
         ResultInfo<List<OrderDetailVO>> result = new ResultInfo<List<OrderDetailVO>>();
         result.setData(orderDetailVOList);
-        result.setCount(String.valueOf(orderDetailVOList.size()));
+        result.setCount(Long.valueOf(orderDetailVOList.size()));
         result.setCode(StatusCodeEnum.OK.getCode());
         result.setMessage(StatusCodeEnum.OK.getValue());
         return Mono.justOrEmpty(result);

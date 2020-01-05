@@ -19,7 +19,7 @@ public class ResultInfo<T> {
 
     private T data;
 
-    private String count;
+    private Long count;
 
 
     public ResultInfo(StatusCodeEnum statusCodeEnum) {

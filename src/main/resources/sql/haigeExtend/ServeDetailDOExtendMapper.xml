@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haige.db.mapperExtend.ServeDetailDOExtendMapper">
+    <resultMap id="BaseResultMap" type="com.haige.db.entity.ServeDetailInfoDO">
+        <id column="serve_id" jdbcType="INTEGER" property="serveId"/>
+        <result column="order_id" jdbcType="VARCHAR" property="orderId"/>
+        <result column="serve_user_id" jdbcType="INTEGER" property="serveUserId"/>
+        <result column="serve_create_user" jdbcType="INTEGER" property="serveCreateUser"/>
+        <result column="serve_create_time" jdbcType="TIMESTAMP" property="serveCreateTime"/>
+        <result column="serve_update_user" jdbcType="INTEGER" property="serveUpdateUser"/>
+        <result column="serve_update_time" jdbcType="TIMESTAMP" property="serveUpdateTime"/>
+        <result column="serve_status" jdbcType="VARCHAR" property="serveStatus"/>
+        <result column="serve_start_time" jdbcType="TIMESTAMP" property="serveStartTime"/>
+        <result column="serve_end_time" jdbcType="TIMESTAMP" property="serveEndTime"/>
+        <result column="concat_iphone" jdbcType="VARCHAR" property="concatIphone"/>
+        <result column="concat_name" jdbcType="VARCHAR" property="concatName"/>
+        <result column="concat_address" jdbcType="VARCHAR" property="concatAddress"/>
+        <result column="goods_name" jdbcType="VARCHAR" property="goodsName"/>
+        <result column="UBD_POLICE_NAME" jdbcType="VARCHAR" property="serviceUser"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    service.serve_id, service.order_id, serve_user_id, serve_create_user, serve_create_time, serve_update_user,
+    serve_update_time, serve_status, serve_start_time, serve_end_time, concat_iphone, concat_name, concat_address,
+    goods.goods_name, UBD_POLICE_NAME
+  </sql>
+    <select id="findAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from haige_order_serve_details as service
+        left join haige_order_info as serviceOrder
+        on service.order_id = serviceOrder.order_id
+        left join haige_goods_info as goods
+        on serviceOrder.goods_id = goods.goods_Id
+        left join haige_sys_user_base_dtls
+        on haige_sys_user_base_dtls.UBD_ID = service.serve_user_id
+    </select>
+</mapper>
