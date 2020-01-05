@@ -260,10 +260,14 @@
     select
     <include refid="Base_Column_List" />
     from haige_goods_info
-    <where>
+      where goods_expre_date > now()
       <if test="status != null ">
         AND goods_is_del = #{status}
       </if>
-    </where>
   </select>
+    <select id="findAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from haige_goods_info
+    </select>
 </mapper>

@@ -65,5 +65,11 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
                 })
                 .map(i -> ResultInfo.buildSuccess("success"));
     }
+
+    @Override
+    public Mono<ResultInfo<List<GoodsInfoDO>>> webQueryGoodsInfoList() {
+        return Mono.just(goodsInfoDOMapper.findAll())
+                .map(list -> ResultInfo.buildSuccess(list));
+    }
 }
 

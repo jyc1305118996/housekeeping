@@ -68,4 +68,14 @@ public class GoodsController {
     public Mono<ResultInfo> delete(@PathVariable("id") int id, @PathVariable("status") String status) {
         return goodsInfoService.isDel(id, status);
     }
+
+
+    @GetMapping(value = "/web/queryGoodsInfoList",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @Permission(PermissionType.ALL)
+    public Mono<ResultInfo<List<GoodsInfoDO>>> webQueryGoodsInfoList() {
+
+
+        return goodsInfoService.webQueryGoodsInfoList();
+    }
 }

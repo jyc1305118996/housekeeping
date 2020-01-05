@@ -32,4 +32,8 @@ public interface GoodsInfoService {
     Mono<ResultInfo> update(Mono<GoodsInfoDTO> mono);
 
     Mono<ResultInfo> isDel(int id, String status);
+
+    Mono<ResultInfo<List<GoodsInfoDO>>> webQueryGoodsInfoList();
+
+
 }
