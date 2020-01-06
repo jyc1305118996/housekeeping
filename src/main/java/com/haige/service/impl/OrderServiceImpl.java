@@ -116,7 +116,8 @@ public class OrderServiceImpl implements OrderService {
                                         .peek(couponDO -> {
                                             // 修改为已使用
                                             couponDO.setUcIsUse("1");
-                                            couponDOMapper.updateByPrimaryKey(couponDO);
+                                            orderDO.setCouponIds(String.valueOf(couponDO.getUcId()));
+                                            couponDOMapper.updateByPrimaryKeySelective(couponDO);
                                         })
                                         .map(CouponDO::getUcCouponPrice)
                                         .forEach(money::add);
@@ -305,6 +306,12 @@ public class OrderServiceImpl implements OrderService {
                                 sendMessageParam.setIphone(userBaseDO.getUbdFixedPhone());
                                 sendMessageParam.setType("下单");
                                 smsClient.sendMessage(sendMessageParam);
+                            }else if("400".equals(orderDO.getOrderStatus())){
+                                // 优惠卷撤回
+                                String couponIds = orderDO.getCouponIds();
+                                CouponDO couponDO = couponDOMapper.selectByPrimaryKey(Integer.parseInt(couponIds));
+                                couponDO.setUcIsUse("0");
+                                couponDOMapper.updateByPrimaryKeySelective(couponDO);
                             }
                             return "SUCCESS";
                         })
