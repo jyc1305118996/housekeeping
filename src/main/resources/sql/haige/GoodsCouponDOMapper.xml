@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.haige.db.entity.GoodsCouponDOMapper">
+<mapper namespace="com.haige.db.mapper.GoodsCouponDOMapper">
   <resultMap id="BaseResultMap" type="com.haige.db.entity.GoodsCouponDO">
     <id column="gc_id" jdbcType="INTEGER" property="gcId" />
     <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
