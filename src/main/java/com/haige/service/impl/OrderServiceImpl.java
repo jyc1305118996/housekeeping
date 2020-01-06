@@ -57,12 +57,6 @@ public class OrderServiceImpl implements OrderService {
      */
     @Autowired
     private GoodsInfoDOMapper goodsInfoDOMapper;
-    /**
-     * 优惠券表
-     */
-    @Autowired
-    private GoodsCouponDOMapper goodsCouponDOMapper;
-
     @Autowired
     private IdWorker idWorker;
     @Autowired
@@ -78,6 +72,8 @@ public class OrderServiceImpl implements OrderService {
     private SmsClient smsClient;
     @Autowired
     private ServeDetailDOMapper serveDetailDOMapper;
+    @Autowired
+    private CouponDOMapper couponDOMapper;
 
 
     @Value("${wx.mchId}")
@@ -116,8 +112,13 @@ public class OrderServiceImpl implements OrderService {
                                 BigDecimal money = new BigDecimal(0);
                                 // 查询优惠券并且计算总金额
                                 Arrays.stream(submitOrderDTO.getCouponIds())
-                                        .map(id -> goodsCouponDOMapper.selectByPrimaryKey(id))
-                                        .map(GoodsCouponDO::getGcPrice)
+                                        .map(id -> couponDOMapper.selectByPrimaryKey(id))
+                                        .peek(couponDO -> {
+                                            // 修改为已使用
+                                            couponDO.setUcIsUse("1");
+                                            couponDOMapper.updateByPrimaryKey(couponDO);
+                                        })
+                                        .map(CouponDO::getUcCouponPrice)
                                         .forEach(money::add);
                                 BigDecimal divide = goodsPrice.divide(money);
                                 orderDO.setOrderAmount(divide);
@@ -451,9 +452,7 @@ public class OrderServiceImpl implements OrderService {
 
             orderDetailVO.setFiles(list);
             orderDetailVO.setAddress(serveDetailDOList.get(i).get("concat_address"));
-//      System.out.println(String.valueOf(serveDetailDOList.get(i).get("serve_start_time")));
             orderDetailVO.setTime(TimeUtil.strToDate(String.valueOf(serveDetailDOList.get(i).get("serve_start_time"))));
-// a.order_id,b.goods_id,b.goods_name,b.order_amount,a.serve_status,serve_create_time,c.file_path,b.order_count
             orderDetailVOList.add(orderDetailVO);
         }
 
