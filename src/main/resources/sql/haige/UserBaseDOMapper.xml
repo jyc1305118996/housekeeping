@@ -288,12 +288,9 @@
     select
     <include refid="Base_Column_List" />
     from haige_sys_user_base_dtls
-
-    <where>
-      <if test="ubdAdmin != 0">
-        ubdAdmin = #{ubdAdmin,jdbcType=jdbcType=DECIMAL}
-      </if>
-
-    </where>
+    where UBD_USE = 1
+    <if test="ubdAdmin != 0">
+      and UBD_ADMIN = #{ubdAdmin,jdbcType=DECIMAL}
+    </if>
   </select>
 </mapper>
