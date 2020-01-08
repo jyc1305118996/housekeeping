@@ -11,7 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ServeDetailInfoDTO {
-    private Integer serveId;
+    private Integer serviceId;
 
     private String orderId;
 

@@ -10,7 +10,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ServeDetailInfoDO {
-    private Integer serveId;
+    private Integer serviceId;
 
     private String orderId;
 

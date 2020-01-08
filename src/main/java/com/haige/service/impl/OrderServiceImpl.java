@@ -342,8 +342,6 @@ public class OrderServiceImpl implements OrderService {
                             UserBaseDO waiter = userBaseDOMapper.selectByPrimaryKey(tuple2.getT1().getUserId());
                             // 查询客户信息
                             OrderDO orderDO = orderDOMapper.selectByPrimaryKey(tuple2.getT2().getOrderId());
-                            UserBaseDO customer =
-                                    userBaseDOMapper.selectByPrimaryKey(orderDO.getOrderCreateUser());
 
                             // 发短息通知客户，已分配人员；
                             HashMap<String, String> acceptReservationsParam = new HashMap<>();
@@ -354,7 +352,7 @@ public class OrderServiceImpl implements OrderService {
                                     ShortMsgConvertUtils.getAcceptReservations(acceptReservationsParam);
                             SendMessageParam sendMessageParam = new SendMessageParam();
                             // 客户手机号
-                            sendMessageParam.setIphone(customer.getUbdFixedPhone());
+                            sendMessageParam.setIphone(tuple2.getT2().getConcatIphone());
                             sendMessageParam.setSmsTemplate(acceptReservations);
                             sendMessageParam.setType("预约成功通知");
                             smsClient.sendMessage(sendMessageParam);

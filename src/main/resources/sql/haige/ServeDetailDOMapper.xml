@@ -153,7 +153,7 @@
       <if test="serveStatus != null and serveStatus != ''">
         serve_status = #{serveStatus,jdbcType=VARCHAR},
       </if>
-      <if test="serveStartTime != null  and serveStartTime != ''">
+      <if test="serveStartTime != null">
         serve_start_time = #{serveStartTime,jdbcType=TIMESTAMP},
       </if>
       <if test="serveEndTime != null">
