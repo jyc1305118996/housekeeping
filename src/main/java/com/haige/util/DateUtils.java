@@ -45,6 +45,9 @@ public class DateUtils {
     public static String convertToString(LocalDateTime localDateTime) {
         return localDateTime.format(dateTimeFormatter);
     }
+    public static String convertToString(LocalDate localDate) {
+        return localDate.format(dateFormatter);
+    }
 
     public static String dateToString(Date date) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

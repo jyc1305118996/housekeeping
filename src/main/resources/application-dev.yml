@@ -32,6 +32,8 @@ spring:
       connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
       useGlobalDataSourceStat: true
       initConnectionSqls: set names utf8mb4;
+  banner:
+    location: banner.txt
 pagehelper:
   auto-dialect: "true"
   reasonable: "true"

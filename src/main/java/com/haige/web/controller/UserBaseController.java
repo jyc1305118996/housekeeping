@@ -69,23 +69,36 @@ public class UserBaseController {
         return userBaseService.bindingIphone(serverWebExchange, bindDingRequest.map(UserBaseConvertUtils::toDTO));
     }
 
+    /**
+     * 派单选择所有员工
+     *
+     * @param ubdAdmin
+     * @return
+     */
     @GetMapping(value = "/queryUserList", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Mono<ResultInfo<List<UserBaseDTO>>> queryUserList(ServerWebExchange serverWebExchange, @RequestParam(value = "ubdAdmin", required = false) Integer ubdAdmin) {
+    public Mono<ResultInfo<List<UserBaseDTO>>> queryUserList(@RequestParam(value = "ubdAdmin", required = false) Integer ubdAdmin) {
+        return userBaseService.queryUserList(ubdAdmin);
+    }
 
-        if (null == ubdAdmin) {
-            ubdAdmin = 0;//状态不传输就默认查所有
-        }
-
-        return userBaseService.queryUserList(serverWebExchange, ubdAdmin);
+    /**
+     * 管理员工，分页查询员工
+     * @param index
+     * @param size
+     * @return
+     */
+    @GetMapping(value = "/queryEmployees", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Mono<ResultInfo> queryEmployees(@RequestParam("index") int index, @RequestParam("size") int size) {
+        return userBaseService.queryEmployees(index, size);
     }
 
     /**
      * web登陆接口
+     *
      * @param loginRequest
      * @return
      */
-    @CrossOrigin
     @PostMapping(value = "/login/web", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Mono<ResultInfo> login(@RequestBody @Valid Mono<LoginRequest> loginRequest) {
@@ -93,7 +106,7 @@ public class UserBaseController {
     }
 
     @GetMapping(value = "/userCouponList", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
-        produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Mono<ResultInfo<List<CouponDO>>> userCouponList(ServerWebExchange serverWebExchange) {
 
 

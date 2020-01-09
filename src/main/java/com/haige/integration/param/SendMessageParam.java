@@ -24,8 +24,6 @@ public class SendMessageParam {
     private String type;
 
     private SmsTemplate smsTemplate;
-
-
     /**
      * 模板参数
      */

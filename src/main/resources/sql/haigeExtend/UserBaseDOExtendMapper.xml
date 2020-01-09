@@ -48,4 +48,10 @@
       </if>
     </where>
   </select>
+  <select id="queryEmployees" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from haige_sys_user_base_dtls
+    where UBD_ADMIN = 2
+  </select>
 </mapper>

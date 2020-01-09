@@ -39,7 +39,7 @@ public interface UserBaseService {
      * @author: aaron
      * @date: 2019-12-24
      **/
-    Mono<ResultInfo<List<UserBaseDTO>>> queryUserList(ServerWebExchange serverWebExchange,Integer ubdAdmin);
+    Mono<ResultInfo<List<UserBaseDTO>>> queryUserList(Integer ubdAdmin);
 
     /**
      * web登录接口
@@ -56,4 +56,5 @@ public interface UserBaseService {
     Mono<ResultInfo<List<CouponDO>>> userCoupon(ServerWebExchange serverWebExchange);
 
 
+    Mono<ResultInfo> queryEmployees(int index, int size);
 }
