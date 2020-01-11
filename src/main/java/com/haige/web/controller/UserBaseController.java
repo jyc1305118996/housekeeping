@@ -4,10 +4,13 @@ import com.haige.common.bean.ResultInfo;
 import com.haige.db.entity.CouponDO;
 import com.haige.service.SystemUserService;
 import com.haige.service.UserBaseService;
+import com.haige.service.dto.CreateUserDTO;
 import com.haige.service.dto.UserBaseDTO;
 import com.haige.web.convert.UserBaseConvertUtils;
 import com.haige.web.request.BindDingRequest;
+import com.haige.web.request.CreateUserRequest;
 import com.haige.web.request.LoginRequest;
+import com.haige.web.request.UpdateUserRequest;
 import com.haige.web.vo.PhoneLoginVO;
 import com.haige.web.vo.UserBaseVO;
 import com.haige.web.vo.WXLoginVO;
@@ -83,6 +86,7 @@ public class UserBaseController {
 
     /**
      * 管理员工，分页查询员工
+     *
      * @param index
      * @param size
      * @return
@@ -111,5 +115,18 @@ public class UserBaseController {
 
 
         return userBaseService.userCoupon(serverWebExchange);
+    }
+
+
+    @PutMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Mono<ResultInfo> update(@RequestBody @Valid Mono<UpdateUserRequest> updateUserRequest) {
+        return userBaseService.update(updateUserRequest.map(UserBaseConvertUtils::toDTO));
+    }
+
+    @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Mono<ResultInfo> create(@RequestBody @Valid Mono<CreateUserRequest> createUserRequestMono) {
+        return userBaseService.create(createUserRequestMono.map(UserBaseConvertUtils::toDTO));
     }
 }

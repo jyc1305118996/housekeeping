@@ -15,10 +15,7 @@ import com.haige.integration.WXLoginService;
 import com.haige.integration.param.AccessTokenParam;
 import com.haige.service.UserBaseService;
 import com.haige.service.convert.UserBaseConvertUtils;
-import com.haige.service.dto.BindDingDTO;
-import com.haige.service.dto.LoginDTO;
-import com.haige.service.dto.UserBaseDTO;
-import com.haige.service.dto.WXLoginDTO;
+import com.haige.service.dto.*;
 import com.haige.util.DateUtils;
 import com.haige.web.vo.UserBaseVO;
 import lombok.extern.slf4j.Slf4j;
@@ -231,5 +228,23 @@ public class UserBaseImpl implements UserBaseService {
         ResultInfo<List<UserBaseDO>> ret = ResultInfo.buildSuccess(userBaseDOS);
         ret.setCount(pageInfo.getTotal());
         return Mono.just(ret);
+    }
+
+    @Override
+    public Mono<ResultInfo> update(Mono<UpdateUserDTO> userBaseDTO) {
+        return userBaseDTO.map(UserBaseConvertUtils::toVO)
+                .doOnNext(userBaseDO ->
+                    userBaseDOMapper.updateByPrimaryKeySelective(userBaseDO)
+                )
+                .map(userBaseDO -> ResultInfo.buildSuccess("success"));
+    }
+
+    @Override
+    public Mono<ResultInfo> create(Mono<CreateUserDTO> userBaseDTO) {
+        return userBaseDTO.map(UserBaseConvertUtils::toDO)
+                .doOnNext(userBaseDO -> {
+                    userBaseDOMapper.insertSelective(userBaseDO);
+                })
+                .map(userBaseDO -> ResultInfo.buildSuccess("success"));
     }
 }

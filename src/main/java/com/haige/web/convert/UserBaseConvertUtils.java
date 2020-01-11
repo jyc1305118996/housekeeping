@@ -2,7 +2,9 @@ package com.haige.web.convert;
 
 import com.haige.service.dto.*;
 import com.haige.web.request.BindDingRequest;
+import com.haige.web.request.CreateUserRequest;
 import com.haige.web.request.LoginRequest;
+import com.haige.web.request.UpdateUserRequest;
 import com.haige.web.vo.PhoneLoginVO;
 import com.haige.web.vo.UserBaseVO;
 import com.haige.web.vo.WXLoginVO;
@@ -40,6 +42,16 @@ public class UserBaseConvertUtils {
         LoginDTO loginDTO = new  LoginDTO();
         BeanUtils.copyProperties(loginRequest, loginDTO);
         return loginDTO;
+    }
+    public static CreateUserDTO toDTO(CreateUserRequest createUserRequest){
+        CreateUserDTO createUserDTO = new  CreateUserDTO();
+        BeanUtils.copyProperties(createUserRequest, createUserDTO);
+        return createUserDTO;
+    }
+    public static UpdateUserDTO toDTO(UpdateUserRequest updateUserRequest){
+        UpdateUserDTO updateUserDTO = new  UpdateUserDTO();
+        BeanUtils.copyProperties(updateUserRequest, updateUserDTO);
+        return updateUserDTO;
     }
 }
 

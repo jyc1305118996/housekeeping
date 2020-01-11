@@ -2,10 +2,8 @@ package com.haige.service;
 
 import com.haige.common.bean.ResultInfo;
 import com.haige.db.entity.CouponDO;
-import com.haige.service.dto.BindDingDTO;
-import com.haige.service.dto.LoginDTO;
-import com.haige.service.dto.UserBaseDTO;
-import com.haige.service.dto.WXLoginDTO;
+import com.haige.db.entity.UserBaseDO;
+import com.haige.service.dto.*;
 import com.haige.web.vo.UserBaseVO;
 import java.util.List;
 import org.springframework.web.server.ServerWebExchange;
@@ -57,4 +55,7 @@ public interface UserBaseService {
 
 
     Mono<ResultInfo> queryEmployees(int index, int size);
+
+    Mono<ResultInfo> update(Mono<UpdateUserDTO> userBaseDTO);
+    Mono<ResultInfo> create(Mono<CreateUserDTO> userBaseDTO);
 }
