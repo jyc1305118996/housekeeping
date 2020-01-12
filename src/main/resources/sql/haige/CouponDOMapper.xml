@@ -122,7 +122,7 @@
 
     <where>
       <if test="userId != 0">
-        uc_user_id = #{userId,jdbcType==INTEGER} and uc_is_use =0
+        uc_user_id = #{userId,jdbcType=INTEGER} and uc_is_use =0
       </if>
 
     </where>
