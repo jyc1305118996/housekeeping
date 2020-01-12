@@ -210,8 +210,11 @@ public class UserBaseImpl implements UserBaseService {
     @Override
     public Mono<ResultInfo<List<CouponDO>>> userCoupon(
             ServerWebExchange serverWebExchange) {
+      ServerHttpRequest request = serverWebExchange.getRequest();
+    List<String> auth = request.getHeaders().get("Authorization");
+    UserBaseDTO userBaseDTO = findByToken(auth.get(0));
 
-        List<CouponDO> userCouponList = couponDOMapper.findUserCouponList(0);
+        List<CouponDO> userCouponList = couponDOMapper.findUserCouponList(userBaseDTO.getUbdId());
         ResultInfo<List<CouponDO>> result = new ResultInfo<List<CouponDO>>();
         result.setData(userCouponList);
         result.setCount(Long.valueOf(userCouponList.size()));
