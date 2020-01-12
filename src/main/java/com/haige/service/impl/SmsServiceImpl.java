@@ -83,7 +83,7 @@ public class SmsServiceImpl implements com.haige.service.SmsService {
                     }
                     return "SUCCESS";
                 })
-                .map(ResultInfo::buildFailed);
+                .map(ResultInfo::buildSuccess);
     }
 
 

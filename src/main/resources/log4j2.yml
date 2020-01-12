@@ -39,7 +39,7 @@ Configuration:
 
   Loggers:
     Root:
-      level: info  #日志输出级别WARN
+      level: debug  #日志输出级别WARN
       AppenderRef:
       - ref: CONSOLE
       - ref: ROLLING_FILE
