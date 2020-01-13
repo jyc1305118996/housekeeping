@@ -124,7 +124,6 @@ public class OrderServiceImpl implements OrderService {
                                         .reduce(0.0, (price1, price2) -> price1 + price2);
                                 BigDecimal divide = goodsPrice.subtract(new BigDecimal(reduce));
                                 orderDO.setOrderAmount(divide);
-                                orderDO.setCouponIds(JSON.toJSONString(submitOrderDTO.getCouponIds()));
                             }
                             orderDO.setOrderId("DDH" + String.valueOf(idWorker.nextId()));
                             orderDO.setGoodsId(submitOrderDTO.getGoodsId());
@@ -309,9 +308,11 @@ public class OrderServiceImpl implements OrderService {
                             }else if("400".equals(orderDO.getOrderStatus())){
                                 // 优惠卷撤回
                                 String couponIds = orderDO.getCouponIds();
-                                CouponDO couponDO = couponDOMapper.selectByPrimaryKey(Integer.parseInt(couponIds));
-                                couponDO.setUcIsUse("0");
-                                couponDOMapper.updateByPrimaryKeySelective(couponDO);
+                                if (couponIds != null){
+                                    CouponDO couponDO = couponDOMapper.selectByPrimaryKey(Integer.parseInt(couponIds));
+                                    couponDO.setUcIsUse("0");
+                                    couponDOMapper.updateByPrimaryKeySelective(couponDO);
+                                }
                             }
                             return "SUCCESS";
                         })
