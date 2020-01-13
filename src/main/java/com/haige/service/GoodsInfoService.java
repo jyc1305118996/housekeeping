@@ -19,7 +19,7 @@ public interface GoodsInfoService {
      * @return
      */
 
-    Mono<ResultInfo<List<GoodsInfoDO>>> goodsInfoList(String status);
+    Mono<ResultInfo<List<GoodsInfoDO>>> goodsInfoList(String status,String type);
 
 
     /**

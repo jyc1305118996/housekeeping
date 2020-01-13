@@ -29,10 +29,9 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
 
     @Autowired
     private GoodsInfoDOMapper goodsInfoDOMapper;
-
     @Override
-    public Mono<ResultInfo<List<GoodsInfoDO>>> goodsInfoList(String status) {
-        List<GoodsInfoDO> goodsInfoDoList = goodsInfoDOMapper.findGoodsInfoDoList(status);
+    public Mono<ResultInfo<List<GoodsInfoDO>>> goodsInfoList(String status,String type) {
+        List<GoodsInfoDO> goodsInfoDoList = goodsInfoDOMapper.findGoodsInfoDoList(status,type);
         ResultInfo<List<GoodsInfoDO>> result = new ResultInfo<List<GoodsInfoDO>>();
         result.setData(goodsInfoDoList);
         result.setCount(Long.valueOf(goodsInfoDoList.size()));

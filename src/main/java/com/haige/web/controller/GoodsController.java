@@ -40,10 +40,15 @@ public class GoodsController {
     @GetMapping(value = "/queryGoodsInfoList",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @Permission(PermissionType.ALL)
-    public Mono<ResultInfo<List<GoodsInfoDO>>> queryGoodsInfoList(@RequestParam(value = "status", required = false) String status) {
+    public Mono<ResultInfo<List<GoodsInfoDO>>> queryGoodsInfoList(@RequestParam(value = "status", required = false) String status,@RequestParam(value = "type", required = false) String type) {
 
 
-        return goodsInfoService.goodsInfoList(status);
+        if(null == status){
+
+            status = "1";
+        }
+
+        return goodsInfoService.goodsInfoList(status,type);
     }
 
 

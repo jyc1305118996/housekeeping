@@ -55,5 +55,7 @@ public class GoodsInfoDO {
 
     private String goodsIsDel;
 
+    private String goodsType;
+
     private List<FileInfoDO> files;
 }

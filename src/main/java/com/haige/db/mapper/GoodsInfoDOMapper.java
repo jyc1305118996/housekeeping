@@ -21,7 +21,7 @@ public interface GoodsInfoDOMapper {
 
     int updateByPrimaryKey(GoodsInfoDO record);
 
-    List<GoodsInfoDO> findGoodsInfoDoList(@Param("status") String status);
+    List<GoodsInfoDO> findGoodsInfoDoList(@Param("status") String status,@Param("type") String type);
 
     List<GoodsInfoDO> findAll();
 
