@@ -95,7 +95,7 @@ public class OrderServiceImpl implements OrderService {
                             // 查询套餐金额,查询优惠券金额,计算出总金额并返回
                             GoodsInfoDO goodsInfoDO =
                                     goodsInfoDOMapper.selectByPrimaryKey(submitOrderDTO.getGoodsId());
-                            if (submitOrderDTO.getGoodsId() == 1 && submitOrderDTO.getCouponIds().length != 0){
+                            if (submitOrderDTO.getGoodsId() == 1 && submitOrderDTO.getCouponIds() != null && submitOrderDTO.getCouponIds().length != 0){
                                 throw new RuntimeException("静居单次不能使用优惠卷");
                             }
                             // 套餐金额
@@ -111,7 +111,7 @@ public class OrderServiceImpl implements OrderService {
                                     && submitOrderDTO.getCouponIds().length > 0) {
                                 BigDecimal money = new BigDecimal(0);
                                 // 查询优惠券并且计算总金额
-                                Arrays.stream(submitOrderDTO.getCouponIds())
+                                Double reduce = Arrays.stream(submitOrderDTO.getCouponIds())
                                         .map(id -> couponDOMapper.selectByPrimaryKey(id))
                                         .peek(couponDO -> {
                                             // 修改为已使用
@@ -120,8 +120,9 @@ public class OrderServiceImpl implements OrderService {
                                             couponDOMapper.updateByPrimaryKeySelective(couponDO);
                                         })
                                         .map(CouponDO::getUcCouponPrice)
-                                        .forEach(money::add);
-                                BigDecimal divide = goodsPrice.divide(money);
+                                        .map(BigDecimal::doubleValue)
+                                        .reduce(0.0, (price1, price2) -> price1 + price2);
+                                BigDecimal divide = goodsPrice.subtract(new BigDecimal(reduce));
                                 orderDO.setOrderAmount(divide);
                                 orderDO.setCouponIds(JSON.toJSONString(submitOrderDTO.getCouponIds()));
                             }
@@ -133,7 +134,6 @@ public class OrderServiceImpl implements OrderService {
                             orderDO.setOrderStatus(OrderStatusEnum.NON_PAYMENT.getOrderStatus());
                             orderDO.setOrderUpdateTime(new Date());
                             orderDO.setOrderUpdateUser(userBaseDO.getUbdId());
-                            orderDO.setOrderAmount(goodsPrice);
                             orderDOMapper.insertSelective(orderDO);
                             return orderDO;
                         })
@@ -176,7 +176,7 @@ public class OrderServiceImpl implements OrderService {
             OrderDetailVO orderDetailVO = new OrderDetailVO();
 
             orderDetailVO.setGoodsId(orderDOList.get(i).getGoodsId().toString());
-
+            orderDetailVO.setAmount(orderDOList.get(i).getOrderAmount());
             orderDetailVO.setOrderId(orderDOList.get(i).getOrderId());
 
             orderDetailVO.setGoodsName(orderDOList.get(i).getGoodsName());

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haige.db.mapperExtend.ReportMapper">
+    <resultMap id="BaseResultMap" type="com.haige.db.entity.ReportMonthDO">
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="count" jdbcType="INTEGER" property="count"/>
+    </resultMap>
+
+    <select id="month" resultMap="BaseResultMap">
+      SELECT user_base.UBD_POLICE_NAME as name, count(*) as count from haige_order_serve_details details, haige_sys_user_base_dtls user_base
+        where details.serve_user_id = user_base.UBD_ID
+        AND serve_create_time > #{month}
+        GROUP BY user_base.UBD_ID
+    </select>
+</mapper>
