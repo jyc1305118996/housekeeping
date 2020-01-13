@@ -34,7 +34,7 @@
     goods_Id, goods_name, goods_remarks, goods_title, goods_freq, goods_expre_date, goods_person_type, 
     goods_person_freq, goods_person_num, goods_advise, goods_active_desc, goods_restrict_desc,
     goods_create_time, goods_create_user, goods_update_time, goods_update_user, goods_price, 
-    goods_discount_price,goods_cover_url, goods_is_del
+    goods_discount_price,goods_cover_url, goods_is_del,goods_type
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
