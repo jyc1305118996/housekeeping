@@ -155,7 +155,7 @@ public class UserBaseImpl implements UserBaseService {
               UserBaseDO userBaseDO = userBaseDOMapper.findByToken(tokens.get(0));
               userBaseDO.setUbdFixedPhone(param.getIphone());
               userBaseDOMapper.updateByPrimaryKey(userBaseDO);
-              return ResultInfo.buildFailed("OK");
+              return ResultInfo.buildSuccess("OK");
             });
   }
 

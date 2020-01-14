@@ -5,6 +5,7 @@ import com.haige.integration.WXPayService;
 import com.haige.integration.model.WXAccessTokenResult;
 import com.haige.integration.param.AccessTokenParam;
 import com.haige.integration.param.SubmitOrderParam;
+import com.haige.util.DateUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import reactor.core.publisher.Mono;
+
+import java.time.LocalDate;
 
 /**
  * @author Archie
@@ -37,5 +40,12 @@ public class WXServiceClientTest {
         SubmitOrderParam submitOrderParam = new SubmitOrderParam();
         submitOrderParam.setAppid("aaa");
        // wxPayService.submitOrder(Mono.just(submitOrderParam));
+    }
+
+    @Test
+    public void month(){
+        LocalDate now = LocalDate.now();
+        String month = DateUtils.convertToString(LocalDate.of(now.getYear(), now.getMonth(), 1));
+        System.out.println(month);
     }
 }

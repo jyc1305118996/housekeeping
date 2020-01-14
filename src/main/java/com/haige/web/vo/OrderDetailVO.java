@@ -28,6 +28,8 @@ public class OrderDetailVO {
 
   private BigDecimal price;
 
+  private BigDecimal amount;
+
   private Integer status;
 
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
