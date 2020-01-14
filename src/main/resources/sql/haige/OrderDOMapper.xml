@@ -221,7 +221,7 @@
     from haige_order_info
     <where>
       <if test=" userId != null">
-        order_create_user = #{userId,jdbcType=INTEGER}
+        order_create_user = #{userId,jdbcType=INTEGER} and order_status&lt;400
       </if>
     </where>
     GROUP BY order_status
