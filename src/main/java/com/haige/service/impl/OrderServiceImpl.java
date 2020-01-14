@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.haige.common.bean.IdWorker;
 import com.haige.common.bean.ResultInfo;
 import com.haige.common.enums.OrderStatusEnum;
+import com.haige.common.enums.ServiceOrderStatusEnum;
 import com.haige.common.enums.StatusCodeEnum;
 import com.haige.db.entity.*;
 import com.haige.db.mapper.*;
@@ -29,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 import reactor.util.function.Tuples;
@@ -395,6 +397,24 @@ public class OrderServiceImpl implements OrderService {
         List<HashMap<String, String>> orderDOList = orderDOMapper.countOrder(userId);
         ResultInfo<List<HashMap<String, String>>> result =
                 new ResultInfo<List<HashMap<String, String>>>();
+
+        if(CollectionUtils.isEmpty(orderDOList)){
+          for (OrderStatusEnum orderStatusEnum : OrderStatusEnum.values()){
+            HashMap<String, String> orderStatusMap =  new HashMap<>(1);
+            orderStatusMap.put("ct","0");
+            orderStatusMap.put("order_status",orderStatusEnum.getOrderStatus());
+            orderDOList.add(orderStatusMap);
+          }
+
+          for (ServiceOrderStatusEnum serviceOrderStatusEnum : ServiceOrderStatusEnum.values()){
+            HashMap<String, String> orderStatusMap =  new HashMap<>(1);
+            orderStatusMap.put("ct","0");
+            orderStatusMap.put("order_status",serviceOrderStatusEnum.getStatus());
+            orderDOList.add(orderStatusMap);
+          }
+        }
+
+
         result.setData(orderDOList);
         result.setCount(Long.valueOf(orderDOList.size()));
         result.setCode(StatusCodeEnum.OK.getCode());
@@ -470,5 +490,11 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
+  public static void main(String[] args) {
+    //
 
+    BigDecimal a = new BigDecimal(111);
+    BigDecimal add = a.add(new BigDecimal(1000));
+    System.out.println(add);
+  }
 }
