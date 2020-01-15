@@ -414,7 +414,8 @@ public class OrderServiceImpl implements OrderService {
                 .doOnNext(map -> {
                     orderDOList.stream()
                             .filter(hashMap -> map.get("order_status").equals(hashMap.get("order_status")))
-                            .forEach(hashMap ->map.put("ct", hashMap.get("ct")));
+                            .findAny()
+                            .ifPresent(hashMap ->map.put("ct", hashMap.get("ct")));
                 })
                 .collect(Collectors.toList())
                 .map(ResultInfo::buildSuccess);
