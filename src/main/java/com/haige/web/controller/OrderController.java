@@ -89,7 +89,7 @@ public class OrderController {
 
     @GetMapping(value = "/countOrder", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Mono<ResultInfo<List<HashMap<String, String>>>> countOrder(ServerWebExchange exchange) {
+    public Mono<ResultInfo> countOrder(ServerWebExchange exchange) {
 
         return orderService.countOrder(exchange);
     }

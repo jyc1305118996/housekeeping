@@ -59,7 +59,7 @@ public interface OrderService {
      * 查询订单统计数量
      * @return
      */
-    Mono<ResultInfo<List<HashMap<String,String>>>> countOrder(ServerWebExchange serverWebExchange);
+    Mono<ResultInfo> countOrder(ServerWebExchange serverWebExchange);
 
 
     /**
