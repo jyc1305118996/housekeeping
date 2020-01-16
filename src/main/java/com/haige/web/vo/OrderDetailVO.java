@@ -41,4 +41,6 @@ public class OrderDetailVO {
   private List<FileInfoDO> files;
 
   private String number;
+
+  private String goodsType;
 }

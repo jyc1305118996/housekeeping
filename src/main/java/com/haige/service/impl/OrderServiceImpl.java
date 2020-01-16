@@ -197,6 +197,8 @@ public class OrderServiceImpl implements OrderService {
 
             orderDetailVO.setNumber(orderDOList.get(i).getOrderCount().toString());
 
+          orderDetailVO.setGoodsType(orderDOList.get(i).getGoodsType());
+
             orderDetailVO.setFiles(orderDOList.get(i).getFiles());
             orderDetailVOList.add(orderDetailVO);
         }
