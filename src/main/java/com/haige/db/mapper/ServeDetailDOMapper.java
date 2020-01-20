@@ -21,6 +21,6 @@ public interface ServeDetailDOMapper {
 
     int updateByPrimaryKey(ServeDetailDO record);
 
-    List<HashMap<String,String>> findServeDetailDOList(HashMap<String,String> param);
+    List<HashMap> findServeDetailDOList(HashMap<String,String> param);
 
 }

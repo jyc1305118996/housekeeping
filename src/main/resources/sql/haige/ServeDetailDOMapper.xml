@@ -190,7 +190,7 @@
 
   <select id="findServeDetailDOList" resultType="java.util.Map" parameterType="java.util.HashMap">
     select a.serve_id,
-    a.order_id,b.goods_id,b.goods_name,b.order_amount,a.serve_status,a,serve_start_time,c.file_path,b.order_count,a.concat_address
+    a.order_id,b.goods_id,b.goods_name,b.order_amount,a.serve_status,a.serve_start_time,c.file_path,b.order_count,a.concat_address
     from haige_order_serve_details a
     left join haige_order_info b
     on a.order_id = b.order_id

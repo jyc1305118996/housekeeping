@@ -255,7 +255,7 @@
   </select>
 
   <select id="countOrder" resultType="java.util.Map">
-    SELECT order_status, COUNT(*) as ct
+    SELECT COUNT(*) as ct, order_status
     from haige_order_info
     <where>
       <if test=" userId != null">

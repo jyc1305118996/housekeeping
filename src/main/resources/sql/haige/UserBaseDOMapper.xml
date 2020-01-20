@@ -289,7 +289,7 @@
     <include refid="Base_Column_List" />
     from haige_sys_user_base_dtls
     where UBD_USE = 1
-    <if test="ubdAdmin != 0">
+    <if test="ubdAdmin != null">
       and UBD_ADMIN = #{ubdAdmin,jdbcType=DECIMAL}
     </if>
   </select>

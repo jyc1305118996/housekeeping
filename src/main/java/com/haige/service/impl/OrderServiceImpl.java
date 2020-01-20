@@ -342,7 +342,6 @@ public class OrderServiceImpl implements OrderService {
                             ServeDetailDO serveDetailDO =
                                     serveDetailDOMapper.selectByPrimaryKey(allot.getServiceId());
                             serveDetailDO.setServeUserId(allot.getUserId());
-                            serveDetailDO.setServeCreateUser(userBaseDTO.getUbdId());
                             serveDetailDO.setServeUpdateTime(new Date());
                             serveDetailDOMapper.updateByPrimaryKeySelective(serveDetailDO);
                             return Tuples.of(allot, serveDetailDO);
@@ -449,33 +448,33 @@ public class OrderServiceImpl implements OrderService {
 
             hashMap.put("userid", userBaseDTO.getUbdId().toString()); // 非管理员查询自己的
         }
-        List<HashMap<String, String>> serveDetailDOList =
+        List<HashMap> serveDetailDOList =
                 serveDetailDOMapper.findServeDetailDOList(hashMap);
         List<OrderDetailVO> orderDetailVOList = new ArrayList<>(serveDetailDOList.size());
 
         for (int i = 0; i < serveDetailDOList.size(); i++) {
             OrderDetailVO orderDetailVO = new OrderDetailVO();
-            orderDetailVO.setServeId(serveDetailDOList.get(i).get("serve_id"));
+            orderDetailVO.setServeId(serveDetailDOList.get(i).get("serve_id").toString());
             orderDetailVO.setGoodsId(String.valueOf(serveDetailDOList.get(i).get("goods_id")));
 
-            orderDetailVO.setOrderId(serveDetailDOList.get(i).get("order_id"));
+            orderDetailVO.setOrderId(serveDetailDOList.get(i).get("order_id").toString());
 
-            orderDetailVO.setGoodsName(serveDetailDOList.get(i).get("goods_name"));
+            orderDetailVO.setGoodsName(serveDetailDOList.get(i).get("goods_name").toString());
 
             orderDetailVO.setPrice(
                     new BigDecimal(String.valueOf(serveDetailDOList.get(i).get("order_amount"))));
 
-            orderDetailVO.setStatus(Integer.valueOf(serveDetailDOList.get(i).get("serve_status")));
+            orderDetailVO.setStatus(Integer.valueOf(serveDetailDOList.get(i).get("serve_status").toString()));
 
             orderDetailVO.setNumber(String.valueOf(serveDetailDOList.get(i).get("order_count")));
 
             List<FileInfoDO> list = new ArrayList();
             FileInfoDO fileInfoDO = new FileInfoDO();
-            fileInfoDO.setFilePath(serveDetailDOList.get(i).get("file_path"));
+            fileInfoDO.setFilePath(serveDetailDOList.get(i).get("file_path").toString());
             list.add(fileInfoDO);
 
             orderDetailVO.setFiles(list);
-            orderDetailVO.setAddress(serveDetailDOList.get(i).get("concat_address"));
+            orderDetailVO.setAddress(serveDetailDOList.get(i).get("concat_address").toString());
             orderDetailVO.setTime(
                     TimeUtil.strToDate(String.valueOf(serveDetailDOList.get(i).get("serve_start_time"))));
             orderDetailVOList.add(orderDetailVO);
@@ -487,28 +486,6 @@ public class OrderServiceImpl implements OrderService {
         result.setCode(StatusCodeEnum.OK.getCode());
         result.setMessage(StatusCodeEnum.OK.getValue());
         return Mono.justOrEmpty(result);
-    }
-
-
-    private List<Map<String, String>> defaultStatus() {
-        List<Map<String, String>> list = new ArrayList<>();
-        for (OrderStatusEnum orderStatusEnum : OrderStatusEnum.values()) {
-            HashMap<String, String> map = new HashMap<>(1);
-
-            map.put("ct", "0");
-            map.put("order_status", orderStatusEnum.getOrderStatus());
-            list.add(map);
-
-        }
-
-        for (ServiceOrderStatusEnum serviceOrderStatusEnum : ServiceOrderStatusEnum.values()) {
-            HashMap<String, String> map = new HashMap<>(1);
-            map.put("ct", "0");
-            map.put("order_status", serviceOrderStatusEnum.getStatus());
-            list.add(map);
-        }
-
-        return list;
     }
 
     public static void main(String[] args) {
