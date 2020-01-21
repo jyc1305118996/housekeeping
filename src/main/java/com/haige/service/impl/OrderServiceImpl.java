@@ -200,6 +200,7 @@ public class OrderServiceImpl implements OrderService {
           orderDetailVO.setGoodsType(orderDOList.get(i).getGoodsType());
 
             orderDetailVO.setFiles(orderDOList.get(i).getFiles());
+            orderDetailVO.setGoodsCoverUrl(orderDOList.get(i).getGoodsCoverUrl());
             orderDetailVOList.add(orderDetailVO);
         }
 
@@ -467,10 +468,11 @@ public class OrderServiceImpl implements OrderService {
             orderDetailVO.setStatus(Integer.valueOf(serveDetailDOList.get(i).get("serve_status").toString()));
 
             orderDetailVO.setNumber(String.valueOf(serveDetailDOList.get(i).get("order_count")));
+            orderDetailVO.setGoodsCoverUrl(String.valueOf(serveDetailDOList.get(i).get("goods_cover_url")));
 
             List<FileInfoDO> list = new ArrayList();
             FileInfoDO fileInfoDO = new FileInfoDO();
-            fileInfoDO.setFilePath(serveDetailDOList.get(i).get("file_path").toString());
+//            fileInfoDO.setFilePath(serveDetailDOList.get(i).get("file_path").toString());
             list.add(fileInfoDO);
 
             orderDetailVO.setFiles(list);

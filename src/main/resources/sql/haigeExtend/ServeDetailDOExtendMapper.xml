@@ -18,11 +18,12 @@
         <result column="concat_address" jdbcType="VARCHAR" property="concatAddress"/>
         <result column="goods_name" jdbcType="VARCHAR" property="goodsName"/>
         <result column="UBD_POLICE_NAME" jdbcType="VARCHAR" property="serviceUser"/>
+        <result column="goods_cover_url" jdbcType="VARCHAR" property="goodsCoverUrl"/>
     </resultMap>
     <sql id="Base_Column_List">
     service.serve_id, service.order_id, serve_user_id, serve_create_user, serve_create_time, serve_update_user,
     serve_update_time, serve_status, serve_start_time, serve_end_time, concat_iphone, concat_name, concat_address,
-    goods.goods_name, UBD_POLICE_NAME
+    goods.goods_name, UBD_POLICE_NAME, goods.goods_cover_url
   </sql>
     <select id="findAll" resultMap="BaseResultMap">
         select

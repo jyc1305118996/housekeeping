@@ -42,6 +42,7 @@ public class OrderDO {
     private List<FileInfoDO> files;
 
 
+    private String goodsCoverUrl;
     private String goodsType;
 
 }

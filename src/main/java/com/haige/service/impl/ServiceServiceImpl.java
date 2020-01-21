@@ -71,8 +71,7 @@ public class ServiceServiceImpl implements ServiceService {
                     serveDetailDO.setConcatAddress(orderDO.getOrderAddress());
                     serveDetailDO.setConcatIphone(submitServiceDTO.getIphone());
                     serveDetailDO.setOrderId(submitServiceDTO.getOrderId());
-                    // 订单创建人，当前登录用户
-                    serveDetailDO.setServeCreateUser(userBaseDTO.getUbdId());
+                    serveDetailDO.setServeCreateUser(1);
                     serveDetailDO.setServeCreateTime(new Date());
                     // 服务时间
                     serveDetailDO.setServeStartTime(TimeUtil.getDate(DateUtils.convertToDateTime(submitServiceDTO.getServiceTime())));

@@ -190,12 +190,14 @@
 
   <select id="findServeDetailDOList" resultType="java.util.Map" parameterType="java.util.HashMap">
     select a.serve_id,
-    a.order_id,b.goods_id,b.goods_name,b.order_amount,a.serve_status,a.serve_start_time,c.file_path,b.order_count,a.concat_address
+    a.order_id,b.goods_id,b.goods_name,b.order_amount,a.serve_status,a.serve_start_time,c.file_path,b.order_count,a.concat_address, goods_info.goods_cover_url
     from haige_order_serve_details a
     left join haige_order_info b
     on a.order_id = b.order_id
     left join (select min(file_Id),hfi.* FROM haige_file_info hfi	where file_work ='goods'  and file_is_use ='1' GROUP BY file_work_id ) c
     on b.goods_id = c.file_work_id and file_work ='goods'
+    left join haige_goods_info goods_info
+    on b.goods_id = goods_info.goods_Id
     <where>
       <if test="userid != 0">
         a.serve_create_user = #{userid,jdbcType=INTEGER}

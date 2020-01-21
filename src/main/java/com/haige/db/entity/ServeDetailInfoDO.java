@@ -37,4 +37,5 @@ public class ServeDetailInfoDO {
     private String concatAddress;
     private String goodsName;
     private String serviceUser;
+    private String goodsCoverUrl;
 }

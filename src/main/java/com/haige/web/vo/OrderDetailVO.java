@@ -43,4 +43,5 @@ public class OrderDetailVO {
   private String number;
 
   private String goodsType;
+  private String goodsCoverUrl;
 }

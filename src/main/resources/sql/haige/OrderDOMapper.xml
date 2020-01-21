@@ -37,6 +37,7 @@
     <result column="coupon_ids" jdbcType="VARCHAR" property="couponIds"/>
     <result column="order_address" jdbcType="VARCHAR" property="orderAddress"/>
     <result column="order_count" jdbcType="INTEGER" property="orderCount"/>
+    <result column="goods_cover_url" jdbcType="INTEGER" property="goodsCoverUrl"/>
     <result column="goods_type" jdbcType="INTEGER" property="goodsType"/>
 
     <collection property="files" javaType="ArrayList" column="goods_Id" ofType="FileInfoDO"
@@ -240,6 +241,7 @@
     coupon_ids,
     order_address,
     order_count,
+    b.goods_cover_url,
     b.goods_type from haige_order_info a
     LEFT JOIN haige_goods_info b ON a.goods_id = b.goods_Id
 
