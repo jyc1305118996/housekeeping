@@ -8,5 +8,8 @@ import reactor.core.publisher.Mono;
  * @date 2020/1/13 22:04
  */
 public interface ReportService {
-    Mono<ResultInfo> month();
+    Mono<ResultInfo> quarterEmployeeServiceNumber();
+
+    Mono<ResultInfo> employeeServiceNumber(String startTime, String endTime);
+
 }

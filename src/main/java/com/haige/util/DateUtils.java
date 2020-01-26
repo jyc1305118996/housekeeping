@@ -55,4 +55,28 @@ public class DateUtils {
         return time;
     }
 
+    /**
+     * 时间转换为季度
+     * @param date (yyyy-MM-dd HH:mm:ss)
+     * @return
+     */
+    public static String dateToQuarter(String date) {
+        LocalDateTime dateTime = DateUtils.convertToDateTime(date);
+        LocalDateTime convert = DateUtils.convert(dateTime);
+        return DateUtils.convertToString(convert);
+    }
+    public static LocalDateTime convert(LocalDateTime localDateTime){
+        int monthValue = localDateTime.getMonthValue();
+        int year = localDateTime.getYear();
+        if (monthValue > 1 && monthValue < 3){
+            monthValue = 1;
+        }else if (monthValue >= 3 && monthValue < 6){
+            monthValue = 3;
+        }else if(monthValue >= 6 && monthValue < 9){
+            monthValue = 6;
+        }else{
+            monthValue = 9;
+        }
+        return LocalDateTime.of(year, monthValue, 1, 0, 0);
+    }
 }

@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * @author Archie
@@ -46,6 +47,6 @@ public class WXServiceClientTest {
     public void month(){
         LocalDate now = LocalDate.now();
         String month = DateUtils.convertToString(LocalDate.of(now.getYear(), now.getMonth(), 1));
-        System.out.println(month);
+        System.out.println(LocalDateTime.of(2019, 12, 1, 0, 0));
     }
 }

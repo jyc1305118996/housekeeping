@@ -1,5 +1,6 @@
 package com.haige.db.mapperExtend;
 
+import com.haige.db.entity.EmployeeServiceNumberDO;
 import com.haige.db.entity.ReportMonthDO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -13,4 +14,6 @@ import java.util.List;
 @Repository
 public interface ReportMapper {
     List<ReportMonthDO> month(@Param("month") String month);
+
+    List<EmployeeServiceNumberDO> employeeServiceNumber(@Param("start") String start, @Param("end") String end);
 }

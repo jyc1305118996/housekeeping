@@ -12,4 +12,19 @@
         AND serve_create_time > #{month}
         GROUP BY user_base.UBD_ID
     </select>
+    <resultMap id="employeeServiceNumber" type="com.haige.db.entity.EmployeeServiceNumberDO">
+        <result column="employee_name" jdbcType="VARCHAR" property="employeeName"/>
+        <result column="number" jdbcType="INTEGER" property="number"/>
+    </resultMap>
+    <sql id="employeeServiceNumber">
+      UBD_POLICE_NAME as employee_name, count(1) as number
+    </sql>
+    <select id="employeeServiceNumber" resultMap="employeeServiceNumber">
+        SELECT
+        <include refid="employeeServiceNumber"/>
+        from haige_order_serve_details, haige_sys_user_base_dtls
+        where haige_order_serve_details.serve_user_id = haige_sys_user_base_dtls.UBD_ID
+        and serve_create_time between #{start} and #{end}
+        group by UBD_POLICE_NAME
+    </select>
 </mapper>
