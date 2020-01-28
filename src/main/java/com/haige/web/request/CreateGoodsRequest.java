@@ -21,7 +21,8 @@ public class CreateGoodsRequest {
     private String goodsName;
     @NotNull
     private Integer goodsFreq;
-
+    @NotNull
+    private String goodsRemarks;
     @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date goodsExpreDate;
