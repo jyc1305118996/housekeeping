@@ -119,6 +119,9 @@
       <if test="goodsDiscountPrice != null">
         goods_discount_price,
       </if>
+      <if test="goodsType != null">
+        goods_type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="goodsId != null">
@@ -174,6 +177,9 @@
       </if>
       <if test="goodsDiscountPrice != null">
         #{goodsDiscountPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsType != null">
+        #{goodsType,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -231,6 +237,9 @@
       <if test="goodsDiscountPrice != null">
         goods_discount_price = #{goodsDiscountPrice,jdbcType=DECIMAL},
       </if>
+      <if test="goodsType != null">
+        goods_type = #{goodsType,jdbcType=VARCHAR},
+      </if>
       <if test="goodsIsDel != null">
         goods_is_del = #{goodsIsDel,jdbcType=VARCHAR},
       </if>
@@ -275,5 +284,10 @@
     select
     <include refid="Base_Column_List"/>
     from haige_goods_info
+    <where>
+      <if test="goodType != null and goodType != ''">
+        and goods_type = #{goodType}
+      </if>
+    </where>
   </select>
 </mapper>

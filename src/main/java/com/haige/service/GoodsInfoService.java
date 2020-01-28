@@ -3,6 +3,7 @@ package com.haige.service;
 
 import com.haige.common.bean.ResultInfo;
 import com.haige.db.entity.GoodsInfoDO;
+import com.haige.service.dto.CreateGoodsDTO;
 import com.haige.service.dto.GoodsInfoDTO;
 import reactor.core.publisher.Mono;
 
@@ -30,10 +31,11 @@ public interface GoodsInfoService {
     Mono<ResultInfo<GoodsInfoDO>> goodsInfoById(Integer goodsid);
 
     Mono<ResultInfo> update(Mono<GoodsInfoDTO> mono);
+    Mono<ResultInfo> saveGoods(Mono<CreateGoodsDTO> mono);
 
     Mono<ResultInfo> isDel(int id, String status);
 
-    Mono<ResultInfo> webQueryGoodsInfoList(int index, int size);
+    Mono<ResultInfo> webQueryGoodsInfoList(int index, int size, String goodType);
 
 
 }

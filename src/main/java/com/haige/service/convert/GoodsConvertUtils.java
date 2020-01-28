@@ -1,6 +1,7 @@
 package com.haige.service.convert;
 
 import com.haige.db.entity.GoodsInfoDO;
+import com.haige.service.dto.CreateGoodsDTO;
 import com.haige.service.dto.GoodsInfoDTO;
 import org.springframework.beans.BeanUtils;
 
@@ -21,5 +22,11 @@ public class GoodsConvertUtils {
         GoodsInfoDTO goodsInfoDTO = new GoodsInfoDTO();
         BeanUtils.copyProperties(goodsInfoDO, goodsInfoDTO);
         return goodsInfoDTO;
+    }
+
+    public  static GoodsInfoDO convert(CreateGoodsDTO createGoodsDTO){
+        GoodsInfoDO goodsInfoDO = new GoodsInfoDO();
+        BeanUtils.copyProperties(createGoodsDTO, goodsInfoDO);
+        return goodsInfoDO;
     }
 }

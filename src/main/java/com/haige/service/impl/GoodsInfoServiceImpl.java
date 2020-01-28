@@ -9,6 +9,7 @@ import com.haige.db.entity.GoodsInfoDO;
 import com.haige.db.mapper.GoodsInfoDOMapper;
 import com.haige.service.GoodsInfoService;
 import com.haige.service.convert.GoodsConvertUtils;
+import com.haige.service.dto.CreateGoodsDTO;
 import com.haige.service.dto.GoodsInfoDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,14 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
     @Override
     public Mono<ResultInfo> update(Mono<GoodsInfoDTO> mono) {
         return mono.map(GoodsConvertUtils::convert)
-                .doOnNext(goodsInfoDTO -> goodsInfoDOMapper.updateByPrimaryKeySelective(goodsInfoDTO))
+                .doOnNext(goodsInfoDO -> goodsInfoDOMapper.updateByPrimaryKeySelective(goodsInfoDO))
+                .map(goodsInfoDO -> ResultInfo.buildSuccess("success"));
+    }
+
+    @Override
+    public Mono<ResultInfo> saveGoods(Mono<CreateGoodsDTO> mono) {
+        return mono.map(GoodsConvertUtils::convert)
+                .doOnNext(goodsInfoDO -> goodsInfoDOMapper.insertSelective(goodsInfoDO))
                 .map(goodsInfoDO -> ResultInfo.buildSuccess("success"));
     }
 
@@ -69,9 +77,9 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
     }
 
     @Override
-    public Mono<ResultInfo> webQueryGoodsInfoList(int index, int size) {
+    public Mono<ResultInfo> webQueryGoodsInfoList(int index, int size, String goodType) {
         return Mono.just(PageHelper.startPage(index, size))
-                .map(page -> goodsInfoDOMapper.findAll())
+                .map(page -> goodsInfoDOMapper.findAll(goodType))
                 .map(PageInfo::new)
                 .map(goodsInfoDOPageInfo -> {
                     List<GoodsInfoDTO> convert = ConvertUtils.convert(goodsInfoDOPageInfo.getList(), GoodsConvertUtils::convert);

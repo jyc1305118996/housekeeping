@@ -23,6 +23,6 @@ public interface GoodsInfoDOMapper {
 
     List<GoodsInfoDO> findGoodsInfoDoList(@Param("status") String status,@Param("type") String type);
 
-    List<GoodsInfoDO> findAll();
+    List<GoodsInfoDO> findAll(@Param("goodType") String goodType);
 
 }

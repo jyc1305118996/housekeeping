@@ -6,6 +6,7 @@ import com.haige.common.bean.ResultInfo;
 import com.haige.db.entity.GoodsInfoDO;
 import com.haige.service.GoodsInfoService;
 import com.haige.web.convert.GoodsConvertUtils;
+import com.haige.web.request.CreateGoodsRequest;
 import com.haige.web.request.UpdateGoodsRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,15 +41,15 @@ public class GoodsController {
     @GetMapping(value = "/queryGoodsInfoList",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @Permission(PermissionType.ALL)
-    public Mono<ResultInfo<List<GoodsInfoDO>>> queryGoodsInfoList(@RequestParam(value = "status", required = false) String status,@RequestParam(value = "type", required = false) String type) {
+    public Mono<ResultInfo<List<GoodsInfoDO>>> queryGoodsInfoList(@RequestParam(value = "status", required = false) String status, @RequestParam(value = "type", required = false) String type) {
 
 
-        if(null == status){
+        if (null == status) {
 
             status = "1";
         }
 
-        return goodsInfoService.goodsInfoList(status,type);
+        return goodsInfoService.goodsInfoList(status, type);
     }
 
 
@@ -78,9 +79,15 @@ public class GoodsController {
     @GetMapping(value = "/web/queryGoodsInfoList",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @Permission(PermissionType.ALL)
-    public Mono<ResultInfo> webQueryGoodsInfoList(@RequestParam("index") int index, @RequestParam("size") int size) {
+    public Mono<ResultInfo> webQueryGoodsInfoList(@RequestParam("index") int index, @RequestParam("size") int size, @RequestParam(value = "goodsType", required = false) String goodType) {
 
 
-        return goodsInfoService.webQueryGoodsInfoList(index, size);
+        return goodsInfoService.webQueryGoodsInfoList(index, size, goodType);
+    }
+
+    @PostMapping(value = "/createGoodsInfo", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Mono<ResultInfo> saveGoods(@RequestBody @Valid Mono<CreateGoodsRequest> createGoodsRequest) {
+        return goodsInfoService.saveGoods(createGoodsRequest.map(GoodsConvertUtils::convert));
     }
 }

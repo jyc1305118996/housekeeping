@@ -12,9 +12,9 @@ spring:
     haige:
       type: com.alibaba.druid.pool.DruidDataSource
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://106.12.205.155:3306/haige?useSSL=false&characterEncoding=utf8
+      url: jdbc:mysql://106.12.205.155:12315/haige?useSSL=false&characterEncoding=utf8
       username: root
-      password: root
+      password: haige123456
       initialSize: 5
       minIdle: 5
       maxActive: 20

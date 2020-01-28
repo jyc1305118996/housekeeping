@@ -11,31 +11,27 @@ import java.util.Date;
 
 /**
  * @author Archie
- * @date 2019/11/24 20:25
+ * @date 2020/1/27 14:25
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateGoodsRequest {
-    @NotNull
-    private Integer goodsId;
+public class CreateGoodsRequest {
     @NotNull
     private String goodsName;
     @NotNull
-    private String goodsRemarks;
-    @NotNull
     private Integer goodsFreq;
-    @NotNull
-    private String goodsAdvise;
+
     @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date goodsExpreDate;
     @NotNull
+    private String goodsAdvise;
+    @NotNull
     private BigDecimal goodsPrice;
     @NotNull
     private BigDecimal goodsDiscountPrice;
-
+    private String goodsCoverUrl;
     @NotNull
     private String goodsType;
-
 }
