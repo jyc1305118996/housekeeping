@@ -25,8 +25,8 @@ public class UserBaseTest {
     @Test
     public void updateUser(){
         UserBaseDO userBaseDO = new UserBaseDO();
-        userBaseDO.setUbdId(1);
-        userBaseDO.setUbdName("123456789");
+        userBaseDO.setUbdId(3);
+        userBaseDO.setUbdName("qwer");
         userBaseDO.setUbdPass(bCryptPasswordEncoder.encode("123456"));
         userBaseDOMapper.updateByPrimaryKeySelective(userBaseDO);
     }
