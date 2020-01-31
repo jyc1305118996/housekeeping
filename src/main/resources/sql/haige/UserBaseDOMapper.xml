@@ -240,7 +240,7 @@
         UBD_TOKEN_EXPRE_DATE = #{ubdTokenExpreDate,jdbcType=VARCHAR},
       </if>
       <if test="ubdIsNew != null">
-        UBD_IS_NEW = #{ubdTokenExpreDate,jdbcType=VARCHAR},
+        UBD_IS_NEW = #{ubdIsNew,jdbcType=VARCHAR},
       </if>
       <if test="ubdHeadPortrait != null">
         UBD_HEAD_PORTRAIT = #{ubdHeadPortrait,jdbcType=VARCHAR},
