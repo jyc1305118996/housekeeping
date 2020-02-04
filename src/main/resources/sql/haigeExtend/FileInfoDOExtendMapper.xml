@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haige.db.mapperExtend.FileInfoDOExtendMapper">
+  <resultMap id="BaseResultMap" type="com.haige.db.entity.FileInfoDO">
+    <id column="file_id" jdbcType="INTEGER" property="fileId" />
+    <result column="file_real_name" jdbcType="VARCHAR" property="fileRealName" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="file_real_path" jdbcType="VARCHAR" property="fileRealPath" />
+    <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+    <result column="file_work" jdbcType="VARCHAR" property="fileWork" />
+    <result column="file_work_id" jdbcType="INTEGER" property="fileWorkId" />
+    <result column="file_batch" jdbcType="INTEGER" property="fileBatch" />
+    <result column="file_is_use" jdbcType="VARCHAR" property="fileIsUse" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    file_id, file_real_name, file_name, file_real_path, file_path, file_work, file_work_id,
+    file_batch, file_is_use
+  </sql>
+  <select id="findByType" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from haige_file_info
+    <where>
+      <if test="type != null and type != ''">
+        and file_work = #{type}
+      </if>
+    </where>
+  </select>
+</mapper>

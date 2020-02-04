@@ -39,3 +39,6 @@ pagehelper:
   params: "count=countSql"
 logging:
   config: classpath:log4j2.yml
+haige:
+  images:
+    basepath: /home/admin/haige/static/

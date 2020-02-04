@@ -48,3 +48,7 @@ aliyun:
 wx:
   mchId: "1556369561"
   apikey: "3c8242b2060b43fba9c32e8c115eaf8e"
+haige:
+  images:
+    basepath: /home/admin/haige/static/
+    httppath: /haige/static/

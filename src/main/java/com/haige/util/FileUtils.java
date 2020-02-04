@@ -52,12 +52,12 @@ public class FileUtils {
         Path tempFile = Files.createTempFile("", prefix);
         filePart.transferTo(tempFile.toFile());
         String path = CurrentDateTime;
-        File upload = new File(BASE_FILE_PATH , path);
+        File upload = new File(BASE_FILE_PATH, path);
         if (!upload.exists()) upload.mkdirs();
         FileUtil.copyFile(new File(tempFile.toFile().getPath()), upload);
         fileMap.put("realPath", BASE_FILE_PATH + path);
-        fileMap.put("path", BASE_FILE_HTTP_PATH+path);
-        fileMap.put("fileName",  filePart.filename());
+        fileMap.put("path", BASE_FILE_HTTP_PATH + path);
+        fileMap.put("fileName", filePart.filename());
         fileMap.put("fileRealName", tempFile.getFileName().toString());
         return fileMap;
     }
@@ -66,6 +66,16 @@ public class FileUtils {
         String s = UUID.randomUUID().toString();
         // 去掉“-”符号
         return s.substring(0, 8) + s.substring(9, 13) + s.substring(14, 18) + s.substring(19, 23) + s.substring(24);
+    }
+
+    private static String[] imageSuffix = {".bmp", ".jpg", ".png"};
+
+    public static void checkImageType(String suffix) {
+        boolean isLawful = Arrays.asList(imageSuffix).contains(suffix);
+        // 非法文件
+        if (!isLawful){
+            throw new RuntimeException("非法文件");
+        }
     }
 
 

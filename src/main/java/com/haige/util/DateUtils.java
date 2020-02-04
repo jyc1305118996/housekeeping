@@ -15,6 +15,7 @@ import java.util.Date;
 public class DateUtils {
     private final static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private final static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private final static DateTimeFormatter yyyyMMdd = DateTimeFormatter.ofPattern("yyyyMMdd");
 
     /**
      * 获取当前时间的标准格式 2019-10-19 0:43:32
@@ -47,6 +48,9 @@ public class DateUtils {
     }
     public static String convertToString(LocalDate localDate) {
         return localDate.format(dateFormatter);
+    }
+    public static String convertToyyyyMMdd(LocalDate localDate) {
+        return localDate.format(yyyyMMdd);
     }
 
     public static String dateToString(Date date) {

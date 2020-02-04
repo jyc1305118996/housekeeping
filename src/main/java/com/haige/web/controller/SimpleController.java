@@ -2,7 +2,6 @@ package com.haige.web.controller;
 
 import com.haige.auth.annotation.Permission;
 import com.haige.auth.enums.PermissionType;
-import com.haige.common.bean.Result;
 import com.haige.common.bean.ResultInfo;
 import com.haige.common.enums.StatusCodeEnum;
 import com.haige.service.SystemUserService;
@@ -72,7 +71,7 @@ public class SimpleController {
 
             try {
                 ResultInfo<Object> resultInfo = new ResultInfo<Object>();
-                resultInfo.setCode(Result.StateType.OK.getCode());
+                resultInfo.setCode(StatusCodeEnum.OK.getCode());
                 resultInfo.setData(fileUtils.uploadFile(filePart));
                 return resultInfo;
             } catch (Exception e) {
