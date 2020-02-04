@@ -13,4 +13,6 @@ public interface ImageService {
     Mono<ResultInfo> uploadImage(String type, FilePart filePart);
 
     Mono<ResultInfo> findByType(String type, int index, int size);
+
+    Mono<ResultInfo> deleteById(int fileId);
 }

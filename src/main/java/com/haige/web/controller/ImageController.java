@@ -32,4 +32,10 @@ public class ImageController {
     public Mono<ResultInfo> findByType(@RequestParam(value = "type", required = false) String type, @RequestParam("index") int index, @RequestParam("size") int size) {
         return imageService.findByType(type, index, size);
     }
+
+    @DeleteMapping(value = "/{fileId}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Mono<ResultInfo> deleteById(@PathVariable(value = "fileId") int fileId) {
+        return imageService.deleteById(fileId);
+    }
 }

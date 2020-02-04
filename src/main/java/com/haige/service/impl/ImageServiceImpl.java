@@ -42,6 +42,7 @@ public class ImageServiceImpl implements ImageService {
 
     @Autowired
     private FileInfoDOExtendMapper fileInfoDOExtendMapper;
+
     @Override
     public Mono<ResultInfo> uploadImage(String type, FilePart filePart) {
 
@@ -55,19 +56,19 @@ public class ImageServiceImpl implements ImageService {
                     File dir = new File(basePath + convertDate + "/");
                     String childPath = System.currentTimeMillis() + prefix;
                     File file = new File(dir, childPath);
-                    if (!dir.exists()){
-                        try {
-                            dir.mkdir();
-                            file.createNewFile();
-                            filePart.transferTo(file);
-                        } catch (IOException e) {
-                            throw new RuntimeException("图片上传失败");
-                        }
+                    if (!dir.exists()) {
+                        dir.mkdir();
+                    }
+                    try {
+                        file.createNewFile();
+                        filePart.transferTo(file);
+                    } catch (IOException e) {
+                        throw new RuntimeException("图片上传失败");
                     }
                     FileInfoDO fileInfoDO = new FileInfoDO();
                     fileInfoDO.setFileRealPath(basePath + convertDate + "/" + childPath);
                     fileInfoDO.setFileName(fileName.substring(0, fileName.lastIndexOf(".")));
-                    fileInfoDO.setFilePath(httppath+ convertDate + "/" + childPath);
+                    fileInfoDO.setFilePath(httppath + convertDate + "/" + childPath);
                     fileInfoDO.setFileWork(type);
                     fileInfoDO.setFileIsUse("1");
                     fileInfoDOMapper.insertSelective(fileInfoDO);
@@ -92,5 +93,24 @@ public class ImageServiceImpl implements ImageService {
                     listResultInfo.setCount(pageInfo.getTotal());
                     return listResultInfo;
                 });
+    }
+
+    @Override
+    public Mono<ResultInfo> deleteById(int fileId) {
+        return Mono.just(fileId)
+                .map(id -> fileInfoDOMapper.selectByPrimaryKey(id))
+                .map(fileInfoDO -> {
+                    // 查找磁盘删除
+                    File file = new File(fileInfoDO.getFileRealPath());
+                    if (file.exists()) {
+                        boolean isDelete = file.delete();
+                        if (!isDelete) {
+                            throw new RuntimeException("图片删除失败");
+                        }
+                    }
+                    return fileInfoDO;
+                })
+                .map(fileInfoDO -> fileInfoDOMapper.deleteByPrimaryKey(fileInfoDO.getFileId()))
+                .map(data -> ResultInfo.buildSuccess("success"));
     }
 }

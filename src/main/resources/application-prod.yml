@@ -51,4 +51,4 @@ wx:
 haige:
   images:
     basepath: /home/admin/haige/static/
-    httppath: /haige/static/
+    httppath: https://www.anjuzaijia.top/haige/static/
