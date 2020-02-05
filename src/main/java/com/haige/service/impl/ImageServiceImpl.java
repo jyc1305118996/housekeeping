@@ -47,7 +47,7 @@ public class ImageServiceImpl implements ImageService {
     public Mono<ResultInfo> uploadImage(String type, FilePart filePart) {
 
         return Mono.just(filePart)
-                .doOnNext(filePart1 -> {
+                .map(filePart1 -> {
                     String convertDate = DateUtils.convertToyyyyMMdd(LocalDate.now());
                     String fileName = filePart.filename();
                     String prefix = fileName.substring(fileName.lastIndexOf("."));//获取文件后缀
@@ -72,8 +72,11 @@ public class ImageServiceImpl implements ImageService {
                     fileInfoDO.setFileWork(type);
                     fileInfoDO.setFileIsUse("1");
                     fileInfoDOMapper.insertSelective(fileInfoDO);
+                    FileInfoDTO fileInfoDTO = new FileInfoDTO();
+                    BeanUtils.copyProperties(fileInfoDO, fileInfoDTO);
+                    return fileInfoDTO;
                 })
-                .map(s -> ResultInfo.buildSuccess("success"));
+                .map(fileInfoDTO -> ResultInfo.buildSuccess(fileInfoDTO));
     }
 
     @Override
@@ -107,6 +110,8 @@ public class ImageServiceImpl implements ImageService {
                         if (!isDelete) {
                             throw new RuntimeException("图片删除失败");
                         }
+                    }else {
+                        throw new RuntimeException("图片不存在");
                     }
                     return fileInfoDO;
                 })

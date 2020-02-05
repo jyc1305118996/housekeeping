@@ -5,6 +5,7 @@ import com.haige.common.bean.ResultInfo;
 import com.haige.db.entity.GoodsInfoDO;
 import com.haige.service.dto.CreateGoodsDTO;
 import com.haige.service.dto.GoodsInfoDTO;
+import com.haige.web.request.RelationImageRequest;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -38,4 +39,5 @@ public interface GoodsInfoService {
     Mono<ResultInfo> webQueryGoodsInfoList(int index, int size, String goodType);
 
 
+    Mono<ResultInfo> relationImage(Mono<RelationImageRequest> relationImageRequest);
 }

@@ -32,7 +32,6 @@ public class CreateGoodsRequest {
     private BigDecimal goodsPrice;
     @NotNull
     private BigDecimal goodsDiscountPrice;
-    private String goodsCoverUrl;
     @NotNull
     private String goodsType;
 }

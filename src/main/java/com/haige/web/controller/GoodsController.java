@@ -7,9 +7,11 @@ import com.haige.db.entity.GoodsInfoDO;
 import com.haige.service.GoodsInfoService;
 import com.haige.web.convert.GoodsConvertUtils;
 import com.haige.web.request.CreateGoodsRequest;
+import com.haige.web.request.RelationImageRequest;
 import com.haige.web.request.UpdateGoodsRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -89,5 +91,11 @@ public class GoodsController {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Mono<ResultInfo> saveGoods(@RequestBody @Valid Mono<CreateGoodsRequest> createGoodsRequest) {
         return goodsInfoService.saveGoods(createGoodsRequest.map(GoodsConvertUtils::convert));
+    }
+
+    @PostMapping(value = "/relationImage", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Mono<ResultInfo> relationImage(@RequestBody @Valid Mono<RelationImageRequest> relationImageRequest) {
+        return goodsInfoService.relationImage(relationImageRequest);
     }
 }

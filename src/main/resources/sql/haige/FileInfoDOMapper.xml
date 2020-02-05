@@ -40,6 +40,9 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.haige.db.entity.FileInfoDO">
+    <selectKey resultType="int" keyProperty="fileId" order="AFTER">
+      select @@identity
+    </selectKey>
     insert into haige_file_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="fileId != null">

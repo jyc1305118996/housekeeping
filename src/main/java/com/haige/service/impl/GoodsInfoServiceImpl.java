@@ -11,6 +11,7 @@ import com.haige.service.GoodsInfoService;
 import com.haige.service.convert.GoodsConvertUtils;
 import com.haige.service.dto.CreateGoodsDTO;
 import com.haige.service.dto.GoodsInfoDTO;
+import com.haige.web.request.RelationImageRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -87,6 +88,16 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
                     listResultInfo.setCount(goodsInfoDOPageInfo.getTotal());
                     return listResultInfo;
                 });
+    }
+
+    @Override
+    public Mono<ResultInfo> relationImage(Mono<RelationImageRequest> relationImageRequest) {
+        return relationImageRequest.map(relationImageRequest1 -> {
+            GoodsInfoDO goodsInfoDO = goodsInfoDOMapper.selectByPrimaryKey(relationImageRequest1.getGoodsId());
+            goodsInfoDO.setGoodsCoverUrl(relationImageRequest1.getGoodsCoverUrl());
+            return goodsInfoDOMapper.updateByPrimaryKeySelective(goodsInfoDO);
+        })
+                .map(i -> ResultInfo.buildSuccess("success"));
     }
 }
 

@@ -22,6 +22,9 @@ public class UpdateGoodsRequest {
     @NotNull
     private String goodsName;
     @NotNull
+    private String goodsTitle;
+
+    @NotNull
     private String goodsRemarks;
     @NotNull
     private Integer goodsFreq;
