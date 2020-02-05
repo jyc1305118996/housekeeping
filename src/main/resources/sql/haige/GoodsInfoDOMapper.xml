@@ -243,6 +243,9 @@
       <if test="goodsIsDel != null">
         goods_is_del = #{goodsIsDel,jdbcType=VARCHAR},
       </if>
+      <if test="goodsCoverUrl != null">
+        goods_cover_url = #{goodsCoverUrl,jdbcType=VARCHAR},
+      </if>
     </set>
     where goods_Id = #{goodsId,jdbcType=INTEGER}
   </update>

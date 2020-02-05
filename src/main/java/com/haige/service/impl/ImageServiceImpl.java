@@ -110,8 +110,6 @@ public class ImageServiceImpl implements ImageService {
                         if (!isDelete) {
                             throw new RuntimeException("图片删除失败");
                         }
-                    }else {
-                        throw new RuntimeException("图片不存在");
                     }
                     return fileInfoDO;
                 })

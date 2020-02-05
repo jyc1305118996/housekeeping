@@ -21,7 +21,7 @@ public interface GoodsInfoService {
      * @return
      */
 
-    Mono<ResultInfo<List<GoodsInfoDO>>> goodsInfoList(String status,String type);
+    Mono<ResultInfo> goodsInfoList(String status,String type);
 
 
     /**
@@ -29,7 +29,7 @@ public interface GoodsInfoService {
      * @param goodsid
      * @return
      */
-    Mono<ResultInfo<GoodsInfoDO>> goodsInfoById(Integer goodsid);
+    Mono<ResultInfo> goodsInfoById(Integer goodsid);
 
     Mono<ResultInfo> update(Mono<GoodsInfoDTO> mono);
     Mono<ResultInfo> saveGoods(Mono<CreateGoodsDTO> mono);

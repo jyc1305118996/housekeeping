@@ -43,7 +43,7 @@ public class GoodsController {
     @GetMapping(value = "/queryGoodsInfoList",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @Permission(PermissionType.ALL)
-    public Mono<ResultInfo<List<GoodsInfoDO>>> queryGoodsInfoList(@RequestParam(value = "status", required = false) String status, @RequestParam(value = "type", required = false) String type) {
+    public Mono<ResultInfo> queryGoodsInfoList(@RequestParam(value = "status", required = false) String status, @RequestParam(value = "type", required = false) String type) {
 
 
         if (null == status) {
@@ -58,7 +58,7 @@ public class GoodsController {
     @GetMapping(value = "/queryGoodsInfoByid/{goodid}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @Permission(PermissionType.ALL)
-    public Mono<ResultInfo<GoodsInfoDO>> queryGoodsid(@PathVariable Integer goodid) {
+    public Mono<ResultInfo> queryGoodsid(@PathVariable Integer goodid) {
 
 
         return goodsInfoService.goodsInfoById(goodid);

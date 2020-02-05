@@ -52,5 +52,6 @@ wx:
   apikey: "3c8242b2060b43fba9c32e8c115eaf8e"
 haige:
   images:
-    basepath: D:\haigepicture\
+#    basepath: D:\haigepicture\
+    basepath: /home/admin/haige/static/
     httppath: http://106.12.205.155/haige/static/

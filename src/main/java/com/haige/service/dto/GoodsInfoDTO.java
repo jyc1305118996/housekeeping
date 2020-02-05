@@ -52,6 +52,7 @@ public class GoodsInfoDTO {
     private BigDecimal goodsDiscountPrice;
 
     private String goodsCoverUrl;
+    private Object urls;
 
     private String goodsIsDel;
 

@@ -1,5 +1,6 @@
 package com.haige.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.haige.common.bean.ResultInfo;
@@ -13,11 +14,13 @@ import com.haige.service.dto.CreateGoodsDTO;
 import com.haige.service.dto.GoodsInfoDTO;
 import com.haige.web.request.RelationImageRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author : Aaron
@@ -32,10 +35,19 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
     @Autowired
     private GoodsInfoDOMapper goodsInfoDOMapper;
     @Override
-    public Mono<ResultInfo<List<GoodsInfoDO>>> goodsInfoList(String status,String type) {
+    public Mono<ResultInfo> goodsInfoList(String status,String type) {
         List<GoodsInfoDO> goodsInfoDoList = goodsInfoDOMapper.findGoodsInfoDoList(status,type);
-        ResultInfo<List<GoodsInfoDO>> result = new ResultInfo<List<GoodsInfoDO>>();
-        result.setData(goodsInfoDoList);
+        List<GoodsInfoDTO> collect = goodsInfoDoList.stream().map(goodsInfoDO -> {
+            String urls = goodsInfoDO.getGoodsCoverUrl();
+            GoodsInfoDTO goodsInfoDTO = new GoodsInfoDTO();
+            BeanUtils.copyProperties(goodsInfoDO, goodsInfoDTO);
+            goodsInfoDTO.setGoodsCoverUrl(null);
+            goodsInfoDTO.setUrls(JSON.parse(urls));
+            return goodsInfoDTO;
+        })
+                .collect(Collectors.toList());
+        ResultInfo<List> result = new ResultInfo<>();
+        result.setData(collect);
         result.setCount(Long.valueOf(goodsInfoDoList.size()));
         result.setCode(StatusCodeEnum.OK.getCode());
         result.setMessage(StatusCodeEnum.OK.getValue());
@@ -43,10 +55,14 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
     }
 
     @Override
-    public Mono<ResultInfo<GoodsInfoDO>> goodsInfoById(Integer goodsid) {
+    public Mono<ResultInfo> goodsInfoById(Integer goodsid) {
         GoodsInfoDO goodsInfoDo = goodsInfoDOMapper.selectByPrimaryKey(goodsid);
-        ResultInfo<GoodsInfoDO> result = new ResultInfo<GoodsInfoDO>();
-        result.setData(goodsInfoDo);
+        ResultInfo<GoodsInfoDTO> result = new ResultInfo<GoodsInfoDTO>();
+        GoodsInfoDTO goodsInfoDTO = new GoodsInfoDTO();
+        BeanUtils.copyProperties(goodsInfoDo, goodsInfoDTO);
+        goodsInfoDTO.setGoodsCoverUrl(null);
+        goodsInfoDTO.setUrls(JSON.parse(goodsInfoDo.getGoodsCoverUrl()));
+        result.setData(goodsInfoDTO);
         result.setCode(StatusCodeEnum.OK.getCode());
         result.setMessage(StatusCodeEnum.OK.getValue());
         return Mono.justOrEmpty(result);
