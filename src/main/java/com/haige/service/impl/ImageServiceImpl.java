@@ -22,6 +22,7 @@ import reactor.core.publisher.Mono;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -67,7 +68,7 @@ public class ImageServiceImpl implements ImageService {
                     }
                     FileInfoDO fileInfoDO = new FileInfoDO();
                     fileInfoDO.setFileRealPath(basePath + convertDate + "/" + childPath);
-                    fileInfoDO.setFileName(fileName.substring(0, fileName.lastIndexOf(".")));
+                    fileInfoDO.setFileName(fileName.substring(0, fileName.lastIndexOf("."))+ DateUtils.convertToString(LocalDateTime.now()));
                     fileInfoDO.setFilePath(httppath + convertDate + "/" + childPath);
                     fileInfoDO.setFileWork(type);
                     fileInfoDO.setFileIsUse("1");

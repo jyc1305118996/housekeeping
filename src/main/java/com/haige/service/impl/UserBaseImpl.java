@@ -190,10 +190,10 @@ public class UserBaseImpl implements UserBaseService {
               userBaseDOMapper.updateByPrimaryKeySelective(login);
               return ResultInfo.buildSuccess(UserBaseConvertUtils.toVO(login));
             } else {
-              return ResultInfo.buildFailed("faild");
+              return ResultInfo.buildFailed("登陆失败");
             }
           } else {
-            return ResultInfo.buildFailed("faild");
+            return ResultInfo.buildFailed("登陆失败");
           }
         });
   }

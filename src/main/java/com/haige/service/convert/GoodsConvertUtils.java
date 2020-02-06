@@ -27,6 +27,7 @@ public class GoodsConvertUtils {
     public  static GoodsInfoDO convert(CreateGoodsDTO createGoodsDTO){
         GoodsInfoDO goodsInfoDO = new GoodsInfoDO();
         BeanUtils.copyProperties(createGoodsDTO, goodsInfoDO);
+        goodsInfoDO.setGoodsCreateTime(new Date());
         return goodsInfoDO;
     }
 }
