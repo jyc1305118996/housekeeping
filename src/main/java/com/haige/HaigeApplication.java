@@ -95,7 +95,6 @@ public class HaigeApplication {
      */
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(final ServerHttpSecurity httpSecurity) {
-
         return httpSecurity
                 .authorizeExchange().anyExchange().permitAll().and().csrf().disable()
                 .build();
